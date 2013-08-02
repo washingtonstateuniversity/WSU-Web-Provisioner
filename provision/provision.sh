@@ -217,17 +217,6 @@ ln -sf /vagrant/config/bash_profile /home/vagrant/.bash_profile
 # Custom bash_aliases included by vagrant user's .bashrc
 ln -sf /vagrant/config/bash_aliases /home/vagrant/.bash_aliases
 
-# RESTART SERVICES
-#
-# Make sure the services we expect to be running are running.
-printf "\nRestart services...\n"
-service nginx restart
-service php5-fpm restart
-service memcached restart
-
-# Disable PHP Xdebug module by default
-php5dismod xdebug
-
 # MySQL gives us an error if we restart a non running service, which
 # happens after a `vagrant halt`. Check to see if it's running before
 # deciding whether to start or restart.
@@ -274,6 +263,17 @@ DOMAINS='wp.wsu.edu content.wp.wsu.edu'
 if ! grep -q "$DOMAINS" /etc/hosts
 then echo "127.0.0.1 $DOMAINS" >> /etc/hosts
 fi
+
+# RESTART SERVICES
+#
+# Make sure the services we expect to be running are running.
+printf "\nRestart services...\n"
+service nginx restart
+service memcached restart
+
+# Disable PHP Xdebug module by default
+php5dismod xdebug
+service php5-fpm restart
 
 end_seconds=`date +%s`
 echo -----------------------------
