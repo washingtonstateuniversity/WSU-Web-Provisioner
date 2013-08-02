@@ -11,7 +11,7 @@ Version: 0.1
 Author URI: http://wsu.edu/
 */
 
-add_filter( 'network_site_url', 'wsu_modify_network_site_url', 10, 2 );
-function wsu_modify_network_site_url( $url, $path ) {
-	return str_replace( $path, 'wordpress/' . $path, $url );
+add_filter( 'network_site_url', 'wsu_modify_network_site_url', 10, 3 );
+function wsu_modify_network_site_url( $url ) {
+		return str_replace( '/wp-admin/network/', '/wordpress/wp-admin/network/', $url );
 }
