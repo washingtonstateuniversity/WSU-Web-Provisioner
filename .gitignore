@@ -1,0 +1,20 @@
+# Stuff that pops up locally for me - @jeremyfelt
+*.sublime*
+.DS_Store
+
+# Because this really is a working directory, ignore vagrant's files
+/.vagrant
+
+# No need to share our mysql data with each other
+/database/data/*
+
+# And no need to share individual SQL files with each other
+*.sql
+*.sql.gz
+
+# BUT....
+
+# we do have a default SQL file that should be included
+!/database/init.sql
+
+/www/wp-cli/*
