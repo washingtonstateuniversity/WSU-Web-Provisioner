@@ -17,4 +17,4 @@
 # we do have a default SQL file that should be included
 !/database/init.sql
 
-/www/wp-cli/*
+/www/wp-cli
