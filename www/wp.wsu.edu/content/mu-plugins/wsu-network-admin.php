@@ -23,3 +23,18 @@ function wsu_add_master_network_menu() {
 		ksort( $menu );
 	}
 }
+
+add_action( 'admin_menu', 'wsu_dashboard_my_networks',1 );
+/**
+ * Add a dashboard page to manage all WSU Networks that a user has access to
+ */
+function wsu_dashboard_my_networks() {
+	add_dashboard_page( 'My Networks Dashboard', 'My WSU Networks', 'read', 'my-wsu-networks', 'wsu_display_my_networks' );
+}
+
+/**
+ * Output the dashboard page for WSU Networks
+ */
+function wsu_display_my_networks() {
+	echo 'WSU Network Dashboard';
+}
