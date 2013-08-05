@@ -1,40 +1,72 @@
 <?php
-
-add_filter( 'parent_file', 'wsu_add_master_network_menu', 10, 1 );
-
 /**
- * Add a top level menu item for 'Networks' to the network administration sidebar
+ * Class WSU_Network_Admin
+ *
+ * Adds various WSU customizations to handle networks in WordPress
  */
-function wsu_add_master_network_menu() {
-	if ( is_network_admin() ) {
-		global $menu;
-		$menu[6] = $menu[5];
-		unset( $menu[5] );
-		$menu[6][4] = 'menu-top menu-icon-site';
-		$menu[5] = array(
-			'Networks',
-			'manage_networks',
-			'networks.php',
-			'',
-			'menu-top menu-icon-site menu-top-first',
-			'menu-site',
-			'div',
-		);
-		ksort( $menu );
+class WSU_Network_Admin {
+
+	/**
+	 * Maintain the single instance of WSU_Network_Admin
+	 *
+	 * @var bool|WSU_Network_Admin
+	 */
+	private static $instance = false;
+
+	/**
+	 * Add the filters and actions used
+	 */
+	private function __construct() {
+		add_filter( 'parent_file', array( $this, 'add_master_network_menu' ), 10, 1 );
+		add_action( 'admin_menu', array( $this, 'my_networks_dashboard' ), 1 );
 	}
-}
 
-add_action( 'admin_menu', 'wsu_dashboard_my_networks',1 );
-/**
- * Add a dashboard page to manage all WSU Networks that a user has access to
- */
-function wsu_dashboard_my_networks() {
-	add_dashboard_page( 'My Networks Dashboard', 'My WSU Networks', 'read', 'my-wsu-networks', 'wsu_display_my_networks' );
-}
+	/**
+	 * Handle requests for the instance.
+	 *
+	 * @return bool|WSU_Network_Admin
+	 */
+	public static function get_instance() {
+		if ( ! self::$instance )
+			self::$instance = new WSU_Network_Admin();
+		return self::$instance;
+	}
 
-/**
- * Output the dashboard page for WSU Networks
- */
-function wsu_display_my_networks() {
-	echo 'WSU Network Dashboard';
+	/**
+	 * Add a top level menu item for 'Networks' to the network administration sidebar
+	 */
+	function add_master_network_menu() {
+		if ( is_network_admin() ) {
+			global $menu;
+			$menu[6] = $menu[5];
+			unset( $menu[5] );
+			$menu[6][4] = 'menu-top menu-icon-site';
+			$menu[5] = array(
+				'Networks',
+				'manage_networks',
+				'networks.php',
+				'',
+				'menu-top menu-icon-site menu-top-first',
+				'menu-site',
+				'div',
+			);
+			ksort( $menu );
+		}
+	}
+
+	/**
+	 * Add a dashboard page to manage all WSU Networks that a user has access to
+	 */
+	function my_networks_dashboard() {
+		add_dashboard_page( 'My Networks Dashboard', 'My WSU Networks', 'read', 'my-wsu-networks', array( $this, 'display_my_networks' ) );
+	}
+
+	/**
+	 * Output the dashboard page for WSU Networks
+	 */
+	function display_my_networks() {
+		echo 'WSU Network Dashboard';
+	}
+
 }
+WSU_Network_Admin::get_instance();
