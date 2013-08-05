@@ -2,6 +2,9 @@
 
 add_filter( 'parent_file', 'wsu_add_master_network_menu', 10, 1 );
 
+/**
+ * Add a top level menu item for 'Networks' to the network administration sidebar
+ */
 function wsu_add_master_network_menu() {
 	if ( is_network_admin() ) {
 		global $menu;
