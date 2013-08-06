@@ -32,8 +32,7 @@
 		localStorage.setItem(storageKey, JSON.stringify(taxonomies));
 	};
 
-	var displayTaxonomies = function() {
-		setupTaxonomies();
+	var buildTaxonomyHTML = function() {
 		taxonomy_html = '<ul>';
 		for( a in taxonomies ) {
 			if ( '' === a ) { continue; }
@@ -50,6 +49,14 @@
 			taxonomy_html += '</ul></li>';
 		}
 		taxonomy_html += '</ul>';
+		return taxonomy_html;
+	};
+
+	var displayTaxonomies = function() {
+		setupTaxonomies();
+
+		var taxonomy_html = buildTaxonomyHTML();
+
 		$(UI.container).html(taxonomy_html);
 	};
 
