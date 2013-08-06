@@ -17,9 +17,10 @@
 	};
 
 	var cacheElements = function() {
-		UI.level0 = document.getElementById('level0');
-		UI.level1 = document.getElementById('level1');
-		UI.level2 = document.getElementById('level2');
+		UI.level0    = document.getElementById('level0');
+		UI.level1    = document.getElementById('level1');
+		UI.level2    = document.getElementById('level2');
+		UI.container = document.getElementById('taxonomy_container');
 	};
 
 	var setupTaxonomies = function() {
