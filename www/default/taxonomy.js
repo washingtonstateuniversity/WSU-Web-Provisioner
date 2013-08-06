@@ -2,8 +2,6 @@
 
 	var document = window.document;
 
-	var SELF = this;
-
 	var UI = {};
 
 	var storageKeys = {
@@ -17,6 +15,8 @@
 		cacheElements();
 		setupTaxonomies();
 		displayTaxonomies();
+		setupSortable();
+		setupClicks();
 	};
 
 	var cacheElements = function() {
@@ -28,12 +28,68 @@
 
 	var setupTaxonomies = function() {
 		taxonomies = JSON.parse(localStorage.getItem(storageKeys.taxonomies));
-		if ( 'object' !== typeof taxonomies || null === taxonomies ) { taxonomies = {}; }
+		if ( 'object' !== typeof taxonomies || null === taxonomies ) { 
+			taxonomies = {};
+		}
 	};
 
 	var saveTaxonomies = function() {
 		localStorage.setItem(storageKeys.taxonomies, JSON.stringify(taxonomies));
 	};
+
+	var updateTaxonomies = function( event, ui ) {
+		if ( null === $(ui.sender).data('nodeparent') ) { return; }
+
+		UI.item                     = ui.item;
+		UI.itemParent               = $(ui.sender);
+		UI.itemParentParent         = UI.itemParent.parent().parent().parent();
+		UI.itemParentParentNew      = UI.item.parent().parent().parent().parent();
+		UI.itemTitle                = UI.item.data('nodetitle');
+		UI.itemLevel                = UI.itemParent.data('nodeparent');
+		UI.itemLevelNew             = UI.item.parent().data('nodeparent');
+		UI.itemParentTitle          = UI.itemParent.parent().data('nodetitle');
+		UI.itemParentTitleNew       = UI.item.parent().parent().data('nodetitle');
+		UI.itemParentLevelNew       = UI.item.parent().data('nodeparent');
+		UI.itemParentParentTitle    = UI.itemParentParent.data('nodetitle');
+		UI.itemParentParentTitleNew = UI.itemParentParentNew.data('nodetitle');
+		UI.itemData                 = '';
+
+		if ( 'sub' === UI.itemLevel && 'sub' === UI.itemLevelNew ) {
+			delete taxonomies[UI.itemParentParentTitle][UI.itemParentTitle][UI.itemTitle];
+			addTaxonomy( UI.itemParentParentTitleNew, UI.itemParentTitleNew, UI.itemTitle );
+		}
+
+		if ( 'sub' === UI.itemLevel && 'child' === UI.itemLevelNew ) {
+			delete taxonomies[UI.itemParentParentTitle][UI.itemParentTitle][UI.itemTitle];
+			addTaxonomy( UI.itemParentTitleNew, UI.itemTitle );
+		}
+
+		if ( 'child' === UI.itemLevel && 'child' === UI.itemLevelNew ) {
+			UI.itemData = taxonomies[UI.itemParentTitle][UI.itemTitle];
+			delete taxonomies[UI.itemParentTitle][UI.itemTitle];
+			addTaxonomy( UI.itemParentTitleNew, UI.itemTitle );
+			taxonomies[UI.itemParentTitleNew][UI.itemTitle] = UI.itemData;
+		}
+
+		if ( 'child' === UI.itemLevel && 'sub' === UI.itemLevelNew ) {
+			// may want to alert that children will be lost
+			delete taxonomies[UI.itemParentTitle][UI.itemTitle];
+			addTaxonomy( UI.itemParentParentTitleNew, UI.itemParentTitleNew, UI.itemTitle );
+		}
+
+		saveTaxonomies();
+		return;	
+	}
+
+	var setupSortable = function() {
+		$( "#wsu_taxonomy_list ul" ).sortable({ 
+			connectWith : "#wsu_taxonomy_list ul",
+			cursor      : 'move',
+			opacity     : '0.5',
+			update      : updateTaxonomies
+		});
+    	$( "#wsu_taxonomy_list" ).disableSelection();
+	}
 
 	var buildTaxonomyHTML = function() {
 		var parent_html = '<ul id="wsu_taxonomy_list" data-nodetitle="top" data-nodeparent="parent">';
@@ -68,40 +124,36 @@
 		$(UI.container).html(taxonomy_html);
 	};
 
+	var addTaxonomy = function( level0, level1, level2 ) {
+		console.log( level0, level1, level2 );
+
+		if ( 'undefined' === typeof level0 ) {
+			return;
+		}
+
+		if ( 'undefined' === typeof taxonomies[level0] ) {
+			taxonomies[level0] = {};
+		}
+
+		if ( 'undefined' !== typeof level1 && 'undefined' === typeof taxonomies[level0][level1] ) {
+			taxonomies[level0][level1] = {};
+		}
+
+		if ( 'undefined' !== typeof level1 && 'undefined' !== typeof level2 && 'undefined' === typeof taxonomies[level0][level1][level2] ) {
+			taxonomies[level0][level1][level2] = '';
+		}
+	}
+
 	var handleClick = function() {
-		if ( 'undefined' === typeof taxonomies[UI.level0.value] ) {
-			taxonomies[UI.level0.value] = {};
-		}
-
-		if ( 'undefined' === typeof taxonomies[UI.level0.value][UI.level1.value] ) {
-			taxonomies[UI.level0.value][UI.level1.value] = {};
-		}
-
-		if ( 'undefined' === typeof taxonomies[UI.level0.value][UI.level1.value][UI.level2.value] ) {
-			taxonomies[UI.level0.value][UI.level1.value][UI.level2.value] = '';
-		}
-
+		addTaxonomy( UI.level0.value, UI.level1.value, UI.level2.value );
 		saveTaxonomies();
 		displayTaxonomies();
 	};
 
-	init();
-	$( document.getElementById( 'add_tax' )).on( 'click', handleClick );
-	$( "#wsu_taxonomy_list ul" ).sortable({ 
-		connectWith : "#wsu_taxonomy_list ul",
-		cursor      : 'move',
-		opacity     : '0.5',
-		update      : function( event, ui ) {
-			if ( null === $(ui.sender).data('nodeparent') ) { return; }
-			var senderItem = $(ui.sender);
-			var movedTitle = ui.item.data('nodetitle');
-			var fromTitle  = senderItem.parent().data('nodetitle');
-			var toTitle    = ui.item.parent().parent().data('nodetitle');
-			var fromLevel    = senderItem.data('nodeparent');
-			var toLevel    = ui.item.parent().data('nodeparent');
+	var setupClicks = function() {
+		$( document.getElementById( 'add_tax' )).on( 'click', handleClick );
+	}
 
-			console.log( movedTitle + ' was moved from ' + fromLevel + ' of ' + fromTitle + ' to ' + toLevel + ' of ' + toTitle );
-		}
-	});
-    $( "#wsu_taxonomy_list" ).disableSelection();
+	init();
+	window.WSUTaxonomies = taxonomies;
 }( window, jQuery ));
