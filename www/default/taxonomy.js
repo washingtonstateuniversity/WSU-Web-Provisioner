@@ -13,22 +13,22 @@
 	var init = function() {
 		cacheElements();
 		setupTaxonomies();
-	}
+	};
 
 	var cacheElements = function() {
 		UI.level0 = document.getElementById('level0');
 		UI.level1 = document.getElementById('level1');
 		UI.level2 = document.getElementById('level2');
-	}
+	};
 
 	var setupTaxonomies = function() {
 		taxonomies = JSON.parse(localStorage.getItem(storageKey));
 		if ( 'object' !== typeof taxonomies || null === taxonomies ) { taxonomies = {}; }
-	}
+	};
 
 	var saveTaxonomies = function() {
 		localStorage.setItem(storageKey, JSON.stringify(taxonomies));
-	}
+	};
 
 	var handleClick = function() {
 		if ( 'undefined' === typeof taxonomies[UI.level0.value] ) {
