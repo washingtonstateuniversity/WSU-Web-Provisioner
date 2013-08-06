@@ -33,23 +33,28 @@
 	};
 
 	var buildTaxonomyHTML = function() {
-		taxonomy_html = '<ul>';
+		var parent_html = '<ul>';
+		var child_html = '';
+		var sub_html = '';
+
 		for( a in taxonomies ) {
 			if ( '' === a ) { continue; }
-			taxonomy_html += '<li>' + a + '<ul>';
 			for ( b in taxonomies[a] ) {
 				if ( '' === b ) { continue; }
-				taxonomy_html += '<li>' + b + '<ul>';
 				for ( c in taxonomies[a][b] ) {
 					if ( '' === c ) { continue; }
-					taxonomy_html += '<li>' + c + '</li>';
+					sub_html += '<li>' + c + '</li>';
 				}
-				taxonomy_html += '</ul></li>';
+				if ( '' !== sub_html ) { sub_html = '<ul>' + sub_html + '</ul>'; }
+				child_html += '<li>' + b + sub_html + '</li>';
+				sub_html = '';
 			}
-			taxonomy_html += '</ul></li>';
+			if ( '' !== child_html ) { child_html = '<ul>' + child_html + '</ul>'; }
+			parent_html += '<li>' + a + child_html + '</li>';
+			child_html = '';
 		}
-		taxonomy_html += '</ul>';
-		return taxonomy_html;
+		parent_html += '</ul>';
+		return parent_html;
 	};
 
 	var displayTaxonomies = function() {
