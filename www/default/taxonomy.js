@@ -36,7 +36,7 @@
 	};
 
 	var buildTaxonomyHTML = function() {
-		var parent_html = '<ul id="wsu_taxonomy_list">';
+		var parent_html = '<ul id="wsu_taxonomy_list" data-nodetitle="top" data-nodeparent="parent">';
 		var child_html = '';
 		var sub_html = '';
 
@@ -48,11 +48,11 @@
 					if ( '' === c ) { continue; }
 					sub_html += '<li data-nodetitle="' + c + '">' + c + '</li>';
 				}
-				if ( '' !== sub_html ) { sub_html = '<ul>' + sub_html + '</ul>'; }
+				if ( '' !== sub_html ) { sub_html = '<ul data-nodeparent="sub">' + sub_html + '</ul>'; }
 				child_html += '<li data-nodetitle="' + b + '">' + b + sub_html + '</li>';
 				sub_html = '';
 			}
-			if ( '' !== child_html ) { child_html = '<ul>' + child_html + '</ul>'; }
+			if ( '' !== child_html ) { child_html = '<ul data-nodeparent="child">' + child_html + '</ul>'; }
 			parent_html += '<li data-nodetitle="' + a + '">' + a + child_html + '</li>';
 			child_html = '';
 		}
@@ -91,7 +91,17 @@
 		connectWith : "#wsu_taxonomy_list ul",
 		cursor      : 'move',
 		opacity     : '0.5',
-		update      : function() { saveTaxonomies(); console.log('hi'); }
+		update      : function( event, ui ) {
+			if ( null === $(ui.sender).data('nodeparent') ) { return; }
+			var senderItem = $(ui.sender);
+			var movedTitle = ui.item.data('nodetitle');
+			var fromTitle  = senderItem.parent().data('nodetitle');
+			var toTitle    = ui.item.parent().parent().data('nodetitle');
+			var fromLevel    = senderItem.data('nodeparent');
+			var toLevel    = ui.item.parent().data('nodeparent');
+
+			console.log( movedTitle + ' was moved from ' + fromLevel + ' of ' + fromTitle + ' to ' + toLevel + ' of ' + toTitle );
+		}
 	});
     $( "#wsu_taxonomy_list" ).disableSelection();
 }( window, jQuery ));
