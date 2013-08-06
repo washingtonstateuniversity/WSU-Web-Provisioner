@@ -65,7 +65,10 @@ class WSU_Network_Admin {
 	 * Output the dashboard page for WSU Networks
 	 */
 	function display_my_networks() {
-		echo 'WSU Network Dashboard';
+		?>
+		<div class="wrap">
+			<?php screen_icon( 'ms-admin' ); ?>
+		<h2>My Networks<?php
 	}
 
 }
