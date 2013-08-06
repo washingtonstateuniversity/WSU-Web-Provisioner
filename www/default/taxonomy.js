@@ -13,6 +13,7 @@
 	var init = function() {
 		cacheElements();
 		setupTaxonomies();
+		displayTaxonomies();
 	};
 
 	var cacheElements = function() {
@@ -30,6 +31,22 @@
 		localStorage.setItem(storageKey, JSON.stringify(taxonomies));
 	};
 
+	var displayTaxonomies = function() {
+		setupTaxonomies();
+		for( k in taxonomies ) {
+			if ( '' === k ) { continue; }
+			console.log( k );
+			for ( a in taxonomies[k] ) {
+				if ( '' === a ) { continue; }
+				console.log( '   ' + a );
+				for ( b in taxonomies[k][a] ) {
+					if ( '' === b ) { continue; }
+					console.log( '        ' + b );
+				}
+			}
+		}
+	};
+
 	var handleClick = function() {
 		if ( 'undefined' === typeof taxonomies[UI.level0.value] ) {
 			taxonomies[UI.level0.value] = {};
@@ -44,6 +61,7 @@
 		}
 
 		saveTaxonomies();
+		displayTaxonomies();
 	};
 
 	init();
