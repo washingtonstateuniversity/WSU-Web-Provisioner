@@ -35,15 +35,15 @@
 	var displayTaxonomies = function() {
 		setupTaxonomies();
 		taxonomy_html = '<ul>';
-		for( k in taxonomies ) {
-			if ( '' === k ) { continue; }
-			taxonomy_html += '<li>' + k + '<ul>';
-			for ( a in taxonomies[k] ) {
-				if ( '' === a ) { continue; }
-				taxonomy_html += '<li>' + a + '<ul>';
-				for ( b in taxonomies[k][a] ) {
-					if ( '' === b ) { continue; }
-					taxonomy_html += '<li>' + b + '</li>';
+		for( a in taxonomies ) {
+			if ( '' === a ) { continue; }
+			taxonomy_html += '<li>' + a + '<ul>';
+			for ( b in taxonomies[a] ) {
+				if ( '' === b ) { continue; }
+				taxonomy_html += '<li>' + b + '<ul>';
+				for ( c in taxonomies[a][b] ) {
+					if ( '' === c ) { continue; }
+					taxonomy_html += '<li>' + c + '</li>';
 				}
 				taxonomy_html += '</ul></li>';
 			}
