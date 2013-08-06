@@ -34,18 +34,23 @@
 
 	var displayTaxonomies = function() {
 		setupTaxonomies();
+		taxonomy_html = '<ul>';
 		for( k in taxonomies ) {
 			if ( '' === k ) { continue; }
-			console.log( k );
+			taxonomy_html += '<li>' + k + '<ul>';
 			for ( a in taxonomies[k] ) {
 				if ( '' === a ) { continue; }
-				console.log( '   ' + a );
+				taxonomy_html += '<li>' + a + '<ul>';
 				for ( b in taxonomies[k][a] ) {
 					if ( '' === b ) { continue; }
-					console.log( '        ' + b );
+					taxonomy_html += '<li>' + b + '</li>';
 				}
+				taxonomy_html += '</ul></li>';
 			}
+			taxonomy_html += '</ul></li>';
 		}
+		taxonomy_html += '</ul>';
+		$(UI.container).html(taxonomy_html);
 	};
 
 	var handleClick = function() {
