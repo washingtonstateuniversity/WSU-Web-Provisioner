@@ -82,7 +82,7 @@
 
 	var setupSortable = function() {
 		$( '#wsu_taxonomy_list ul' ).sortable({
-			connectWith : "#wsu_taxonomy_list li",
+			connectWith : "ul",
 			cursor      : 'move',
 			opacity     : '0.5',
 			update      : updateTaxonomies
