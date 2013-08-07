@@ -78,12 +78,11 @@
 		}
 
 		saveTaxonomies();
-		return;	
 	}
 
 	var setupSortable = function() {
 		$( "#wsu_taxonomy_list ul" ).sortable({ 
-			connectWith : "#wsu_taxonomy_list ul",
+			connectWith : "#wsu_taxonomy_list li",
 			cursor      : 'move',
 			opacity     : '0.5',
 			update      : updateTaxonomies
@@ -98,19 +97,17 @@
 
 		for( a in taxonomies ) {
 			if ( '' === a ) { continue; }
+			child_html = '';
 			for ( b in taxonomies[a] ) {
 				if ( '' === b ) { continue; }
+				sub_html = '';
 				for ( c in taxonomies[a][b] ) {
 					if ( '' === c ) { continue; }
 					sub_html += '<li data-nodetitle="' + c + '">' + c + '</li>';
 				}
-				if ( '' !== sub_html ) { sub_html = '<ul data-nodeparent="sub">' + sub_html + '</ul>'; }
-				child_html += '<li data-nodetitle="' + b + '">' + b + sub_html + '</li>';
-				sub_html = '';
+				child_html += '<li data-nodetitle="' + b + '">' + b + '<ul data-nodeparent="sub">' + sub_html + '</ul></li>';
 			}
-			if ( '' !== child_html ) { child_html = '<ul data-nodeparent="child">' + child_html + '</ul>'; }
-			parent_html += '<li data-nodetitle="' + a + '">' + a + child_html + '</li>';
-			child_html = '';
+			parent_html += '<li data-nodetitle="' + a + '">' + a + '<ul data-nodeparent="child">' + child_html + '</ul></li>';
 		}
 		parent_html += '</ul>';
 		return parent_html;
