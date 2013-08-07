@@ -1,0 +1,15 @@
+body, html {
+	background: #fff;
+}
+
+ul {
+	max-width: 200px;
+	list-style: none;
+}
+
+li {
+	border: 1px solid #ccc;
+	padding: 5px;
+	font-size: 13px;
+	font-family: arial;
+}
