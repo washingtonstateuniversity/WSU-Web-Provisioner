@@ -11,11 +11,13 @@
 	var init = function() {
 		cacheElements();
 		setupClicks();
+		displayLevel0();
 	};
 
 	var cacheElements = function() {
-		UI.level0submit = $( document.getElementById('level0-submit') );
-		UI.level0input  = $( document.getElementById('level0-input') );
+		UI.level0submit    = $( document.getElementById('level0-submit') );
+		UI.level0input     = $( document.getElementById('level0-input') );
+		UI.level0container = $( document.getElementById('level0-categories') );
 	};
 
 	var getStoredItem = function( key ) {
@@ -37,11 +39,23 @@
 			item[UI.level0input.val()] = '';
 		}
 		setStoredItem( storageKey.level0, item );
+		displayLevel0();
 	};
 
 	var setupClicks = function() {
 		UI.level0submit.on('click', submitTopLevel );
 	};
+
+	var displayLevel0 = function() {
+		var item = getStoredItem( storageKey.level0 ),
+			level_html = '';
+
+		for ( k in item ) {
+			console.log( k );
+			level_html += '<div data-item="' + k + '" class="level0-category">' + k + '</div>';
+		}
+		UI.level0container.html( level_html );
+	}
 
 	init();
 })(window,jQuery);
