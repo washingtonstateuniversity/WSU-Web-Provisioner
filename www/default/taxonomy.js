@@ -6,8 +6,8 @@
 
 	var storageKeys = {
 		'taxonomies' : 'wsu_taxonomies',
-		'flag'       : 'wsu_flag',
-	}
+		'flag'       : 'wsu_flag'
+	};
 
 	var taxonomies;
 
@@ -78,22 +78,22 @@
 		}
 
 		saveTaxonomies();
-	}
+	};
 
 	var setupSortable = function() {
-		$( "#wsu_taxonomy_list ul" ).sortable({ 
+		$( '#wsu_taxonomy_list ul' ).sortable({
 			connectWith : "#wsu_taxonomy_list li",
 			cursor      : 'move',
 			opacity     : '0.5',
 			update      : updateTaxonomies
 		});
-    	$( "#wsu_taxonomy_list" ).disableSelection();
+    	$( '#wsu_taxonomy_list' ).disableSelection();
 	}
 
 	var buildTaxonomyHTML = function() {
-		var parent_html = '<ul id="wsu_taxonomy_list" data-nodetitle="top" data-nodeparent="parent">';
-		var child_html = '';
-		var sub_html = '';
+		var parent_html = '<ul id="wsu_taxonomy_list" data-nodetitle="top" data-nodeparent="parent">',
+			child_html,
+			sub_html;
 
 		for( a in taxonomies ) {
 			if ( '' === a ) { continue; }
@@ -118,12 +118,10 @@
 
 		var taxonomy_html = buildTaxonomyHTML();
 
-		$(UI.container).html(taxonomy_html);
+		$( UI.container ).html( taxonomy_html );
 	};
 
 	var addTaxonomy = function( level0, level1, level2 ) {
-		console.log( level0, level1, level2 );
-
 		if ( 'undefined' === typeof level0 ) {
 			return;
 		}
@@ -139,7 +137,7 @@
 		if ( 'undefined' !== typeof level1 && 'undefined' !== typeof level2 && 'undefined' === typeof taxonomies[level0][level1][level2] ) {
 			taxonomies[level0][level1][level2] = '';
 		}
-	}
+	};
 
 	var handleClick = function() {
 		addTaxonomy( UI.level0.value, UI.level1.value, UI.level2.value );
@@ -149,7 +147,7 @@
 
 	var setupClicks = function() {
 		$( document.getElementById( 'add_tax' )).on( 'click', handleClick );
-	}
+	};
 
 	init();
 	window.WSUTaxonomies = taxonomies;
