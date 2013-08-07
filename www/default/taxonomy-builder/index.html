@@ -8,10 +8,29 @@
 </head>
 <body>
 	<h1>WSU Taxonomy Builder</h1>
-	<h2>Top Level</h2>
+
+	<!-- Top level labels are managed here. These can be assigned to any individual category -->
+	<h2>Category Classification</h2>
 	<input type="text" name="level0_new" id="level0-input" value="" />
 	<span id="level0-submit" class="submit-button">Add</span>
 	<div id="level0-categories"></div>
+
+	<!-- Clear floating categories from above... -->
+	<div style="clear:both;"></div>
+
+	<!-- Categories are managed here. Once a category is created, it can be placed into a tree -->
+	<h2>Add Category</h2>
+	<input type="text" name="categoyr_new" id="category-input" value="" />
+	<span id="category-submit" class="submit-button">Add</span>
+
+	<!-- Fresh categories or categories that are in transition go here. -->
+	<h3>Unassigned Categories</h3>
+	<div id="categories-unassigned"></div>
+
+	<!-- The actual tree of categories that we've built -->
+	<h2>Categories</h2>
+	<div id="categories"></div>
+	
 	<!-- Javascript used to manage the taxonomy entry with local storage -->
 	<script type="text/javascript" src="taxonomy.js"></script>
 </body>
