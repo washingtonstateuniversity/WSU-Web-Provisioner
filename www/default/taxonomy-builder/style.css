@@ -3,3 +3,22 @@ html {
 	background: #fff;
 	font-family: Arial, sans-serif;
 }
+
+#level0-input {
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+}
+
+.submit-button {
+	background: #008dff;
+	padding: 4px 10px;
+	color: #fff;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.submit-button:hover {
+	background: #008dce;
+}
