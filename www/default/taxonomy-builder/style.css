@@ -6,8 +6,12 @@ html {
 
 #level0-input {
 	padding: 4px 10px;
+	border: 1px solid #aaa;
 	border-radius: 4px;
+	margin-left: 20px;
+	margin-bottom: 15px;
 	font-size: 12px;
+	width: 150px;
 	font-family: Arial, sans-serif;
 }
 
@@ -17,8 +21,31 @@ html {
 	color: #fff;
 	border-radius: 4px;
 	cursor: pointer;
+	margin-left: 10px;
 }
 
 .submit-button:hover {
 	background: #008dce;
+}
+
+#level0-categories {
+	margin-left: 20px;
+	width: 80%;
+}
+
+.level0-category {
+	border: 1px solid #aaa;
+	padding: 4px 10px;
+	border-radius: 4px;
+	width: 150px;
+	float: left;
+	text-align: center;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.level0-category:hover {
+	background: #f9ffff;
+	border-color: #ccc;
+	cursor: pointer;
 }
