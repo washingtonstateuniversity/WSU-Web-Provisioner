@@ -4,7 +4,30 @@ html {
 	font-family: Arial, sans-serif;
 }
 
-#level0-input {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	margin: 10px 0 20px 0;
+}
+h2 {
+	margin: 25px 0 10px 0;
+}
+
+h3 {
+	margin: 15px 0 15px 20px;
+}
+
+#level0-input,
+#category-input {
 	padding: 4px 10px;
 	border: 1px solid #aaa;
 	border-radius: 4px;
@@ -21,6 +44,7 @@ html {
 	color: #fff;
 	border-radius: 4px;
 	cursor: pointer;
+	margin-top: 2px;
 	margin-left: 10px;
 }
 
