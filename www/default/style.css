@@ -12,4 +12,7 @@ li {
 	padding: 5px;
 	font-size: 13px;
 	font-family: arial;
+	margin-top: 3px;
+	border-radius: 4px;
+	cursor: pointer;
 }
