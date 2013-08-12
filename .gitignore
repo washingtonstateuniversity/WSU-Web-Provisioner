@@ -2,6 +2,7 @@
 *.sublime*
 .DS_Store
 /.idea
+
 # Because this really is a working directory, ignore vagrant's files
 /.vagrant
 
@@ -14,8 +15,10 @@
 
 # BUT....
 
-# we do have a default SQL file that should be included
+# we do have default SQL files that should be included
 !/database/init.sql
+!/database/stages/*.sql
+
 /www/wp.wsu.edu/.htaccess
 /www/wp.wsu.edu/content/log/*.log
 /www/wp-cli
