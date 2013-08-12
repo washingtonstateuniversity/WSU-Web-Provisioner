@@ -51,7 +51,6 @@
 			level_html = '';
 
 		for ( k in item ) {
-			console.log( k );
 			level_html += '<div data-item="' + k + '" class="level0-category">' + k + '</div>';
 		}
 		UI.level0container.html( level_html );
