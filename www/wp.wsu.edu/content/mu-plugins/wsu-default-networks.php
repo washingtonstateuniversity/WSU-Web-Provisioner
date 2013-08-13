@@ -28,6 +28,8 @@ function wsu_populate_network() {
 	/**
 	 * Create network2.wp.wsu.edu and two additional sites as subfolders rather than
 	 * sub domains.
+	 *
+	 * Note: This is not supported by default and is probably causing grief at this time.
 	 */
 	populate_network( 3, 'network2.wp.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'Network 2', '/', true );
 	wpmu_create_blog( 'network2.wp.wsu.edu', '/', 'Network 2', 1, '', 3 );
@@ -47,6 +49,8 @@ function wsu_populate_network() {
 	/**
 	 * Create wp-school2.wsu.edu and two additional sites using subfolders rather than
 	 * sub domains.
+	 *
+	 * Note: This is not supported by default and is probably causing grief at this time.
 	 */
 	populate_network( 5, 'wp-school2.wsu.edu', 'wsuwp-dev@wp.wsu.ed', 'School 2', '/', true );
 	wpmu_create_blog( 'wp-school2.wsu.edu', '/', 'School 2', 1, '', 5 );
