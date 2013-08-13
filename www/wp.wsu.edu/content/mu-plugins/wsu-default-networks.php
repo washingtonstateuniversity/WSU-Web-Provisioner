@@ -1,8 +1,12 @@
 <?php
 
-// requires modifications from #25020 before it can be trusted
-//add_action( 'init', 'wsu_populate_network' );
+add_action( 'init', 'wsu_populate_network' );
 function wsu_populate_network() {
+
+	// Only do this in a specific local environment.
+	if ( ! defined( 'WSU_LOCAL_CONFIG' ) || true !== WSU_LOCAL_CONFIG )
+		return;
+
 	require_once( ABSPATH . 'wp-admin/includes/schema.php' );
 	populate_network( 2, 'network1.wp.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'Network 1', '/', true );
 	populate_network( 3, 'network2.wp.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'Network 2', '/', true );
