@@ -16,6 +16,15 @@
 
 define( 'WP_MEMORY_LIMIT', '128M' );
 
+/**
+ * Having a local configuration file allows us to specify some constants that
+ * are specific to our development environment and should never make their way
+ * to production.
+ *
+ * In the same vein, production information should never make its way into the
+ * repository. The process of filling in the required information will occur
+ * during deployment.
+ */
 if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/local-config.php' );
 } else {
