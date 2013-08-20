@@ -232,22 +232,21 @@ mysql -u root -pblank < /srv/database/init.sql | echo "Initial MySQL prep...."
 
 # Import provided SQL files in to MySQL.
 #
-# The files in the {vvv-dir}/database/backups/ directory should be created by
+# The files in the {wsuwp-dir}/database/backups/ directory should be created by
 # mysqldump or some other export process that generates a full set of SQL commands
 # to create the necessary tables and data required by a database.
 #
 # For an import to work properly, the SQL file should be named `db_name.sql` in which
-# `db_name` matches the name of a database already created in {vvv-dir}/database/init-custom.sql
-# or {vvv-dir}/database/init.sql.
+# `db_name` matches the name of a database already created in {wsuwp-dir}/database/init.sql.
 #
 # If a filename does not match an existing database, it will not import correctly.
 #
 # If tables already exist for a database, the import will not be attempted again. After an
 # initial import, the data will remain persistent and available to MySQL on future boots
-# through {vvv-dir}/database/data
+# through {wsuwp-dir}/database/data
 #
 # Let's begin...
-
+#
 # Move into the newly mapped backups directory, where mysqldump(ed) SQL files are stored
 printf "\nStart MySQL Database Import\n"
 cd /srv/database/backups/
@@ -264,7 +263,7 @@ then
 	db_exist=`mysql -u root -pblank --skip-column-names -e "$mysql_cmd"`
 	if [ "$?" != "0" ]
 	then
-		printf "  * Error - Create $pre_dot database via init-custom.sql before attempting import\n\n"
+		printf "  * Error - Create $pre_dot database via init.sql before attempting import\n\n"
 	else
 		if [ "" == "$db_exist" ]
 		then
@@ -278,7 +277,7 @@ then
 	done
 	printf "Databases imported\n"
 else
-	printf "No custom databases to import\n"
+	printf "No databases to import\n"
 fi
 
 if [[ $ping_result == *bytes?from* ]]
