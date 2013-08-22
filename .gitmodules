@@ -1,0 +1,3 @@
+[submodule "www/wp.wsu.edu/wordpress"]
+	path = www/wp.wsu.edu/wordpress
+	url = https://github.com/jeremyfelt/WordPress-core.svn-Mirror.git
