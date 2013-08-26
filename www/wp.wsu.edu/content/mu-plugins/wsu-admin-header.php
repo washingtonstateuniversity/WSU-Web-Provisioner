@@ -19,18 +19,11 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
 	// add sub menu items to the My Networks menu item
 
-	/**
-	 * Remove the default 'My Sites' menu as it has way more than we need by default
-	 * and should join 'My Networks' on the right side of the admin bar.
-	 */
-	$wp_admin_bar->remove_menu( 'my-sites' );
-	$wp_admin_bar->remove_menu( 'network-admin' );
-
+	// modify the default My Sites menu
 	$current_network_name = 'CAHNRS';
 	
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-sites',
-		'parent' => 'top-secondary',
 		'title' => apply_filters( 'wsu_my_sites_title', 'My ' . $current_network_name . ' Sites' ),
 		'href'  => admin_url( 'my-sites.php' ),
 	) );
@@ -40,7 +33,7 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 		'parent' => 'my-sites',
 		'id'     => 'my-sites-list',
 		'meta'   => array(
-
+			'class' => is_super_admin() ? 'ab-sub-secondary' : '',
 		),
 	) );
 
