@@ -20,8 +20,8 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 	// add sub menu items to the My Networks menu item
 
 	// modify the default My Sites menu
-	$current_network_name = 'CAHNRS';
-	
+	$current_network_name = get_current_site()->site_name;
+
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-sites',
 		'title' => apply_filters( 'wsu_my_sites_title', 'My ' . $current_network_name . ' Sites' ),
