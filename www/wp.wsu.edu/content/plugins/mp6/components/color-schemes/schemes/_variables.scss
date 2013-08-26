@@ -1,0 +1,74 @@
+// ToDo: setup proper inheritance scheme
+
+
+// Assign default value to all variables. The default value is either
+// inherited from another variable, or `null` to prevent "undefined variable" errors.
+
+
+// global
+
+$background: null !default;
+
+$link: null !default;
+$link-focus: null !default;
+
+
+// admin-bar
+
+$adminbar-text: null !default;
+$adminbar-icon: null !default;
+$adminbar-background: null !default;
+
+$adminbar-focus-text: $adminbar-text !default;
+$adminbar-focus-icon: $adminbar-icon !default;
+$adminbar-focus-background: null !default;
+
+$adminbar-submenu-text: null !default;
+$adminbar-submenu-icon: null !default;
+$adminbar-submenu-background-primary: null !default;
+$adminbar-submenu-background-secondary: null !default;
+$adminbar-submenu-focus-text: $adminbar-text !default;
+$adminbar-submenu-focus-icon: $adminbar-icon !default;
+
+$adminbar-search-text: null !default;
+$adminbar-search-icon: null !default;
+$adminbar-search-background: null !default;
+$adminbar-search-placeholder: null !default;
+
+$adminbar-avatarframe: null !default;
+$adminbar-displayname: $adminbar-text !default;
+
+
+// admin menu
+
+$menu-text: null !default;
+$menu-icon: null !default;
+$menu-background: null !default;
+
+$menu-focus-text: $menu-text !default;
+$menu-focus-icon: $menu-icon !default;
+$menu-focus-background: null !default;
+
+$menu-submenu-text: null !default;
+$menu-submenu-background: null !default;
+$menu-submenu-focus-text: $menu-text !default;
+$menu-submenu-current-text: $menu-icon !default;
+
+$menu-current-text: null !default;
+$menu-current-icon: null !default;
+$menu-current-background: null !default;
+
+$menu-bubble-text: null !default;
+$menu-bubble-background: null !default;
+$menu-bubble-current-text: $menu-bubble-text !default;
+$menu-bubble-current-background: $menu-bubble-background !default;
+
+$menu-collapse-text: $menu-icon !default;
+$menu-collapse-icon: $menu-icon !default;
+$menu-collapse-focus-text: $menu-focus-text !default;
+$menu-collapse-focus-icon: $menu-focus-icon !default;
+
+
+// forms
+
+$form-checked: null !default;

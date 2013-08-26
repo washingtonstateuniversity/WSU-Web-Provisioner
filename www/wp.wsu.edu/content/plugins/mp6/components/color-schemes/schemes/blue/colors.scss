@@ -1,0 +1,73 @@
+// ToDo: Removed by default inherited variables, once inheritance scheme is complete
+
+
+// global
+
+$background: #f6f6f6;
+
+$link: #4796b3;
+$link-focus: #52accc;
+
+
+// admin-bar
+
+$adminbar-text: #fff;
+$adminbar-icon: #e5f8ff;
+$adminbar-background: #52accc;
+
+$adminbar-focus-text: #fff;
+$adminbar-focus-icon: #fff;
+$adminbar-focus-background: #4796b3;
+
+$adminbar-submenu-text: #e2ecf1;
+$adminbar-submenu-icon: #e2ecf1;
+$adminbar-submenu-background-primary: #4796b3;
+$adminbar-submenu-background-secondary: #096484;
+$adminbar-submenu-focus-text: #fff;
+$adminbar-submenu-focus-icon: #fff;
+
+$adminbar-search-text: #fff;
+$adminbar-search-icon: #e5f8ff;
+$adminbar-search-background: #4796b3;
+$adminbar-search-placeholder: #e5f8ff;
+
+$adminbar-avatarframe: #ccc;
+$adminbar-displayname: #eee;
+
+
+// admin menu
+
+$menu-text: #fff;
+$menu-icon: #e5f8ff;
+$menu-background: #52accc;
+
+$menu-focus-text: #fff;
+$menu-focus-icon: #fff;
+$menu-focus-background: #096484;
+
+$menu-submenu-text: #e2ecf1;
+$menu-submenu-background: #4796b3;
+$menu-submenu-focus-text: #fff;
+$menu-submenu-current-text: #fff;
+
+$menu-current-text: #fff;
+$menu-current-icon: #fff;
+$menu-current-background: #096484;
+
+$menu-bubble-text: #fff;
+$menu-bubble-background: #e1a948;
+$menu-bubble-current-text: #fff;
+$menu-bubble-current-background: #e1a948;
+
+$menu-collapse-text: #e5f8ff;
+$menu-collapse-icon: #e5f8ff;
+$menu-collapse-focus-text: #fff;
+$menu-collapse-focus-icon: #fff;
+
+
+// forms
+
+$form-checked: #4796b3;
+
+
+@import '../_colors.scss';
