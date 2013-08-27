@@ -6,6 +6,13 @@ add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
  * @param WP_Admin_Bar $wp_admin_bar
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
+
+	/**
+	 * Remove the default My Sites menu, as we will be grouping sites under networks
+	 * in a custom menu.
+	 */
+	$wp_admin_bar->remove_menu( 'my-sites' );
+
 	/**
 	 * The 'My Networks' menu goes to the right of the admin bar as it is most
 	 * likely a low frequency visit for those who are members of multiple networks.
@@ -17,20 +24,14 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 		'href'  => admin_url( 'index.php?page=my-wsu-networks' ),
 	) );
 
-	// add sub menu items to the My Networks menu item
-
-	// modify the default My Sites menu
-	$current_network_name = get_current_site()->site_name;
-
-	$wp_admin_bar->add_menu( array(
-		'id'    => 'my-sites',
-		'title' => apply_filters( 'wsu_my_sites_title', 'My ' . $current_network_name . ' Sites' ),
-		'href'  => admin_url( 'my-sites.php' ),
-	) );
-
-	// Add site links
+	/**
+	 * Now that we have a My Networks menu, we should generate a list of networks to output
+	 * under that menu. The existing logic displays all blogs that the user is a member of.
+	 * We'll need to alter this to show sites (networks) instead, and then list the blogs
+	 * as sub menus of those.
+	 */
 	$wp_admin_bar->add_group( array(
-		'parent' => 'my-sites',
+		'parent' => 'my-networks',
 		'id'     => 'my-sites-list',
 		'meta'   => array(
 			'class' => is_super_admin() ? 'ab-sub-secondary' : '',
