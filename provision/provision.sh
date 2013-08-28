@@ -301,7 +301,7 @@ else
 fi
 # Add any custom domains to the virtual machine's hosts file so that it
 # is self aware. Enter domains space delimited as shown with the default.
-DOMAINS='wp.wsu.edu content.wp.wsu.edu'
+DOMAINS='wp.wsu.edu content.wp.wsu.edu network1.wp.wsu.edu network2.wp.wsu.edu site1.network1.wp.wsu.edu site2.network1.wp.wsu.edu wp-school1.wsu.edu wp-school2.wsu.edu site1.wp-school1.wsu.edu site2.wp-school1.wsu.edu'
 if ! grep -q "$DOMAINS" /etc/hosts
 then echo "127.0.0.1 $DOMAINS" >> /etc/hosts
 fi
