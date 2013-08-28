@@ -19,9 +19,19 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  config.vm.hostname = "wpwsu-dev"
+  config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
- 
+
+  # Local Machine Hosts
+  #
+  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
+  # installed, the following will automatically configure your local machine's hosts file to
+  # be aware of the domains specified below. Watch the provisioning script as you may be
+  # required to enter a password for Vagrant to access your hosts file.
+  if defined? VagrantPlugins::HostsUpdater
+    config.hostsupdater.aliases = [ "content.wp.wsu.edu", "network1.wp.wsu.edu", "network2.wp.wsu.edu", "site1.network1.wp.wsu.edu", "site2.network1.wp.wsu.edu", "wp-school1.wsu.edu", "wp-school2.wsu.edu", "site1.wp-school1.wsu.edu", "site2.wp-school1.wsu.edu" ]
+  end
+
   # Drive mapping
   #
   # The following config.vm.share_folder settings will map directories in your Vagrant
