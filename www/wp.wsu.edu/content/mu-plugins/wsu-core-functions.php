@@ -28,6 +28,17 @@ function wp_get_current_network() {
 }
 
 /**
+ * A wrapper with a better name for get_blog_details(). Returns what WordPress knows
+ * as the current blog (by not passing any arguments), which in reality is the
+ * current site.
+ *
+ * @return object with current site information
+ */
+function wp_get_current_site() {
+	return get_blog_details();
+}
+
+/**
  * Checks to see if there is more than one network defined in the site table
  *
  * @return bool
