@@ -57,34 +57,34 @@ function wsu_populate_network() {
 	wpmu_create_blog( 'network2.wp.wsu.edu', '/site2/', 'Network 2 Site 2', 1, '', 3 );
 
 	/**
-	 * Create the wp-school1.wsu.edu network and two additional sites as subdomains on
+	 * Create the school1.wsu.edu network and two additional sites as subdomains on
 	 * that network. This is an example of a subdomain setup that does not use the core
 	 * wp.wsu.edu domain associated with the initial WordPress install.
 	 *
-	 *       wp-school1.wsu.edu
-	 * site1.wp-school1.wsu.edu
-	 * site2.wp-school1.wsu.edu
+	 *       school1.wsu.edu
+	 * site1.school1.wsu.edu
+	 * site2.school1.wsu.edu
 	 */
-	populate_network( 4, 'wp-school1.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'School 1', '/', true );
-	wpmu_create_blog( 'wp-school1.wsu.edu', '/', 'School 1', 1, '', 4 );
-	wpmu_create_blog( 'site1.wp-school1.wsu.edu', '/', 'School 1 Site 1', 1, '', 4 );
-	wpmu_create_blog( 'site2.wp-school1.wsu.edu', '/', 'School 1 Site 2', 1, '', 4 );
+	populate_network( 4, 'school1.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'School 1', '/', true );
+	wpmu_create_blog( 'school1.wsu.edu', '/', 'School 1', 1, '', 4 );
+	wpmu_create_blog( 'site1.school1.wsu.edu', '/', 'School 1 Site 1', 1, '', 4 );
+	wpmu_create_blog( 'site2.school1.wsu.edu', '/', 'School 1 Site 2', 1, '', 4 );
 
 	/**
-	 * Create the wp-school2.wsu.edu network and two additional sites using subfolders
+	 * Create the school2.wsu.edu network and two additional sites using subfolders
 	 * rather than subdomains. This is an example of a subfolder setup that does not use
 	 * the core wp.wsu.edu domain associated with the initial WordPress install.
 	 *
-	 * wp-school2.wsu.edu
-	 * wp-school2.wsu.edu/site1/
-	 * wp-school2.wsu.edu/site2/
+	 * school2.wsu.edu
+	 * school2.wsu.edu/site1/
+	 * school2.wsu.edu/site2/
 	 *
 	 * Note: Most likely unstable if this note is here
 	 */
-	populate_network( 5, 'wp-school2.wsu.edu', 'wsuwp-dev@wp.wsu.ed', 'School 2', '/', true );
-	wpmu_create_blog( 'wp-school2.wsu.edu', '/', 'School 2', 1, '', 5 );
-	wpmu_create_blog( 'wp-school2.wsu.edu', '/site1/', 'School 2 Site 1', 1, '', 5 );
-	wpmu_create_blog( 'wp-school2.wsu.edu', '/site2/', 'School 2 Site 2', 1, '', 5 );
+	populate_network( 5, 'school2.wsu.edu', 'wsuwp-dev@wp.wsu.ed', 'School 2', '/', true );
+	wpmu_create_blog( 'school2.wsu.edu', '/', 'School 2', 1, '', 5 );
+	wpmu_create_blog( 'school2.wsu.edu', '/site1/', 'School 2 Site 1', 1, '', 5 );
+	wpmu_create_blog( 'school2.wsu.edu', '/site2/', 'School 2 Site 2', 1, '', 5 );
 }
 
 // filter would be activated via #25020
