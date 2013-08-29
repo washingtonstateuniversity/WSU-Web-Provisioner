@@ -7,6 +7,13 @@ add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
+	/**
+	 * This is really only useful to installations with multiple networks. If it is not
+	 * a multi network setup, then we should leave the admin bar alone.
+	 */
+	if ( ! is_multi_network() )
+		return;
+
 	$user_sites = wp_get_user_sites( get_current_user_id() );
 
 	/**
