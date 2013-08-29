@@ -102,15 +102,9 @@ function wp_get_sites( $args = array() ) {
 	$key = 'wp_get_sites:' . md5( $query );
 
 	if ( ! $site_results = wp_cache_get( $key, 'site-id-cache' ) ) {
-		$site_results = $wpdb->get_results( $query );
+		$site_results = (array) $wpdb->get_results( $query );
 		wp_cache_set( $key, $site_results, 'site-id-cache' );
 	}
 
-	$sites = Array();
-
-	foreach ( $site_results as $site ) {
-		$sites[ $site->blog_id ] = $site;
-	}
-
-	return $sites;
+	return $site_results;
 }
