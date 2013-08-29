@@ -11,18 +11,43 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 	 * Remove the default My Sites menu, as we will be grouping sites under networks
 	 * in a custom menu.
 	 */
-	$wp_admin_bar->remove_menu( 'my-sites' );
+	$wp_admin_bar->remove_menu( 'my-sites'    );
 
 	/**
-	 * The 'My Networks' menu goes to the right of the admin bar as it is most
-	 * likely a low frequency visit for those who are members of multiple networks.
+	 * Store each of the existing nodes that represent the current default admin
+	 * menu items so that we can use them when reordering.
+	 */
+	$node_site_name   = $wp_admin_bar->get_node( 'site-name'   );
+	$node_comments    = $wp_admin_bar->get_node( 'comments'    );
+	$node_new_content = $wp_admin_bar->get_node( 'new-content' );
+
+	/**
+	 * Remove the default menu items that we will be reordering.
+	 */
+	$wp_admin_bar->remove_menu( 'site-name'   );
+	$wp_admin_bar->remove_menu( 'comments'    );
+	$wp_admin_bar->remove_menu( 'new-content' );
+
+	/**
+	 * Insert a new menu item 'My {$name} Networks' on the left of the admin bar that will
+	 * provide access to each of the user's networks. This title can be altered through the
+	 * use of the `wsu_my_network_title` filter. By default it is 'My WSU Networks'
+	 *
+	 * @todo - insert logic that ignores this if the user is only a member of one network (or site)
 	 */
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-networks',
-		'parent' => 'top-secondary',
 		'title' => apply_filters( 'wsu_my_networks_title', 'My WSU Networks' ),
 		'href'  => admin_url( 'index.php?page=my-wsu-networks' ),
 	) );
+
+	/**
+	 * Add the original menu items back to the admin bar now that we have our my-networks
+	 * item in place.
+	 */
+	$wp_admin_bar->add_menu( $node_site_name   );
+	$wp_admin_bar->add_menu( $node_comments    );
+	$wp_admin_bar->add_menu( $node_new_content );
 
 	/**
 	 * Now that we have a My Networks menu, we should generate a list of networks to output
