@@ -58,6 +58,22 @@ function is_multi_network() {
 }
 
 /**
+ * Return an array of existing networks
+ *
+ * @return array An array of network data
+ */
+function wp_get_networks() {
+	if ( ! is_multisite() || ! is_multi_network() )
+		return array();
+
+	global $wpdb;
+
+	$network_results = (array) $wpdb->get_results( "SELECT * FROM $wpdb->site" );
+
+	return $network_results;
+}
+
+/**
  * Return an array of sites on the specified network. If no network is specified,
  * return all sites, regardless of network.
  *
