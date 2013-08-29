@@ -5,6 +5,18 @@
  */
 
 /**
+ * Retrieve a list of sites that with which the passed user has associated capabilities.
+ *
+ * @param int $user_id ID of the user
+ * @param bool $all False to return all sites. True will return only those not marked as archived, spam, or deleted
+ *
+ * @return array A list of user's sites. An empty array of the user does not have any capabilities to any sites
+ */
+function wp_get_user_sites( $user_id, $all = false ) {
+	return get_blogs_of_user( $user_id, $all );
+}
+
+/**
  * Return an array of sites on the specified network. If no network is specified,
  * return all sites, regardless of network.
  *
