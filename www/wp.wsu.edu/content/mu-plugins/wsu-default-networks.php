@@ -35,7 +35,7 @@ function wsu_populate_network() {
 	 */
 	populate_network( 2, 'network1.wp.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'Network 1', '/', true );
 
-	wpmu_create_blog( 'network1.wp.wsu.edu', '/', 'Network 1', 1, '', 2 );
+	wpmu_create_blog(       'network1.wp.wsu.edu', '/', 'Network 1',        1, '', 2 );
 	wpmu_create_blog( 'site1.network1.wp.wsu.edu', '/', 'Network 1 Site 1', 1, '', 2 );
 	wpmu_create_blog( 'site2.network1.wp.wsu.edu', '/', 'Network 1 Site 2', 1, '', 2 );
 
@@ -52,7 +52,7 @@ function wsu_populate_network() {
 	 */
 	populate_network( 3, 'network2.wp.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'Network 2', '/', true );
 
-	wpmu_create_blog( 'network2.wp.wsu.edu', '/', 'Network 2', 1, '', 3 );
+	wpmu_create_blog( 'network2.wp.wsu.edu', '/',       'Network 2',        1, '', 3 );
 	wpmu_create_blog( 'network2.wp.wsu.edu', '/site1/', 'Network 2 Site 1', 1, '', 3 );
 	wpmu_create_blog( 'network2.wp.wsu.edu', '/site2/', 'Network 2 Site 2', 1, '', 3 );
 
@@ -66,7 +66,8 @@ function wsu_populate_network() {
 	 * site2.school1.wsu.edu
 	 */
 	populate_network( 4, 'school1.wsu.edu', 'wsuwp-dev@wp.wsu.edu', 'School 1', '/', true );
-	wpmu_create_blog( 'school1.wsu.edu', '/', 'School 1', 1, '', 4 );
+
+	wpmu_create_blog(       'school1.wsu.edu', '/', 'School 1',        1, '', 4 );
 	wpmu_create_blog( 'site1.school1.wsu.edu', '/', 'School 1 Site 1', 1, '', 4 );
 	wpmu_create_blog( 'site2.school1.wsu.edu', '/', 'School 1 Site 2', 1, '', 4 );
 
@@ -82,7 +83,8 @@ function wsu_populate_network() {
 	 * Note: Most likely unstable if this note is here
 	 */
 	populate_network( 5, 'school2.wsu.edu', 'wsuwp-dev@wp.wsu.ed', 'School 2', '/', true );
-	wpmu_create_blog( 'school2.wsu.edu', '/', 'School 2', 1, '', 5 );
+
+	wpmu_create_blog( 'school2.wsu.edu', '/',       'School 2',        1, '', 5 );
 	wpmu_create_blog( 'school2.wsu.edu', '/site1/', 'School 2 Site 1', 1, '', 5 );
 	wpmu_create_blog( 'school2.wsu.edu', '/site2/', 'School 2 Site 2', 1, '', 5 );
 }
