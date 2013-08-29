@@ -17,6 +17,17 @@ function wp_get_user_sites( $user_id, $all = false ) {
 }
 
 /**
+ * A wrapper with a better name for get_current_site() to avoid being so misleading
+ * on the actual purpose. Returns what WordPress knows as the current site, which in
+ * reality is the current network.
+ *
+ * @return object with current network information
+ */
+function wp_get_current_network() {
+	return get_current_site();
+}
+
+/**
  * Checks to see if there is more than one network defined in the site table
  *
  * @return bool
