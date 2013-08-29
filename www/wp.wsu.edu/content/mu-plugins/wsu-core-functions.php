@@ -17,6 +17,26 @@ function wp_get_user_sites( $user_id, $all = false ) {
 }
 
 /**
+ * Checks to see if there is more than one network defined in the site table
+ *
+ * @return bool
+ */
+function is_multi_network() {
+	if ( ! is_multisite() )
+		return false;
+
+	global $wpdb;
+
+	if ( false === ( $is_multi_network = get_transient( 'is_multi_network' ) ) ) {
+		$rows = (array) $wpdb->get_col("SELECT DISTINCT id FROM $wpdb->site LIMIT 2");
+		$is_multi_network = 1 < count( $rows ) ? 1 : 0;
+		set_transient( 'is_multi_network', $is_multi_network );
+	}
+
+	return apply_filters( 'is_multi_network', (bool) $is_multi_network );
+}
+
+/**
  * Return an array of sites on the specified network. If no network is specified,
  * return all sites, regardless of network.
  *
