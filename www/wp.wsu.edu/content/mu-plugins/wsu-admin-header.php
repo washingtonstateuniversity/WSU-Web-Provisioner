@@ -7,11 +7,28 @@ add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
+	$user_sites = wp_get_user_sites( get_current_user_id() );
+
+	/**
+	 * The user is not a super admin and they only belong to one network. At this point
+	 * it's most likely that we should not give them access to a networks menu. If they
+	 * only belong to one site as well, then we should remove the My Sites menu item to
+	 * avoid confusion.
+	 *
+	 * @todo - determine real capabilities here rather than the blanket super admin role
+	 */
+	if ( ! is_super_admin() && 1 === count( $user_sites ) ) {
+		$wp_admin_bar->remove_menu( 'my-sites' );
+		return;
+	} elseif ( ! is_super_admin() ) {
+		return;
+	}
+
 	/**
 	 * Remove the default My Sites menu, as we will be grouping sites under networks
 	 * in a custom menu.
 	 */
-	$wp_admin_bar->remove_menu( 'my-sites'    );
+	$wp_admin_bar->remove_menu( 'my-sites' );
 
 	/**
 	 * Store each of the existing nodes that represent the current default admin
