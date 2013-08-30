@@ -16,6 +16,17 @@ function wp_get_user_sites( $user_id, $all = false ) {
 	return get_blogs_of_user( $user_id, $all );
 }
 
+function wp_get_user_networks( $user_id = null ) {
+
+	if ( ! $user_id )
+		$user_id = get_current_user_id();
+
+	$user_sites = wp_get_user_sites( $user_id );
+	$user_network_ids = array_unique( wp_list_pluck( $user_sites, 'site_id' ) );
+
+	return wp_get_networks( array( 'network_id' => $user_network_ids ) );
+}
+
 /**
  * A wrapper with a better name for get_current_site(). Returns what WordPress knows
  * as the current site, which in reality is the current network.
@@ -62,7 +73,7 @@ function is_multi_network() {
  *
  * @return array An array of network data
  */
-function wp_get_networks() {
+function wp_get_networks( $args = array() ) {
 	if ( ! is_multisite() || ! is_multi_network() )
 		return array();
 
