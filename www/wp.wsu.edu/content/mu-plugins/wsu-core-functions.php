@@ -16,6 +16,14 @@ function wp_get_user_sites( $user_id, $all = false ) {
 	return get_blogs_of_user( $user_id, $all );
 }
 
+/**
+ * Return a list of networks that the user is a member of.
+ *
+ * @uses wp_get_networks
+ * @param null $user_id Optional. Defaults to the current user.
+ *
+ * @return array containing list of user's networks
+ */
 function wp_get_user_networks( $user_id = null ) {
 
 	if ( ! $user_id )
