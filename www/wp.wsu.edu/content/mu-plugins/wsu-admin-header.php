@@ -7,6 +7,8 @@ add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
+	global $current_site;
+
 	/**
 	 * This is really only useful to installations with multiple networks. If it is not
 	 * a multi network setup, then we should leave the admin bar alone.
@@ -81,6 +83,29 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 	 */
 	$wp_admin_bar->add_group( array(
 		'parent' => 'my-networks',
+		'id'     => 'my-networks-list',
+		'meta'   => array(),
+	));
+
+	if ( ! isset( $wp_admin_bar->user->networks ) )
+		$wp_admin_bar->user->networks = wp_get_user_networks();
+
+	foreach( (array) $wp_admin_bar->user->networks as $network ) {
+		switch_to_network( $network->id );
+
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'my-networks-list',
+			'id'     => 'network-' . $network->id,
+			'title'  => $current_site->site_name,
+			'href'   => network_admin_url(),
+		));
+
+		restore_current_network();
+	}
+
+	/*
+	$wp_admin_bar->add_group( array(
+		'parent' => 'my-networks',
 		'id'     => 'my-sites-list',
 		'meta'   => array(
 			'class' => is_super_admin() ? 'ab-sub-secondary' : '',
@@ -135,5 +160,5 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 		) );
 
 		restore_current_blog();
-	}
+	} */
 }
