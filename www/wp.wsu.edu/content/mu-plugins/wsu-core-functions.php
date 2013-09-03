@@ -30,7 +30,7 @@ function wp_get_user_networks( $user_id = null ) {
 		$user_id = get_current_user_id();
 
 	$user_sites = wp_get_user_sites( $user_id );
-	$user_network_ids = array_unique( wp_list_pluck( $user_sites, 'site_id' ) );
+	$user_network_ids = array_values( array_unique( wp_list_pluck( $user_sites, 'site_id' ) ) );
 
 	return wp_get_networks( array( 'network_id' => $user_network_ids ) );
 }
@@ -77,9 +77,12 @@ function is_multi_network() {
 }
 
 /**
- * Return an array of existing networks
+ * Get an array of data on requested networks
  *
- * @return array An array of network data
+ * @param array $args Optional.
+ *     - 'network_id' a single network ID or an array of network IDs
+ *
+ * @return array containing network data
  */
 function wp_get_networks( $args = array() ) {
 	if ( ! is_multisite() || ! is_multi_network() )
@@ -89,7 +92,16 @@ function wp_get_networks( $args = array() ) {
 
 	$network_results = (array) $wpdb->get_results( "SELECT * FROM $wpdb->site" );
 
-	return $network_results;
+	if ( isset( $args['network_id'] ) ) {
+		$network_id = (array) $args['network_id'];
+		foreach( $network_results as $key => $network ) {
+			if ( ! in_array( $network->id, $network_id ) ) {
+				unset( $network_results[ $key ] );
+			}
+		}
+	}
+
+	return array_values( $network_results );
 }
 
 /**
