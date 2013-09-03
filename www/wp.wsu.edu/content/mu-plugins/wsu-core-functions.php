@@ -96,6 +96,18 @@ function restore_current_network() {
 }
 
 /**
+ * Wrapper function for the WordPress switch_to_blog() intended to better match the
+ * name of what we're doing in the backend vs the frontend
+ *
+ * @param int $site_id ID of the site to switch to
+ *
+ * @return bool True on success, false if the validation failed
+ */
+function switch_to_site( $site_id ) {
+	return switch_to_blog( $site_id );
+}
+
+/**
  * Checks to see if there is more than one network defined in the site table
  *
  * @return bool
