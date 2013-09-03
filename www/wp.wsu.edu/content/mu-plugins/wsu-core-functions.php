@@ -57,6 +57,45 @@ function wp_get_current_site() {
 }
 
 /**
+ * Switch to another network by backing up the $current_site global so that we can run
+ * various queries and functions while impersonating it.
+ *
+ * The resulting $current_site global will need to include properties for:
+ *     - id
+ *     - domain
+ *     - path
+ *     - blog_id
+ *     - site_name
+ *     - cookie_domain (?)
+ *
+ * @param int $network_id Network ID to switch to.
+ */
+function switch_to_network( $network_id ) {
+	if ( ! $network_id )
+		return false;
+
+	global $current_site, $backup_current_site, $wpdb;
+
+	// Create a backup of $current_site in the global scope
+	$backup_current_site = $current_site;
+
+	$new_network = wp_get_networks( array( 'network_id' => $network_id ) );
+	$current_site = array_shift( $new_network );
+	$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
+	$current_site->site_name = get_blog_option( $current_site->blog_id, 'blogname' );
+
+	return true;
+}
+
+/**
+ * Restore the version of $current_site that was backed up during switch_to_network()
+ */
+function restore_current_network() {
+	global $current_site, $backup_current_site;
+	$current_site = $backup_current_site;
+}
+
+/**
  * Checks to see if there is more than one network defined in the site table
  *
  * @return bool
