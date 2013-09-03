@@ -330,13 +330,6 @@ input[type=radio]:checked:before {
 	}
 }
 
-/* Selects */
-
-#wpbody select {
-	line-height: 28px;
-	height: 28px;
-}
-
 /* Search */
 input[type="search"] {
 	-webkit-appearance: textfield;
@@ -1080,6 +1073,7 @@ h2 .nav-tab,
 }
 
 /* hide images in admin menu items */
+.wp-submenu img,
 .wp-menu-image img {
 	display: none;
 }
@@ -1129,7 +1123,8 @@ p.install-help {
 
 .wp-admin select {
 	padding: 2px;
-	height: 2em;
+	line-height: 28px;
+	height: 28px;
 }
 
 .wp-admin select[multiple] {
@@ -5611,12 +5606,6 @@ span.imgedit-scale-warn {
 	width: auto;
 }
 
-.form-table div.color-option {
-	display: block;
-	clear: both;
-	margin-top: 12px;
-}
-
 .form-table input.tog {
 	margin-top: 2px;
 	margin-right: 2px;
@@ -5644,23 +5633,6 @@ span.imgedit-scale-warn {
 	margin-top: -4px;
 	margin-right: 4px;
 	float: none;
-}
-
-.form-table table.color-palette {
-	vertical-align: bottom;
-	float: left;
-	margin: -12px 3px 11px;
-}
-
-.form-table .color-palette td {
-	border: none;
-	height: 10px;
-	line-height: 20px;
-	width: 10px;
-}
-
-.form-table .color-option label {
-	line-height: 2em;
 }
 
 .commentlist li {
@@ -9665,6 +9637,7 @@ a.widget-action {
 	display: block;
 	width: 24px;
 	height: 26px;
+	text-decoration: none;
 }
 
 #available-widgets a.widget-action {

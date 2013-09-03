@@ -3,14 +3,15 @@
 Plugin Name: MP6
 Plugin URI: http://wordpress.org/extend/plugins/mp6/
 Description: This is a plugin to break the wp-admin UI, and is not recommended for non-savvy users.
-Version: 1.9
+Version: 2.0
 Author: MP6 Team
 Author URI: http://wordpress.org
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-define( 'MP6', true );
+if ( ! defined( 'MP6' ) )
+	define( 'MP6', true );
 
 // load the responsive component of MP6
 if ( ( ! defined( 'IFRAME_REQUEST' ) || IFRAME_REQUEST !== true ) && ! isset( $_GET[ 'iframe' ] ) )
@@ -20,7 +21,7 @@ if ( ( ! defined( 'IFRAME_REQUEST' ) || IFRAME_REQUEST !== true ) && ! isset( $_
 require_once( plugin_dir_path(__FILE__) . 'components/sticky-menu/sticky-menu.php' );
 
 // load the color schemes component
-#require_once( plugin_dir_path(__FILE__) . 'components/color-schemes/colors.php' );
+require_once( plugin_dir_path(__FILE__) . 'components/color-schemes/colors.php' );
 
 
 // register Open Sans stylesheet
@@ -49,7 +50,7 @@ function mp6_register_dashicons() {
 add_action( 'admin_init', 'mp6_register_admin_color_scheme', 5 );
 function mp6_register_admin_color_scheme() {
 
-	global $wp_styles;
+	global $wp_styles, $_wp_admin_css_colors;
 
 	wp_admin_css_color(
 		'mp6',
@@ -57,6 +58,7 @@ function mp6_register_admin_color_scheme() {
 		plugins_url( 'css/colors-mp6.css', __FILE__ ),
 		array( '#222', '#333', '#0074a2', '#2ea2cc' )
 	);
+	$_wp_admin_css_colors[ 'mp6' ]->icon_colors = array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' );
 
 	// set modification time
 	$wp_styles->registered[ 'colors' ]->ver = filemtime( plugin_dir_path( __FILE__ ) . 'css/colors-mp6.css' );

@@ -644,8 +644,8 @@ div.updated,
 	background-color: #fff;
 	border-left: 4px solid #7ad03a;
 
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 }
 
 #update-nag,
@@ -653,8 +653,8 @@ div.updated,
 	background-color: #fff;
 	border-left: 4px solid #ffba00;
 
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 }
 
 div.error,
@@ -662,8 +662,8 @@ div.error,
 	background: #fff;
 	border-left: 4px solid #dd3d36;
 
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 }
 
 .update-message {
@@ -1292,17 +1292,6 @@ table.widefat .spam a:hover,
 .folded #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a {
 	color: #bbb;
-}
-
-
-
-
-#adminmenu .wp-submenu li.current a,
-#adminmenu .wp-has-current-submenu .wp-submenu a,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu a,
-.folded #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a,
-.folded #adminmenu .wp-has-current-submenu .wp-submenu li.current a {
-	color: #fff;
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
