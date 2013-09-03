@@ -108,6 +108,16 @@ function switch_to_site( $site_id ) {
 }
 
 /**
+ * Used after switch_to_site(), this is a wrapper for restore_current_blog() that gets
+ * us back to the current site
+ * 
+ * @return bool True on success, false if we're already on the current blog
+ */
+function restore_current_site() {
+	return restore_current_blog();
+}
+
+/**
  * Checks to see if there is more than one network defined in the site table
  *
  * @return bool
