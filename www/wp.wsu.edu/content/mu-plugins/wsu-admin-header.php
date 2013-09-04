@@ -100,6 +100,7 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 		'meta'   => array(),
 	));
 
+	// Add each of the user's networks as a menu item
 	foreach( (array) $wp_admin_bar->user->networks as $network ) {
 		switch_to_network( $network->id );
 
@@ -112,13 +113,14 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
 		$sites = wp_get_sites( array( 'network_id' => $network->id ) );
 
+		// Add each of the user's sites from this specific network to the menu
 		foreach( $sites as $site ) {
 			switch_to_blog( $site->blog_id );
 			$site_details = get_blog_details();
 
 			$blavatar = '<div class="blavatar"></div>';
 
-			$menu_id  = 'site-' . $site->blog_id . '-' . $network->id;
+			$menu_id  = 'site-' . $site->blog_id;
 
 			$wp_admin_bar->add_menu( array(
 				'parent'    => 'network-' . $network->id,
