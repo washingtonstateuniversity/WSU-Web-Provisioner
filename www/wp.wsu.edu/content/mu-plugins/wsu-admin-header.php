@@ -1,7 +1,18 @@
 <?php
 
-add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
+add_action( 'admin_bar_init', 'wsu_admin_bar_set_user_networks' );
+/**
+ * Add a list of a user's networks to the wp_admin_bar object similar to how
+ * sites are provided under $wp_admin_bar->user->blogs
+ */
+function wsu_admin_bar_set_user_networks() {
+	global $wp_admin_bar;
 
+	if ( ! isset( $wp_admin_bar->user->networks ) )
+		$wp_admin_bar->user->networks = wp_get_user_networks();
+}
+
+add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
 /**
  * Create a custom version of the WordPress admin bar
  *
@@ -88,9 +99,6 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 		'id'     => 'my-networks-list',
 		'meta'   => array(),
 	));
-
-	if ( ! isset( $wp_admin_bar->user->networks ) )
-		$wp_admin_bar->user->networks = wp_get_user_networks();
 
 	foreach( (array) $wp_admin_bar->user->networks as $network ) {
 		switch_to_network( $network->id );
