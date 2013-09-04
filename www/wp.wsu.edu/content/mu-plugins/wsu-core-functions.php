@@ -74,10 +74,10 @@ function switch_to_network( $network_id ) {
 	if ( ! $network_id )
 		return false;
 
-	global $current_site, $backup_current_site, $wpdb;
+	global $current_site, $wpdb;
 
 	// Create a backup of $current_site in the global scope
-	$backup_current_site = $current_site;
+	$GLOBALS['_wp_switched_network'] = $current_site;
 
 	$new_network = wp_get_networks( array( 'network_id' => $network_id ) );
 	$current_site = array_shift( $new_network );
@@ -88,11 +88,17 @@ function switch_to_network( $network_id ) {
 }
 
 /**
- * Restore the version of $current_site that was backed up during switch_to_network()
+ * Restore the network we are currently viewing to the $current_site global. If $current_site
+ * already contains the current network, then there is no need to modify anything. If we do
+ * restore from the _wp_switched_network global, then unset to require another use of
+ * switch_to_network().
  */
 function restore_current_network() {
-	global $current_site, $backup_current_site;
-	$current_site = $backup_current_site;
+	global $current_site;
+	if ( isset( $GLOBALS['_wp_switched_network'] ) ) {
+		$current_site = $GLOBALS['_wp_switched_network'];
+		unset( $GLOBALS['_wp_switched_network'] );
+	}
 }
 
 /**
