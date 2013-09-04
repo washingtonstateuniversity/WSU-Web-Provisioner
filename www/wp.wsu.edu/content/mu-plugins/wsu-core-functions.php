@@ -177,7 +177,11 @@ function wp_get_networks( $args = array() ) {
  *
  * @since 3.7.0
  *
- * @param array|string $args Optional. Specify the status of the sites to return.
+ * @param array $args (optional) An array of arguments to modify the query {
+ *     @type int|array 'network_id' A network ID or array of network IDs
+ *     @type int       'limit'      Number of sites to limit the query to
+ * }
+ *
  * @return array An array of site data
  */
 function wp_get_sites( $args = array() ) {
@@ -186,7 +190,10 @@ function wp_get_sites( $args = array() ) {
 	if ( wp_is_large_network() )
 		return;
 
-	$defaults = array( 'network_id' => null );
+	$defaults = array(
+		'network_id' => null,
+		'limit'      => 100,
+	);
 
 	$args = wp_parse_args( $args, $defaults );
 
@@ -199,26 +206,24 @@ function wp_get_sites( $args = array() ) {
 	}
 
 	if ( isset( $args['public'] ) )
-		$query .= $wpdb->prepare( "AND public = %s ", $args['public'] );
+		$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
 
 	if ( isset( $args['archived'] ) )
-		$query .= $wpdb->prepare( "AND archived = %s ", $args['archived'] );
+		$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
 
 	if ( isset( $args['mature'] ) )
-		$query .= $wpdb->prepare( "AND mature = %s ", $args['mature'] );
+		$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
 
 	if ( isset( $args['spam'] ) )
-		$query .= $wpdb->prepare( "AND spam = %s ", $args['spam'] );
+		$query .= $wpdb->prepare( "AND spam = %d ", $args['spam'] );
 
 	if ( isset( $args['deleted'] ) )
-		$query .= $wpdb->prepare( "AND deleted = %s ", $args['deleted'] );
+		$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
 
-	$key = 'wp_get_sites:' . md5( $query );
+	if ( isset( $args['limit'] ) )
+		$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
 
-	if ( ! $site_results = wp_cache_get( $key, 'site-id-cache' ) ) {
-		$site_results = (array) $wpdb->get_results( $query );
-		wp_cache_set( $key, $site_results, 'site-id-cache' );
-	}
+	$site_results = (array) $wpdb->get_results( $query );
 
 	return $site_results;
 }
