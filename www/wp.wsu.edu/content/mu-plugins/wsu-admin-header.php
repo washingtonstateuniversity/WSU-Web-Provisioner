@@ -3,7 +3,9 @@
 add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
 
 /**
- * @param WP_Admin_Bar $wp_admin_bar
+ * Create a custom version of the WordPress admin bar
+ * 
+ * @param WP_Admin_Bar $wp_admin_bar The wp_admin_bar global, no need to return once modified
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
