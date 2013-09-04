@@ -110,13 +110,14 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 			'href'   => network_admin_url(),
 		));
 
-		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-			switch_to_blog( $blog->userblog_id );
+		$sites = wp_get_sites( array( 'network_id' => $network->id ) );
+
+		foreach( $sites as $site ) {
+			switch_to_blog( $site->blog_id );
 
 			$blavatar = '<div class="blavatar"></div>';
-
-			$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
-			$menu_id  = 'site-' . $blog->userblog_id . '-' . $network->id;
+			$blogname = 'Site ' . $site->blog_id; //empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+			$menu_id  = 'site-' . $site->blog_id . '-' . $network->id;
 
 			$wp_admin_bar->add_menu( array(
 				'parent'    => 'network-' . $network->id,
@@ -159,6 +160,7 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
 			restore_current_blog();
 		}
+
 		restore_current_network();
 	}
 
