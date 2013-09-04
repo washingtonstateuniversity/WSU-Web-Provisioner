@@ -110,55 +110,55 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 			'href'   => network_admin_url(),
 		));
 
-			foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-				switch_to_blog( $blog->userblog_id );
+		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
+			switch_to_blog( $blog->userblog_id );
 
-				$blavatar = '<div class="blavatar"></div>';
+			$blavatar = '<div class="blavatar"></div>';
 
-				$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
-				$menu_id  = 'site-' . $blog->userblog_id . '-' . $network->id;
+			$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+			$menu_id  = 'site-' . $blog->userblog_id . '-' . $network->id;
 
-				$wp_admin_bar->add_menu( array(
-					'parent'    => 'network-' . $network->id,
-					'id'        => $menu_id,
-					'title'     => $blavatar . $blogname,
-					'href'      => admin_url(),
-				) );
+			$wp_admin_bar->add_menu( array(
+				'parent'    => 'network-' . $network->id,
+				'id'        => $menu_id,
+				'title'     => $blavatar . $blogname,
+				'href'      => admin_url(),
+			) );
 
-				$wp_admin_bar->add_menu( array(
-					'parent' => $menu_id,
-					'id'     => $menu_id . '-d',
-					'title'  => __( 'Dashboard' ),
-					'href'   => admin_url(),
-				) );
+			$wp_admin_bar->add_menu( array(
+				'parent' => $menu_id,
+				'id'     => $menu_id . '-d',
+				'title'  => __( 'Dashboard' ),
+				'href'   => admin_url(),
+			) );
 
-				if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
-					$wp_admin_bar->add_menu( array(
-						'parent' => $menu_id,
-						'id'     => $menu_id . '-n',
-						'title'  => __( 'New Post' ),
-						'href'   => admin_url( 'post-new.php' ),
-					) );
-				}
-
-				if ( current_user_can( 'edit_posts' ) ) {
-					$wp_admin_bar->add_menu( array(
-						'parent' => $menu_id,
-						'id'     => $menu_id . '-c',
-						'title'  => __( 'Manage Comments' ),
-						'href'   => admin_url( 'edit-comments.php' ),
-					) );
-				}
-
+			if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 				$wp_admin_bar->add_menu( array(
 					'parent' => $menu_id,
-					'id'     => $menu_id . '-v',
-					'title'  => __( 'Visit Site' ),
-					'href'   => home_url( '/' ),
+					'id'     => $menu_id . '-n',
+					'title'  => __( 'New Post' ),
+					'href'   => admin_url( 'post-new.php' ),
 				) );
-
-				restore_current_blog();
 			}
+
+			if ( current_user_can( 'edit_posts' ) ) {
+				$wp_admin_bar->add_menu( array(
+					'parent' => $menu_id,
+					'id'     => $menu_id . '-c',
+					'title'  => __( 'Manage Comments' ),
+					'href'   => admin_url( 'edit-comments.php' ),
+				) );
+			}
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => $menu_id,
+				'id'     => $menu_id . '-v',
+				'title'  => __( 'Visit Site' ),
+				'href'   => home_url( '/' ),
+			) );
+
+			restore_current_blog();
+		}
 		restore_current_network();
 	}
 
