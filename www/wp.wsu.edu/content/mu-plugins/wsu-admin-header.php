@@ -111,6 +111,23 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 			'href'   => network_admin_url(),
 		));
 
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-' . $network->id,
+			'id'     => 'network-' . $network->id . '-admin',
+			'title'  => 'Network Dashboard',
+			'href'   => network_admin_url(),
+		));
+
+		// Add a sub group for the network menu that will contain sites
+		/** @todo something different than is_super_admin here */
+		$wp_admin_bar->add_group( array(
+			'parent' => 'network-' . $network->id,
+			'id'     => 'network-' . $network->id . '-list',
+			'meta'   => array(
+				'class' => is_super_admin() ? 'ab-sub-secondary' : '',
+			),
+		));
+
 		$sites = wp_get_sites( array( 'network_id' => $network->id ) );
 
 		// Add each of the user's sites from this specific network to the menu
@@ -123,7 +140,7 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 			$menu_id  = 'site-' . $site->blog_id;
 
 			$wp_admin_bar->add_menu( array(
-				'parent'    => 'network-' . $network->id,
+				'parent'    => 'network-' . $network->id . '-list',
 				'id'        => $menu_id,
 				'title'     => $blavatar . $site_details->blogname,
 				'href'      => admin_url(),
