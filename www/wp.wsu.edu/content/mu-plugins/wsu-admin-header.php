@@ -114,15 +114,16 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
 		foreach( $sites as $site ) {
 			switch_to_blog( $site->blog_id );
+			$site_details = get_blog_details();
 
 			$blavatar = '<div class="blavatar"></div>';
-			$blogname = 'Site ' . $site->blog_id; //empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+
 			$menu_id  = 'site-' . $site->blog_id . '-' . $network->id;
 
 			$wp_admin_bar->add_menu( array(
 				'parent'    => 'network-' . $network->id,
 				'id'        => $menu_id,
-				'title'     => $blavatar . $blogname,
+				'title'     => $blavatar . $site_details->blogname,
 				'href'      => admin_url(),
 			) );
 
