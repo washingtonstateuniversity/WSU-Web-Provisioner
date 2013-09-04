@@ -4,7 +4,7 @@ add_action( 'admin_bar_menu', 'wsu_admin_bar_my_networks_menu', 210 );
 
 /**
  * Create a custom version of the WordPress admin bar
- * 
+ *
  * @param WP_Admin_Bar $wp_admin_bar The wp_admin_bar global, no need to return once modified
  */
 function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
@@ -42,7 +42,7 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 	$wp_admin_bar->remove_menu( 'my-sites' );
 
 	/**
-	 * Store each of the existing nodes that represent the current default admin
+	 * Cache each of the existing nodes that represent the current default admin
 	 * menu items so that we can use them when reordering.
 	 */
 	$node_site_name   = $wp_admin_bar->get_node( 'site-name'   );
