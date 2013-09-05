@@ -30,16 +30,20 @@ Vagrant.configure("2") do |config|
   # required to enter a password for Vagrant to access your hosts file.
   if defined? VagrantPlugins::HostsUpdater
     config.hostsupdater.aliases = [
+    	       "invalid.wp.wsu.edu",
     	       "content.wp.wsu.edu",
     	      "network1.wp.wsu.edu",
-    	      "network2.wp.wsu.edu",
+      "invalid.network1.wp.wsu.edu",
     	"site1.network1.wp.wsu.edu",
     	"site2.network1.wp.wsu.edu",
+    	      "network2.wp.wsu.edu",
+      "invalid.network2.wp.wsu.edu",
     	          "school1.wsu.edu",
-    	          "school2.wsu.edu",
     	    "site1.school1.wsu.edu",
     	    "site2.school1.wsu.edu",
-    	       "invalid.wp.wsu.edu"
+    	  "invalid.school1.wsu.edu",
+    	          "school2.wsu.edu",
+    	  "invalid.school2.wsu.edu"
     ]
   end
 
