@@ -76,4 +76,25 @@ if( $found_site_id ) {
 
 	define( 'COOKIE_DOMAIN', $requested_domain );
 	define( 'DOMAIN_MAPPING', 1 );
+} else {
+	/**
+	 * If we've made it here, the domain and path provided aren't doing us much good. At this
+	 * point, we're okay to forget about the path and focus on best effort for the domain. Our
+	 * first bet is to drop off the first part of the domain to see if it really is a subdomain
+	 * request.
+	 */
+	$redirect_domain_parts = explode( '.', $requested_domain );
+	array_shift( $redirect_domain_parts );
+	$redirect_domain = implode( '.', $redirect_domain_parts );
+
+	// Check to see if this redirect domain is a site that we can handle
+	$redirect_site_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s", $redirect_domain ) );
+
+	/** @todo think about santizing this properly as esc_url() and wp_redirect() are not available yet */
+	if ( $redirect_site_id )
+		header( "Location: http://" . $redirect_domain, true, 302 );
+	else
+		header( "Location: http://" . DOMAIN_CURRENT_SITE, true, 302 );
+
+	die();
 }
