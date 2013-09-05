@@ -43,7 +43,8 @@ Vagrant.configure("2") do |config|
     	    "site2.school1.wsu.edu",
     	  "invalid.school1.wsu.edu",
     	          "school2.wsu.edu",
-    	  "invalid.school2.wsu.edu"
+    	  "invalid.school2.wsu.edu",
+    	          "invalid.wsu.edu"
     ]
   end
 
