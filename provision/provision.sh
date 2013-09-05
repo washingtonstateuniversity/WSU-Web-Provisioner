@@ -311,7 +311,8 @@ DOMAINS='        wp.wsu.edu
             school1.wsu.edu
             school2.wsu.edu
       site1.school1.wsu.edu
-      site2.school1.wsu.edu'
+      site2.school1.wsu.edu
+         invalid.wp.wsu.edu'
 
 if ! grep -q "$DOMAINS" /etc/hosts
 then echo "127.0.0.1 $DOMAINS" >> /etc/hosts
