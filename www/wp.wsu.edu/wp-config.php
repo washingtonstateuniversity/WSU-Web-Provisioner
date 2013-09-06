@@ -34,8 +34,8 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'DB_HOST',     ''   );
 
 	// Caching
-	//define( 'WP_CACHE',          true    );
-	//define( 'WP_CACHE_KEY_SALT', 'wpwsu' );
+	define( 'WP_CACHE',          true    );
+	define( 'WP_CACHE_KEY_SALT', 'wpwsu' );
 
 	// URLs
 	define( 'WP_HOME',        'http://wp.wsu.edu'           );
