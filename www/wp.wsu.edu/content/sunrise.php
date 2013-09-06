@@ -26,20 +26,20 @@ if ( '/' !== $requested_path )
 // Treat www the same as the root URL
 $alternate_domain = preg_replace( '|^www\.|', '', $requested_domain );
 
-if ( $requested_domain !== $alternate_domain )
-	$where = $wpdb->prepare( 'wp_postmeta.meta_value IN ( %s, %s )', $requested_domain, $alternate_domain );
-else
-	$where = $wpdb->prepare( 'wp_postmeta.meta_value = %s', $requested_domain );
-
 //suppress errors and capture current suppression setting
 $suppression = $wpdb->suppress_errors();
+
+if ( $requested_domain !== $alternate_domain )
+	$domain_where = $wpdb->prepare( "domain IN ( %s, %s )", $requested_domain, $alternate_domain );
+else
+	$domain_where = $wpdb->prepare( "domain = %s", $requested_domain );
 
 /**
  * The following query will find any one level deep subfolder sites on any page view, but
  * will only help us with subdomain networks if it is a root visit with an empty path. If
  * this returns null, we'll want to go to a backup.
  */
-$query = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $requested_domain, $requested_path );
+$query = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE $domain_where AND path = %s", $requested_path );
 $found_site_id = $wpdb->get_var( $query );
 
 /**
@@ -47,7 +47,7 @@ $found_site_id = $wpdb->get_var( $query );
  * no path assigned and search for that accordingly.
  */
 if ( ! $found_site_id ) {
-	$query = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s and path = '/' ", $requested_domain );
+	$query = "SELECT blog_id FROM $wpdb->blogs WHERE $domain_where and path = '/' ";
 	$found_site_id = $wpdb->get_var( $query );
 }
 
