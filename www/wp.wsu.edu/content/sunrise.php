@@ -1,6 +1,8 @@
 <?php
 /**
  * The sunrise file for WSUWP
+ *
+ * @type WPDB $wpdb
  */
 
 if ( defined( 'COOKIE_DOMAIN' ) )
@@ -24,7 +26,6 @@ if ( '/' !== $requested_path )
 // Treat www the same as the root URL
 $alternate_domain = preg_replace( '|^www\.|', '', $requested_domain );
 
-/** @type WPDB $wpdb  */
 if ( $requested_domain !== $alternate_domain )
 	$where = $wpdb->prepare( 'wp_postmeta.meta_value IN ( %s, %s )', $requested_domain, $alternate_domain );
 else
