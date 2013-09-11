@@ -45,7 +45,7 @@ class WSU_Network_Admin {
 	public function validate_user_signup( $result ) {
 		global $wpdb;
 
-		$user_login = $result['user_login'];
+		$user_login = $result['user_name'];
 		$original_user_login = $user_login;
 		$result = array();
 		$result['errors'] = new WP_Error();
