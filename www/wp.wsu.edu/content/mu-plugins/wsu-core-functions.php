@@ -69,6 +69,8 @@ function wp_get_current_site() {
  *     - cookie_domain (?)
  *
  * @param int $network_id Network ID to switch to.
+ *
+ * @return bool
  */
 function switch_to_network( $network_id ) {
 	if ( ! $network_id )
