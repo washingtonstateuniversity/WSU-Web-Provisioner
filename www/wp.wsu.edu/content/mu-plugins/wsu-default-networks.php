@@ -89,11 +89,49 @@ function wsu_populate_network() {
 	wpmu_create_blog( 'school2.wsu.edu', '/site2/', 'School 2 Site 2', 1, '', 5 );
 }
 
-// filter would be activated via #25020
-//add_filter( 'populate_network_sitemeta', 'wsu_populate_network_sitemeta', 10, 1 );
+add_filter( 'populate_network_meta', 'wsu_populate_network_meta', 10, 1 );
 /**
- * @param $sitemeta
+ * @param array $meta {
+ *     - site_name                    => string 'School 1'
+ *     - admin_email                  => string 'wsuwp-dev@wp.wsu.edu'
+ *     - admin_user_id                => int 1
+ *     - registration                 => string 'none'
+ *     - upload_filetypes             => string 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf'
+ *     - blog_upload_space            => int 100
+ *     - fileupload_maxk              => int 1500
+ *     - site_admins                  => array(
+ *         - 0 => 'admin'
+ *     - allowedthemes                => array(
+ *         - 'twentythirteen' => true
+ *     - illegal_names                => array( www, web, root, admin, main, invite, administrator, files )
+ *     - wpmu_upgrade_site            => int 25179
+ *     - welcome_email                => string 'Dear User,
+
+Your new SITE_NAME site has been successfully set up at:
+BLOG_URL
+
+You can log in to the administrator account with the following information:
+Username: USERNAME
+Password: PASSWORD
+Log in here: BLOG_URLwp-login.php
+
+We hope you enjoy your new site. Thanks!
+
+--The Team @ SITE_NAME'
+ *     - first_post                   => string 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!'
+ *     - siteurl                      => string 'http://wp.wsu.edu/wordpress/'
+ *     - add_new_users                => string '0'
+ *     - upload_space_check_disabled' => string '1'
+ *     - subdomain_install            => int 1
+ *     - global_terms_enabled         => string '0'
+ *     - ms_files_rewriting           => string '0'
+ *     - initial_db_version           => string '24448'
+ *     - active_sitewide_plugins      => array()
+ *     - WPLANG                       => string 'en_US' (length=5)
+ * }
+ *
+ * @return array
  */
-function wsu_populate_network_sitemeta( $sitemeta ) {
-	return $sitemeta;
+function wsu_populate_network_meta( $meta ) {
+	return $meta;
 }
