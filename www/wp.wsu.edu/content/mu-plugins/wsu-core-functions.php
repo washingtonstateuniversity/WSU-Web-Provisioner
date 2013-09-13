@@ -229,3 +229,142 @@ function wp_get_sites( $args = array() ) {
 
 	return $site_results;
 }
+
+function wp_create_network( $args ) {
+	/** @type WPDB $wpdb */
+	global $wpdb;
+
+	$errors = new WP_Error();
+
+	$default = array(
+		'site_id'           => null,
+		'site_name'         => '',
+		'user_id'           => get_current_user_id(),
+		'domain'            => '',
+		'path'              => '/',
+		'email'             => '',
+		'subdomain_install' => false,
+	);
+	$args = wp_parse_args( $args, $default );
+
+	if ( '' === trim( $args['domain'] ) )
+		$errors->add( 'empty_domain', __( 'You must provide a domain name.' ) );
+
+	if ( '' === trim( $args['site_name'] ) )
+		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
+
+	if ( ! $site_user = get_user_by( 'id', $args['user_id'] ) )
+		$errors->add( 'invalid_user', __( 'You must provide a valid user to be set as network admin.' ) );
+
+	if ( $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $args['domain'], $args['path'] ) ) )
+		$errors->add( 'network_exists', __( 'The network already exists.' ) );
+
+	if ( $errors->get_error_codes() )
+		return $errors;
+
+	// Get the main site's values for template and stylesheet
+	// @todo this can use get_site_option() to duplicate the efforts of another network
+	$template   = sanitize_key( get_option( 'template'   ) );
+	$stylesheet = sanitize_key( get_option( 'stylesheet' ) );
+
+	$allowed_themes = array( $stylesheet => true );
+	if ( $template !== $stylesheet )
+		$allowed_themes[ $template ] = true;
+	if ( WP_DEFAULT_THEME !== $stylesheet && WP_DEFAULT_THEME !== $template )
+		$allowed_themes[ WP_DEFAULT_THEME ] = true;
+
+	// @todo think about grabbing active plugins here as well
+
+	$wpdb->insert( $wpdb->site, array( 'domain' => $args['domain'], 'path' => $args['path'] ) );
+	$network_id = $wpdb->insert_id;
+
+	// Assume the current network's admins will have access
+	$network_admins = get_site_option( 'site_admins' );
+
+	$network_meta = array(
+		'site_name'         => $args['site_name'],
+		'admin_email'       => $site_user->user_email,
+		'admin_user_id'     => $site_user->ID,
+		'site_admins'       => $network_admins,
+		'allowedthemes'     => $allowed_themes,
+		'subdomain_install' => intval( $args['subdomain_install'] ),
+	);
+	populate_network_meta( $network_id, $network_meta );
+
+	return $network_id; // maybe even a network object
+}
+
+function populate_network_meta( $network_id, $network_meta ) {
+	/** @type WPDB $wpdb */
+	global $wpdb, $wp_db_version;
+
+	$welcome_email = __( 'Dear User,
+
+Your new SITE_NAME site has been successfully set up at:
+BLOG_URL
+
+You can log in to the administrator account with the following information:
+Username: USERNAME
+Password: PASSWORD
+Log in here: BLOG_URLwp-login.php
+
+We hope you enjoy your new site. Thanks!
+
+--The Team @ SITE_NAME' );
+
+	$defaults = array(
+		'site_name' => null,
+		'admin_email' => null,
+		'admin_user_id' => null,
+		'registration' => 'none',
+		'upload_filetypes' => 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf',
+		'blog_upload_space' => 100,
+		'fileupload_maxk' => 1500,
+		'illegal_names' => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
+		'wpmu_upgrade_site' => $wp_db_version,
+		'welcome_email' => $welcome_email,
+		'first_post' => __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ),
+		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
+		'siteurl' => get_option( 'siteurl' ) . '/',
+		'add_new_users' => '0',
+		'upload_space_check_disabled' => is_multisite() ? get_site_option( 'upload_space_check_disabled' ) : '1',
+		'global_terms_enabled' => global_terms_enabled() ? '1' : '0',
+		'ms_files_rewriting' => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
+		'initial_db_version' => get_option( 'initial_db_version' ),
+		'active_sitewide_plugins' => array(),
+		'WPLANG' => get_locale(),
+	);
+	if ( 0 == $network_meta['subdomain_install'] )
+		$defaults['illegal_names'][] = 'blog';
+
+	$network_meta = wp_parse_args( $network_meta, $defaults );
+	/**
+	 * Filter meta for a network on creation.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $network_meta Associative of meta keys and values to be inserted.
+	 * @param int $network_id Network ID being created.
+	 */
+	$network_meta = apply_filters( 'populate_network_meta', $network_meta, $network_id );
+
+	$insert = '';
+	foreach( $network_meta as $meta_key => $meta_value ) {
+		if ( is_array( $meta_value ) )
+			$meta_value = serialize( $meta_value );
+
+		if ( ! empty( $insert ) )
+			$insert .= ', ';
+
+		$insert .= $wpdb->prepare( "( %d, %s, %s )", $network_id, $meta_key, $meta_value );
+	}
+	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
+}
+
+function add_network_meta( $network_id, $meta_key, $meta_value ) {
+
+}
+
+function update_network_meta( $network_id, $meta_key, $meta_value ) {
+
+}
