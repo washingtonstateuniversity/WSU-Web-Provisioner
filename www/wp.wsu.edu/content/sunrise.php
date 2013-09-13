@@ -134,7 +134,7 @@ if( $current_blog ) {
 
 	/** @todo think about santizing this properly as esc_url() and wp_redirect() are not available yet */
 	if ( $redirect_site_id )
-		header( "Location: http://" . $redirect_domain, true, 301 );
+		header( "Location: http://" . $redirect_domain,    true, 301 );
 	else
 		header( "Location: http://" . DOMAIN_CURRENT_SITE, true, 301 );
 
