@@ -1,7 +1,12 @@
 <?php
-/**
- * Functions that perform some core functionality that we would love to live inside
- * of WordPress one day.
+/*
+ * Plugin Name: WSU Core Functions
+ * Plugin URI: http://web.wsu.edu
+ * Description: Functions that perform some core functionality that we would love to live inside of WordPress one day.
+ * Author: washingtonstateuniversity, jeremyfelt
+ * Author URI: http://web.wsu.edu
+ * Version: 0.1
+ * Network: true
  */
 
 /**
