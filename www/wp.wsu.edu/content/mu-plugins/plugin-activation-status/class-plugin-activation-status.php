@@ -62,7 +62,7 @@ class Plugin_Activation_Status {
 		if ( ! is_multisite() || ! is_main_network() )
 			return;
 		
-		add_submenu_page( 'plugins.php', __( 'Locate Active Plugins' ), __( 'Active Plugins' ), 'delete_plugins', 'all_active_plugins', array( $this, 'submenu_page' ) );
+		add_submenu_page( 'networks.php', __( 'Locate Active Plugins' ), __( 'Active Plugins' ), 'delete_plugins', 'all_active_plugins', array( $this, 'submenu_page' ) );
 	}
 	
 	/**
