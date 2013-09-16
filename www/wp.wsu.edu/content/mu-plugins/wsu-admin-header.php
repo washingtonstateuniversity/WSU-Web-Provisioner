@@ -132,12 +132,12 @@ function wsu_admin_bar_my_networks_menu( $wp_admin_bar ) {
 
 		// Add each of the user's sites from this specific network to the menu
 		foreach( $sites as $site ) {
-			switch_to_blog( $site->blog_id );
+			switch_to_blog( $site['blog_id'] );
 			$site_details = get_blog_details();
 
 			$blavatar = '<div class="blavatar"></div>';
 
-			$menu_id  = 'site-' . $site->blog_id;
+			$menu_id  = 'site-' . $site['blog_id'];
 
 			$wp_admin_bar->add_menu( array(
 				'parent'    => 'network-' . $network->id . '-list',
