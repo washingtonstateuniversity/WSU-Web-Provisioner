@@ -1,0 +1,49 @@
+.inactive-plugins.plugins ol > li {
+	list-style: decimal;
+	margin-left: 1rem;
+	padding-left: 1rem;
+}
+
+.active-plugins.plugins table, 
+.active-plugins.plugins thead, 
+.active-plugins.plugins tfoot, 
+.active-plugins.plugins tbody {
+	padding: 0;
+	margin: 0;
+}
+
+.active-plugins.plugins table tr {
+	vertical-align: top;
+	margin: 0;
+	padding: 0;
+}
+
+.active-plugins.plugins table th, 
+.active-plugins.plugins table td {
+	text-align: left;
+	margin: 0;
+	padding: .5rem;
+	border: 1px solid #e2e2e2;
+}
+
+.active-plugins.plugins table ul, 
+.active-plugins.plugins table li, 
+.active-plugins.plugins h4 {
+	margin: 0;
+	padding: 0;
+}
+
+.active-plugins.plugins tbody > tr:hover {
+	background: #eee;
+}
+
+.active-plugins thead tr, 
+.active-plugins tfoot tr {
+	background: #333;
+	color: #fff;
+}
+
+/*#active_plugins .inside, 
+#inactive_plugins .inside {
+	background-color: rgba( 245, 245, 245, 1 );
+}*/
