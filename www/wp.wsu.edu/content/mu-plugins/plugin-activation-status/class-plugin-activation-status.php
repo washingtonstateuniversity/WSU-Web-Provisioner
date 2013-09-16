@@ -19,8 +19,9 @@ class Plugin_Activation_Status {
 	 * Exits immediately if this is not a multisite install, if this is not the root network
 	 * 		or if the current user does not have the delete_plugins cap
 	 *
+	 * @uses is_admin() to determine whether this is an admin view or not
 	 * @uses is_multisite() to determine whether this is a multisite install or not
-	 * @uses $site_id to determine whether this is the root network or not
+	 * @uses is_main_network() to determine whether this is the root network or not
 	 * @uses current_user_can() to determine whether the current user can delete plugins
 	 * @uses add_action() to register the plugin page in the network_admin_menu
 	 * @uses add_action() to register the meta boxes in the admin_init hook
@@ -28,7 +29,7 @@ class Plugin_Activation_Status {
 	 * @uses add_action() to enqueue the plugin's styles on the admin_print_styles hook
 	 */
 	function __construct() {
-		if ( ! is_multisite() || 1 !== intval( $GLOBALS['site_id'] ) || ! current_user_can( 'delete_plugins' ) )
+		if ( ! is_admin() || ! is_multisite() || ! is_main_network() || ! current_user_can( 'delete_plugins' ) )
 			return;
 		
 		add_action( 'network_admin_menu', array( $this, 'admin_menu' ) );
