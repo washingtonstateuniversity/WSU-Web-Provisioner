@@ -144,7 +144,7 @@ class Plugin_Activation_Status {
 			$v = maybe_unserialize( $val->meta_value );
 			if ( ! is_array( $v ) )
 				continue;
-			if ( count( v ) <= 0 )
+			if ( count( $v ) <= 0 )
 				continue;
 			
 			$tmp = array_values( $v );
@@ -153,7 +153,7 @@ class Plugin_Activation_Status {
 			 * 		of activation as the value; others are stored with just the plugin 
 			 * 		name as the value, with numeric keys
 			 */
-			$v = is_numeric( $tmp[0] ) ? array_keys( $v ) : array_values( $v );
+			$v = ( isset( $tmp[0] ) && is_numeric( $tmp[0] ) ) ? array_keys( $v ) : array_values( $v );
 			$this->active_plugins = array_merge( $this->active_plugins, $v );
 			foreach ( $v as $p ) {
 				$this->active_on[$p]['network'][$val->site_id] = '<a href="' . esc_url( $site_url ) . '">' . $site_name . '</a>';
