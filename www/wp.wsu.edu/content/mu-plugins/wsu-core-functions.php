@@ -173,63 +173,6 @@ function wp_get_networks( $args = array() ) {
 	return array_values( $network_results );
 }
 
-/**
- * Return an array of sites on the specified network. If no network is specified,
- * return all sites, regardless of network.
- *
- * @since 3.7.0
- *
- * @param array $args (optional) An array of arguments to modify the query {
- *     @type int|array 'network_id' A network ID or array of network IDs
- *     @type int       'limit'      Number of sites to limit the query to
- * }
- *
- * @return array An array of site data
- */
-function wp_get_sites( $args = array() ) {
-	global $wpdb;
-
-	if ( wp_is_large_network() )
-		return;
-
-	$defaults = array(
-		'network_id' => null,
-		'limit'      => 100,
-	);
-
-	$args = wp_parse_args( $args, $defaults );
-
-	$query = "SELECT * FROM $wpdb->blogs WHERE 1=1 ";
-
-	if ( isset( $args['network_id'] ) && ( is_array( $args['network_id'] ) || is_numeric( $args['network_id'] ) ) ) {
-		$network_ids = array_map('intval', (array) $args['network_id'] );
-		$network_ids = implode( ',', $network_ids );
-		$query .= "AND site_id IN ($network_ids) ";
-	}
-
-	if ( isset( $args['public'] ) )
-		$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
-
-	if ( isset( $args['archived'] ) )
-		$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
-
-	if ( isset( $args['mature'] ) )
-		$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
-
-	if ( isset( $args['spam'] ) )
-		$query .= $wpdb->prepare( "AND spam = %d ", $args['spam'] );
-
-	if ( isset( $args['deleted'] ) )
-		$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
-
-	if ( isset( $args['limit'] ) )
-		$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
-
-	$site_results = (array) $wpdb->get_results( $query );
-
-	return $site_results;
-}
-
 function wp_create_network( $args ) {
 	/** @type WPDB $wpdb */
 	global $wpdb;
