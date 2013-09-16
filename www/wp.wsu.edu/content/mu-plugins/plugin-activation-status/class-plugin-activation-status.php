@@ -59,7 +59,7 @@ class Plugin_Activation_Status {
 	 * @uses add_submenu_page()
 	 */
 	function admin_menu() {
-		if ( ! is_multisite() || 1 !== intval( $GLOBALS['site_id'] ) )
+		if ( ! is_multisite() || ! is_main_network() )
 			return;
 		
 		add_submenu_page( 'plugins.php', __( 'Locate Active Plugins' ), __( 'Active Plugins' ), 'delete_plugins', 'all_active_plugins', array( $this, 'submenu_page' ) );
