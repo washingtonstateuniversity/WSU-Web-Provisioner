@@ -195,6 +195,27 @@ function get_network_meta( $network_id, $key = '', $single = false ) {
 	return get_metadata( 'site', $network_id, $key,  $single );
 }
 
+/**
+ * Update network meta field based on network ID.
+ *
+ * Use the $prev_value parameter to differentiate between meta fields with the
+ * same key and network ID.
+ *
+ * @since 3.7.0
+ *
+ * @uses update_metadata()
+ *
+ * @param int $network_id Network ID. Corresponds to site_id in the sitemeta table.
+ * @param string $key Key of metadata to be updated.
+ * @param mixed $value Metadata value. Must be serializable if non-scalar.
+ * @param mixed $prev_value Optional. Previous value to check before removing.
+ *
+ * @return bool True on success. False on failure.
+ */
+function update_network_meta( $network_id, $key, $value, $prev_value = '' ) {
+	return update_metadata( 'site', $network_id, $key, $value, $prev_value );
+}
+
 function wp_create_network( $args ) {
 	/** @type WPDB $wpdb */
 	global $wpdb;
