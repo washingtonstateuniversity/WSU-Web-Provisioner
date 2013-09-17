@@ -133,10 +133,10 @@ class Plugin_Activation_Status {
 		
 		$network_plugins = $this->get_network_active_plugins();
 		global $wpdb;
-		
+
 		foreach ( $network_plugins as $val ) {
 			$network = wp_get_networks( array( 'network_id' => $val->site_id ) );
-			$site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key=%s AND site_id=%d", 'site_name', $val->site_id ) );
+			$site_name = get_network_meta( $val->site_id, 'site_name', true );
 			$site_url = 'http://' . $network[0]->domain . $network[0]->path;
 			
 			$v = maybe_unserialize( $val->meta_value );

@@ -178,10 +178,21 @@ function wp_get_networks( $args = array() ) {
 	return array_values( $network_results );
 }
 
-function wp_get_network_meta( $network_id, $meta_key ) {
-	global $wpdb;
-	$meta_value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key=%s AND site_id=%d", $meta_key, $network_id ) );
-	return $meta_value;
+/**
+ * Retrieve a network meta field for a user from the sitemeta table
+ *
+ * @since 3.7.0
+ *
+ * @uses get_metadata()
+ *
+ * @param int $network_id Network ID. Corresponds to site_id in the sitemeta table.
+ * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
+ * @param bool $single Whether to return a single value.
+ *
+ * @return array|string Array if $single is false. Value of the meta data field if $single is true.
+ */
+function get_network_meta( $network_id, $key = '', $single = false ) {
+	return get_metadata( 'site', $network_id, $key,  $single );
 }
 
 function wp_create_network( $args ) {
