@@ -132,13 +132,14 @@ class Plugin_Activation_Status {
 		$this->blogs = $this->get_blogs();
 		
 		$network_plugins = $this->get_network_active_plugins();
-		global $wpdb;
+		global $wpdb, $current_site;
 
 		foreach ( $network_plugins as $val ) {
-			$network = wp_get_networks( array( 'network_id' => $val->site_id ) );
-			$site_name = get_network_meta( $val->site_id, 'site_name', true );
-			$site_url = 'http://' . $network[0]->domain . $network[0]->path;
-			
+			switch_to_network( $val->site_id );
+			$site_name = get_site_option( 'site_name' );
+			$site_url = 'http://' . $current_site->domain . $current_site->path;
+			restore_current_network();
+
 			$v = maybe_unserialize( $val->meta_value );
 			if ( ! is_array( $v ) )
 				continue;
