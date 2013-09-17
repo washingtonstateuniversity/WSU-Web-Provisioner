@@ -178,6 +178,12 @@ function wp_get_networks( $args = array() ) {
 	return array_values( $network_results );
 }
 
+function wp_get_network_meta( $network_id, $meta_key ) {
+	global $wpdb;
+	$meta_value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key=%s AND site_id=%d", $meta_key, $network_id ) );
+	return $meta_value;
+}
+
 function wp_create_network( $args ) {
 	/** @type WPDB $wpdb */
 	global $wpdb;
