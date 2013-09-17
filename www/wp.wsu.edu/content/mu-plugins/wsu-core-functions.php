@@ -195,6 +195,23 @@ function get_network_meta( $network_id, $key = '', $single = false ) {
 	return get_metadata( 'site', $network_id, $key,  $single );
 }
 
+/** Add a metadata field to a network.
+ *
+ * $since 3.7.0
+ *
+ * @uses add_metadata()
+ *
+ * @param int $network_id Network ID. Corresponds to site_id in the sitemeta table.
+ * @param string $key Metadata name.
+ * @param mixed $value Metadata value. Must be serializable if non-scalar.
+ * @param bool $unique Optional. Default is false. Whether the same key should be added.
+ *
+ * @return bool|int Meta ID on success. False on failure.
+ */
+function add_network_meta( $network_id, $key, $value, $unique = false ) {
+	return add_metadata( 'site', $network_id, $key, $value, $unique );
+}
+
 /**
  * Update network meta field based on network ID.
  *
@@ -345,12 +362,4 @@ We hope you enjoy your new site. Thanks!
 		$insert .= $wpdb->prepare( "( %d, %s, %s )", $network_id, $meta_key, $meta_value );
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
-}
-
-function add_network_meta( $network_id, $meta_key, $meta_value ) {
-
-}
-
-function update_network_meta( $network_id, $meta_key, $meta_value ) {
-
 }
