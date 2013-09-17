@@ -13,7 +13,7 @@ define( 'SAVEQUERIES', true );
 define( 'WSU_LOCAL_CONFIG', true );
 
 // Caching
-define( 'WP_CACHE',          true    );
+define( 'WP_CACHE',          false    );
 define( 'WP_CACHE_KEY_SALT', 'wpwsu' );
 
 // URLs
@@ -23,3 +23,5 @@ define( 'WP_CONTENT_URL', 'http://content.wp.wsu.edu'   );
 
 // Load wp-content from parent direc
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
+
+$batcache = false;
