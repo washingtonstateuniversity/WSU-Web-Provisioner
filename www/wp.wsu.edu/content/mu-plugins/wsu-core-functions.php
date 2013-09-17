@@ -81,19 +81,23 @@ function switch_to_network( $network_id ) {
 	if ( ! $network_id )
 		return false;
 
+	/** @type WPDB $wpdb */
 	global $current_site, $wpdb;
 
 	// Create a backup of $current_site in the global scope
-	$GLOBALS['_wp_switched_network'] = $current_site;
+	$GLOBALS['_wp_switched_stack']['network'] = $current_site;
+	$GLOBALS['_wp_switched_stack']['blog_id'] = $wpdb->blogid;
+	$GLOBALS['_wp_switched_stack']['site_id'] = $wpdb->siteid;
 
 	$new_network = wp_get_networks( array( 'network_id' => $network_id ) );
 	$current_site = array_shift( $new_network );
 	$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
 	$current_site = get_current_site_name( $current_site );
+	$wpdb->set_blog_id( $current_site->blog_id, $current_site->id );
 
 	return true;
 }
-
+restore_current_blog();
 /**
  * Restore the network we are currently viewing to the $current_site global. If $current_site
  * already contains the current network, then there is no need to modify anything. If we do
@@ -101,11 +105,16 @@ function switch_to_network( $network_id ) {
  * switch_to_network().
  */
 function restore_current_network() {
-	global $current_site;
-	if ( isset( $GLOBALS['_wp_switched_network'] ) ) {
-		$current_site = $GLOBALS['_wp_switched_network'];
-		unset( $GLOBALS['_wp_switched_network'] );
+	/** @type WPDB $wpdb */
+	global $current_site, $wpdb;
+	if ( isset( $GLOBALS['_wp_switched_stack']['network'] ) ) {
+		$current_site = $GLOBALS['_wp_switched_stack']['network'];
 	}
+
+	if ( isset( $GLOBALS['_wp_switched_stack']['blog_id'] ) && isset( $GLOBALS['_wp_switched_stack']['site_id'] ) ) {
+		$wpdb->set_blog_id( $GLOBALS['_wp_switched_stack']['blog_id'], $GLOBALS['_wp_switched_stack']['site_id'] );
+	}
+	unset( $GLOBALS['_wp_switched_stack'] );
 }
 
 /**
