@@ -97,7 +97,7 @@ function switch_to_network( $network_id ) {
 
 	return true;
 }
-restore_current_blog();
+
 /**
  * Restore the network we are currently viewing to the $current_site global. If $current_site
  * already contains the current network, then there is no need to modify anything. If we do
@@ -316,4 +316,18 @@ We hope you enjoy your new site. Thanks!
 		$insert .= $wpdb->prepare( "( %d, %s, %s )", $network_id, $meta_key, $meta_value );
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
+}
+
+/**
+ * Activate a plugin on all networks.
+ *
+ * @param string $plugin Slug of the plugin to be activate.
+ */
+function activate_global_plugin( $plugin ) {
+	$networks = wp_get_networks();
+	foreach ( $networks as $network ) {
+		switch_to_network( $network->id );
+		activate_plugin( $plugin, '', true );
+		restore_current_network();
+	}
 }
