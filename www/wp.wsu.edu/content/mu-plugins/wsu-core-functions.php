@@ -233,6 +233,23 @@ function update_network_meta( $network_id, $key, $value, $prev_value = '' ) {
 	return update_metadata( 'site', $network_id, $key, $value, $prev_value );
 }
 
+/**
+ * Remove specified metadata from a network.
+ *
+ * @since 3.7.0
+ *
+ * @uses delete_metadata()
+ *
+ * @param int $network_id Network ID. Corresponds to site_id in the sitemeta table.
+ * @param string $key Key of metadata to be deleted.
+ * @param mixed $value Optional. Metadata value. Must be serializable if non-scalar.
+ *
+ * @return bool True on success. False on failure.
+ */
+function delete_network_meta( $network_id, $key, $value = '' ) {
+	return delete_metadata( 'site', $network_id, $key, $value );
+}
+
 function wp_create_network( $args ) {
 	/** @type WPDB $wpdb */
 	global $wpdb;
