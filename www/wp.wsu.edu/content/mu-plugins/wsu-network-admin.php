@@ -17,9 +17,10 @@ class WSU_Network_Admin {
 	 * Add the filters and actions used
 	 */
 	private function __construct() {
-		add_filter( 'parent_file',               array( $this, 'add_master_network_menu' ), 10, 1 );
-		add_action( 'admin_menu',                array( $this, 'my_networks_dashboard'   ), 1     );
-		add_filter( 'wpmu_validate_user_signup', array( $this, 'validate_user_signup'    ), 10, 1 );
+		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu' ), 10, 1 );
+		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'   ), 1     );
+		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'    ), 10, 1 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 3 );
 	}
 
 	/**
@@ -31,6 +32,26 @@ class WSU_Network_Admin {
 		if ( ! self::$instance )
 			self::$instance = new WSU_Network_Admin();
 		return self::$instance;
+	}
+
+	/**
+	 * Modify the plugin action links with our custom functionality
+	 *
+	 * @param array  $actions     Current assigned actions and links.
+	 * @param string $plugin_file The plugin file associated with the action.
+	 * @param array  $plugin_data Information about the plugin from the header.
+	 *
+	 * @return array The resulting array of actions and links assigned to the plugin.
+	 */
+	public function plugin_action_links( $actions, $plugin_file, $plugin_data ) {
+		// $plugin_file = debug-bar/debug-bar.php
+		// $plugin_data = array()
+		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
+		// pass a nonce
+		wp_nonce_url();
+		if ( is_main_network() )
+			$actions['global'] = '<a href="" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
+		return $actions;
 	}
 
 	/**
