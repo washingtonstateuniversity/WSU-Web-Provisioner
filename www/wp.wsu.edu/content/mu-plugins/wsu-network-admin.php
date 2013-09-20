@@ -48,7 +48,6 @@ class WSU_Network_Admin {
 		// $plugin_data = array()
 		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
 		// pass a nonce
-		wp_nonce_url();
 		if ( is_main_network() )
 			$actions['global'] = '<a href="" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
 		return $actions;
