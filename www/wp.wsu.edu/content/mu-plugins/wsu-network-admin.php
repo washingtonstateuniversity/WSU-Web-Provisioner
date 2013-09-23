@@ -25,6 +25,7 @@ class WSU_Network_Admin {
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'        ), 15, 2 );
 		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'     ), 10, 1 );
 		add_filter( 'views_plugins-network',             array( $this, 'add_plugin_table_views',    ), 10, 1 );
+		add_filter( 'all_plugins',                       array( $this, 'all_plugins',               ), 10, 1 );
 	}
 
 	/**
@@ -36,6 +37,25 @@ class WSU_Network_Admin {
 		if ( ! self::$instance )
 			self::$instance = new WSU_Network_Admin();
 		return self::$instance;
+	}
+
+	/**
+	 * Modify the results of a request for all plugins.
+	 *
+	 * @param array $plugins Current list of installed plugins.
+	 *
+	 * @return array Modified list of installed plugins.
+	 */
+	public function all_plugins( $plugins ) {
+		if ( ! is_multi_network() || is_main_network() )
+			return $plugins;
+
+		$global_plugins = wp_get_active_global_plugins();
+		foreach( $plugins as $k => $v ) {
+			if ( isset( $global_plugins[ $k ] ) )
+				unset( $plugins[ $k ] );
+		}
+		return $plugins;
 	}
 
 	public function add_plugin_table_views( $views ) {
