@@ -319,15 +319,21 @@ We hope you enjoy your new site. Thanks!
 }
 
 /**
- * Activate a plugin on all networks.
+ * Activate a plugin globally on all sites in all networks.
  *
- * @param string $plugin Slug of the plugin to be activate.
+ * @param string $plugin Slug of the plugin to be activated.
  */
 function activate_global_plugin( $plugin ) {
 	$networks = wp_get_networks();
 	foreach ( $networks as $network ) {
 		switch_to_network( $network->id );
-		activate_plugin( $plugin, '', true );
+		$current = get_site_option( 'active_sitewide_plugins', array() );
+		$current[ $plugin ] = time();
+		update_site_option( 'active_sitewide_plugins', $current );
 		restore_current_network();
 	}
+
+	$current_global = get_site_option( 'active_global_plugins', array() );
+	$current_global[ $plugin ] = time();
+	update_site_option( 'active_global_plugins', $current_global );
 }

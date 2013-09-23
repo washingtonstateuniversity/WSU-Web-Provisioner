@@ -66,18 +66,7 @@ class WSU_Network_Admin {
 		if ( ! isset( $_GET['wsu-activate-global'] ) )
 			return null;
 
-		$networks = wp_get_networks();
-		foreach ( $networks as $network ) {
-			switch_to_network( $network->id );
-			$current = get_site_option( 'active_sitewide_plugins', array() );
-			$current[ $plugin ] = time();
-			update_site_option( 'active_sitewide_plugins', $current );
-			restore_current_network();
-		}
-	
-		$current_global = get_site_option( 'active_global_plugins', array() );
-		$current_global[ $plugin ] = time();
-		update_site_option( 'active_global_plugins', $current_global );
+		activate_global_plugin( $plugin );
 	}
 
 	/**
