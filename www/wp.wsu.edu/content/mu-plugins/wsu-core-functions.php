@@ -344,9 +344,7 @@ function is_plugin_active_for_global( $plugin ) {
 	if ( ! is_multi_network() )
 		return false;
 
-	switch_to_network( get_primary_network_id() );
-	$current_global = get_site_option( 'active_global_plugins', array() );
-	restore_current_network();
+	$current_global = wp_get_active_global_plugins();
 
 	if ( isset( $current_global[ $plugin ] ) )
 		return true;

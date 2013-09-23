@@ -62,9 +62,8 @@ class WSU_Network_Admin {
 		if ( ! is_main_network() )
 			return $views;
 
-		switch_to_network( get_primary_network_id() );
-		$global_plugins = get_site_option( 'active_global_plugins', array() );
-		restore_current_network();
+		$global_plugins = wp_get_active_global_plugins();
+
 		$count = count( $global_plugins );
 		$url = add_query_arg('plugin_status', 'global', 'plugins.php');
 		$views['global'] = '<a href="' . $url . '">Global <span class="count">(' . $count . ')</span></a>';
