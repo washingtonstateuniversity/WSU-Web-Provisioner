@@ -21,7 +21,7 @@ class WSU_Network_Admin {
 		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'   ), 1     );
 		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'    ), 10, 1 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 3 );
-		add_action( 'activate_plugin',                   array( $this, 'activate_plugin'         ), 10, 2 );
+		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'  ), 10, 1 );
 	}
 
 	/**
@@ -54,7 +54,14 @@ class WSU_Network_Admin {
 		return $actions;
 	}
 
-	public function activate_plugin( $plugin, $network_wide ) {
+	/**
+	 * Activate a plugin globally on all sites in all networks.
+	 *
+	 * @param string $plugin Slug of plugin to be activated.
+	 *
+	 * @return null
+	 */
+	public function activate_global_plugin( $plugin ) {
 
 		if ( ! isset( $_GET['wsu-activate-global'] ) )
 			return null;
