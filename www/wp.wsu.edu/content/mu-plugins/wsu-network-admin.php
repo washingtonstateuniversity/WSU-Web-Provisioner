@@ -17,11 +17,13 @@ class WSU_Network_Admin {
 	 * Add the filters and actions used
 	 */
 	private function __construct() {
-		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu' ), 10, 1 );
-		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'   ), 1     );
-		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'    ), 10, 1 );
-		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 2 );
-		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'  ), 10, 1 );
+		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu'    ), 10, 1 );
+		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'      ), 1     );
+		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'       ), 10, 1 );
+		add_filter( 'plugin_action_links',               array( $this, 'remove_plugin_action_links' ), 10, 2 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'remove_plugin_action_links' ), 10, 2 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'        ), 15, 2 );
+		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'     ), 10, 1 );
 	}
 
 	/**
@@ -33,6 +35,19 @@ class WSU_Network_Admin {
 		if ( ! self::$instance )
 			self::$instance = new WSU_Network_Admin();
 		return self::$instance;
+	}
+
+	/**
+	 * Remove the edit and delete action links from plugin displays.
+	 *
+	 * @param array $actions Action links to display under each plugin.
+	 *
+	 * @return array Modified list of action links.
+	 */
+	public function remove_plugin_action_links( $actions ) {
+		unset( $actions['edit'] );
+		unset( $actions['delete'] );
+		return $actions;
 	}
 
 	/**
