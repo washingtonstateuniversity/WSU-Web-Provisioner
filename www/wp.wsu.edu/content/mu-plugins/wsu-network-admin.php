@@ -24,6 +24,7 @@ class WSU_Network_Admin {
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'remove_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'        ), 15, 2 );
 		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'     ), 10, 1 );
+		add_filter( 'views_plugins-network',             array( $this, 'add_plugin_table_views',    ), 10, 1 );
 	}
 
 	/**
@@ -35,6 +36,12 @@ class WSU_Network_Admin {
 		if ( ! self::$instance )
 			self::$instance = new WSU_Network_Admin();
 		return self::$instance;
+	}
+
+	public function add_plugin_table_views( $views ) {
+		$url = add_query_arg('plugin_status', 'global', 'plugins.php');
+		$views['global'] = '<a href="' . $url . '">Global <span class="count">()</span></a>';
+		return $views;
 	}
 
 	/**
