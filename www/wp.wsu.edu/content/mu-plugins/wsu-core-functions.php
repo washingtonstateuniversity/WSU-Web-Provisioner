@@ -333,16 +333,21 @@ function activate_global_plugin( $plugin ) {
 		restore_current_network();
 	}
 
-	$current_global = get_option( 'active_global_plugins', array() );
+	switch_to_network( get_primary_network_id() );
+	$current_global = get_site_option( 'active_global_plugins', array() );
 	$current_global[ $plugin ] = time();
-	update_option( 'active_global_plugins', $current_global );
+	update_site_option( 'active_global_plugins', $current_global );
+	restore_current_network();
 }
 
 function is_plugin_active_for_global( $plugin ) {
 	if ( ! is_multi_network() )
 		return false;
 
-	$current_global = get_option( 'active_global_plugins', array() );
+	switch_to_network( get_primary_network_id() );
+	$current_global = get_site_option( 'active_global_plugins', array() );
+	restore_current_network();
+
 	if ( isset( $current_global[ $plugin ] ) )
 		return true;
 
