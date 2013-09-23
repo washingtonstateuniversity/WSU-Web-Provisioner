@@ -355,6 +355,22 @@ function is_plugin_active_for_global( $plugin ) {
 }
 
 /**
+ * Retrieve an array of globally activated plugins.
+ *
+ * @return bool|array Current globally activated plugins.
+ */
+function wp_get_active_global_plugins() {
+	if ( ! is_multi_network() )
+		return false;
+
+	switch_to_network( get_primary_network_id() );
+	$current_global = get_site_option( 'active_global_plugins', array() );
+	restore_current_network();
+
+	return $current_global;
+}
+
+/**
  * Retrieve the primary network id.
  *
  * If a multinetwork setup, retrieve the primary network ID. If a multisite
