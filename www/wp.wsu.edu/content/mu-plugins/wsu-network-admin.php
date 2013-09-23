@@ -69,6 +69,9 @@ class WSU_Network_Admin {
 				$actions['global'] = 'Activated Globally';
 			}
 			return $actions;
+		} elseif( is_main_network() && is_plugin_active_for_global( $plugin_file ) ) {
+			unset( $actions['deactivate'] );
+			unset( $actions['activate'] );
 		}
 
 		if ( ! is_plugin_active_for_global( $plugin_file ) )
