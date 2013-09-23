@@ -58,6 +58,13 @@ class WSU_Network_Admin {
 		return $plugins;
 	}
 
+	/**
+	 * Modify the view links displayed at the top of the plugins list table.
+	 *
+	 * @param array $views List of view links for the plugin list table.
+	 *
+	 * @return array Modified list of view links.
+	 */
 	public function add_plugin_table_views( $views ) {
 		if ( ! is_main_network() )
 			return $views;
