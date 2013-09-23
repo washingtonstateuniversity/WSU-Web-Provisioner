@@ -348,3 +348,36 @@ function is_plugin_active_for_global( $plugin ) {
 
 	return false;
 }
+
+/**
+ * Retrieve the primary network id.
+ *
+ * If a multinetwork setup, retrieve the primary network ID. If a multisite
+ * setup, return 1. If a standard WordPress installation, return 1.
+ *
+ * @return int The primary network id.
+ */
+function get_primary_network_id() {
+	global $current_site, $wpdb;
+
+	$current_network_id = (int) $current_site->id;
+
+	if ( ! is_multisite() || ! is_multi_network() )
+		return 1;
+
+	if ( defined( 'PRIMARY_NETWORK_ID' ) )
+		return PRIMARY_NETWORK_ID;
+
+	if ( 1 === $current_network_id )
+		return 1;
+
+	$primary_network_id = (int) wp_cache_get( 'primary_network_id', 'site-options' );
+
+	if ( $primary_network_id )
+		return $primary_network_id;
+
+	$primary_network_id = (int) $wpdb->get_var( "SELECT id FROM $wpdb->site ORDER BY id LIMIT 1" );
+	wp_cache_add( 'primary_network_id', $primary_network_id, 'site-options' );
+
+	return $primary_network_id;
+}
