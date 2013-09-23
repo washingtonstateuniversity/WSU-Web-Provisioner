@@ -74,6 +74,10 @@ class WSU_Network_Admin {
 			update_site_option( 'active_sitewide_plugins', $current );
 			restore_current_network();
 		}
+	
+		$current_global = get_site_option( 'active_global_plugins', array() );
+		$current_global[ $plugin ] = time();
+		update_site_option( 'active_global_plugins', $current_global );
 	}
 
 	/**
