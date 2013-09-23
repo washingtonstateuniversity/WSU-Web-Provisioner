@@ -49,7 +49,7 @@ class WSU_Network_Admin {
 		// $plugin_data = array()
 		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
 		// pass a nonce
-		if ( is_main_network() )
+		if ( is_main_network() && ! is_plugin_active_for_global( $plugin_file ) )
 			$actions['global'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;wsu-activate-global=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
 		return $actions;
 	}
