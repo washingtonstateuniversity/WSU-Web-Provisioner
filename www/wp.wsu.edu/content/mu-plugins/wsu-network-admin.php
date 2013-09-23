@@ -21,6 +21,7 @@ class WSU_Network_Admin {
 		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'   ), 1     );
 		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'    ), 10, 1 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 3 );
+		add_action( 'activate_plugin',                   array( $this, 'activate_plugin'         ), 10, 2 );
 	}
 
 	/**
@@ -49,8 +50,23 @@ class WSU_Network_Admin {
 		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
 		// pass a nonce
 		if ( is_main_network() )
-			$actions['global'] = '<a href="" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
+			$actions['global'] = '<a href="<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
 		return $actions;
+	}
+
+	public function activate_plugin( $plugin, $network_wide ) {
+
+		if ( ! isset( $_GET['wsu-activate-global'] ) )
+			return null;
+
+		$networks = wp_get_networks();
+		foreach ( $networks as $network ) {
+			switch_to_network( $network->id );
+			$current = get_site_option( 'active_sitewide_plugins', array() );
+			$current[ $plugin ] = time();
+			update_site_option( 'active_sitewide_plugins', $current );
+			restore_current_network();
+		}
 	}
 
 	/**
