@@ -50,7 +50,7 @@ class WSU_Network_Admin {
 		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
 		// pass a nonce
 		if ( is_main_network() )
-			$actions['global'] = '<a href="<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
+			$actions['global'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;wsu-activate-global=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
 		return $actions;
 	}
 
