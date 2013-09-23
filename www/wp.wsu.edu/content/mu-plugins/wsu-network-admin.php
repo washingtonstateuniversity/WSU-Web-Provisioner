@@ -45,12 +45,18 @@ class WSU_Network_Admin {
 	 * @return array The resulting array of actions and links assigned to the plugin.
 	 */
 	public function plugin_action_links( $actions, $plugin_file, $plugin_data ) {
+		if ( ! is_main_network() )
+			return $actions;
+
 		// $plugin_file = debug-bar/debug-bar.php
 		// $plugin_data = array()
 		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
 		// pass a nonce
-		if ( is_main_network() && ! is_plugin_active_for_global( $plugin_file ) )
+		if ( ! is_plugin_active_for_global( $plugin_file ) )
 			$actions['global'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;wsu-activate-global=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
+		else
+			$actions['global'] = '<a href="">Deactivate Globally</a>';
+
 		return $actions;
 	}
 
