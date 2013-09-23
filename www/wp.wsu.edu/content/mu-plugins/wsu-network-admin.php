@@ -20,7 +20,7 @@ class WSU_Network_Admin {
 		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu' ), 10, 1 );
 		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'   ), 1     );
 		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'    ), 10, 1 );
-		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 3 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_action_links'     ), 10, 2 );
 		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'  ), 10, 1 );
 	}
 
@@ -44,14 +44,18 @@ class WSU_Network_Admin {
 	 *
 	 * @return array The resulting array of actions and links assigned to the plugin.
 	 */
-	public function plugin_action_links( $actions, $plugin_file, $plugin_data ) {
-		if ( ! is_main_network() )
+	public function plugin_action_links( $actions, $plugin_file ) {
+		// If this is not the main network, our requirements differ slightly.
+		if ( ! is_main_network() && is_multi_network() ) {
+			// If the plugin is globally activated, remove standard options at the network level.
+			if ( is_plugin_active_for_global( $plugin_file ) ) {
+				unset( $actions['deactivate'] );
+				unset( $actions['activate'] );
+				$actions['global'] = 'Activated Globally';
+			}
 			return $actions;
+		}
 
-		// $plugin_file = debug-bar/debug-bar.php
-		// $plugin_data = array()
-		//     Name, PluginURI, Version, Description, Author, AuthorURI, Title, AuthorName
-		// pass a nonce
 		if ( ! is_plugin_active_for_global( $plugin_file ) )
 			$actions['global'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;wsu-activate-global=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="Activate this plugin for all sites on all networks" class="edit">Global Activate</a>';
 		else
