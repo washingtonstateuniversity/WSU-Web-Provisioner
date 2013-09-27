@@ -37,6 +37,10 @@
  * @type WPDB $wpdb
  */
 
+// Remove strict standards reporting, only show notices and warnings.
+if ( WP_DEBUG )
+	error_reporting( E_ALL ^ E_STRICT );
+
 if ( defined( 'COOKIE_DOMAIN' ) )
 	die( 'The constant "COOKIE_DOMAIN" is defined (probably in wp-config.php). Please remove or comment out that define() line.' );
 
