@@ -10,7 +10,8 @@ define( 'DB_HOST',     'localhost' );
 define( 'WP_DEBUG',    true );
 define( 'SAVEQUERIES', true );
 
-define( 'WSU_LOCAL_CONFIG', true );
+define( 'WSU_DISABLE_STRICT', true );
+define( 'WSU_LOCAL_CONFIG'  , true );
 
 // Caching
 define( 'WP_CACHE',          false    );

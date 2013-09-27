@@ -38,7 +38,7 @@
  */
 
 // Remove strict standards reporting, only show notices and warnings.
-if ( WP_DEBUG )
+if ( WP_DEBUG && WSU_DISABLE_STRICT )
 	error_reporting( E_ALL ^ E_STRICT );
 
 if ( defined( 'COOKIE_DOMAIN' ) )
