@@ -1,4 +1,12 @@
 <?php
+/*
+Plugin Name: WSU Network Admin
+Plugin URI: http://web.wsu.edu/
+Description: Modifications to handle multiple networks in WordPress.
+Author: washingtonstateuniversity, jeremyfelt
+Version: 0.1
+*/
+
 /**
  * Class WSU_Network_Admin
  *
@@ -18,7 +26,7 @@ class WSU_Network_Admin {
 	 */
 	private function __construct() {
 		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu'    ), 10, 1 );
-		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'      ), 1     );
+		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'      ),  1    );
 		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'       ), 10, 1 );
 		add_filter( 'plugin_action_links',               array( $this, 'remove_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'remove_plugin_action_links' ), 10, 2 );
@@ -36,6 +44,7 @@ class WSU_Network_Admin {
 	public static function get_instance() {
 		if ( ! self::$instance )
 			self::$instance = new WSU_Network_Admin();
+
 		return self::$instance;
 	}
 
@@ -74,6 +83,7 @@ class WSU_Network_Admin {
 		$count = count( $global_plugins );
 		$url = add_query_arg('plugin_status', 'global', 'plugins.php');
 		$views['global'] = '<a href="' . $url . '">Global <span class="count">(' . $count . ')</span></a>';
+
 		return $views;
 	}
 
@@ -87,6 +97,7 @@ class WSU_Network_Admin {
 	public function remove_plugin_action_links( $actions ) {
 		unset( $actions['edit'] );
 		unset( $actions['delete'] );
+
 		return $actions;
 	}
 
