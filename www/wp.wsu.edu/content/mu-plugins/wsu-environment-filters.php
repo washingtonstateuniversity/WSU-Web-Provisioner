@@ -1,7 +1,11 @@
 <?php
-/**
- * Filters specific to the environment provided by WSUWP
- */
+/*
+Plugin Name: WSU Environment Filters
+Plugin URI: http://web.wsu.edu/
+Description: Filters specific to the server environment at WSU.
+Author: washingtonstateuniversity, jeremyfelt
+Version: 0.1
+*/
 
 /**
  * Remove `index.php` from permalinks when using Nginx
