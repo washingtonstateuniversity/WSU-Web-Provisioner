@@ -15,6 +15,10 @@ function wsu_populate_network() {
 	if ( ! defined( 'WSU_LOCAL_CONFIG' ) || true !== WSU_LOCAL_CONFIG || ! is_multisite() )
 		return;
 
+	// If this has already been run on the WordPress instance, bail.
+	if ( false === get_site_option( 'wsu_networks_populated', false ) )
+		return;
+
 	// We need access to populate_network()
 	require_once( ABSPATH . 'wp-admin/includes/schema.php' );
 
@@ -87,6 +91,8 @@ function wsu_populate_network() {
 	wpmu_create_blog( 'school2.wsu.edu', '/',       'School 2',        1, '', 5 );
 	wpmu_create_blog( 'school2.wsu.edu', '/site1/', 'School 2 Site 1', 1, '', 5 );
 	wpmu_create_blog( 'school2.wsu.edu', '/site2/', 'School 2 Site 2', 1, '', 5 );
+
+	update_site_option( 'wsu_networks_populated', true );
 }
 
 add_filter( 'populate_network_meta', 'wsu_populate_network_meta', 10, 1 );
