@@ -15,16 +15,9 @@ Version: 0.1
 class WSU_Network_Admin {
 
 	/**
-	 * Maintain the single instance of WSU_Network_Admin
-	 *
-	 * @var bool|WSU_Network_Admin
-	 */
-	private static $instance = false;
-
-	/**
 	 * Add the filters and actions used
 	 */
-	private function __construct() {
+	public function __construct() {
 		add_filter( 'parent_file',                       array( $this, 'add_master_network_menu'    ), 10, 1 );
 		add_action( 'admin_menu',                        array( $this, 'my_networks_dashboard'      ),  1    );
 		add_filter( 'wpmu_validate_user_signup',         array( $this, 'validate_user_signup'       ), 10, 1 );
@@ -34,18 +27,6 @@ class WSU_Network_Admin {
 		add_action( 'activate_plugin',                   array( $this, 'activate_global_plugin'     ), 10, 1 );
 		add_filter( 'views_plugins-network',             array( $this, 'add_plugin_table_views',    ), 10, 1 );
 		add_filter( 'all_plugins',                       array( $this, 'all_plugins',               ), 10, 1 );
-	}
-
-	/**
-	 * Handle requests for the instance.
-	 *
-	 * @return bool|WSU_Network_Admin
-	 */
-	public static function get_instance() {
-		if ( ! self::$instance )
-			self::$instance = new WSU_Network_Admin();
-
-		return self::$instance;
 	}
 
 	/**
@@ -259,4 +240,4 @@ class WSU_Network_Admin {
 	}
 
 }
-WSU_Network_Admin::get_instance();
+new WSU_Network_Admin();
