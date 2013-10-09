@@ -10,30 +10,11 @@ Version: 0.1
 class WSU_Admin_Header {
 
 	/**
-	 * Maintain the single existence of WSU_Admin_Header
-	 *
-	 * @var bool|WSU_Admin_Header
-	 */
-	private static $instance = false;
-
-	/**
 	 * Add required hooks.
 	 */
-	private function __construct() {
+	public function __construct() {
 		add_action( 'admin_bar_init', array( $this, 'set_user_networks' ),  10 );
 		add_action( 'admin_bar_menu', array( $this, 'my_networks_menu'  ), 210 );
-	}
-
-	/**
-	 * Handle requests for the WSU_Admin_Header instance.
-	 *
-	 * @return bool|WSU_Admin_Header
-	 */
-	public static function get_instance() {
-		if ( ! self::$instance )
-			self::$instance = new WSU_Admin_Header();
-
-		return self::$instance;
 	}
 
 	/**
@@ -220,4 +201,4 @@ class WSU_Admin_Header {
 		}
 	}
 }
-$wsu_admin_header = WSU_Admin_Header::get_instance();
+new WSU_Admin_Header();
