@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: WSU Environment Filters
+Plugin Name: DEV WSU Environment Filters
 Plugin URI: http://web.wsu.edu/
-Description: Filters specific to the server environment at WSU.
+Description: Filters specific to the development environment in WSUWP.
 Author: washingtonstateuniversity, jeremyfelt
 Version: 0.1
 */
