@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Log wp_mail()
+Plugin Name: DEV WSU Log wp_mail()
 Version: 0.1
-Plugin URI: http://wsu.edu
+Plugin URI: http://web.wsu.edu
 Description: Log emails sent through WordPress to a text file.
-Author: jeremyfelt, wsu.edu
+Author: washingtonstateuniversity, jeremyfelt
 */
 
 add_filter( 'wp_mail', 'wsu_log_wp_mail', 1 );
