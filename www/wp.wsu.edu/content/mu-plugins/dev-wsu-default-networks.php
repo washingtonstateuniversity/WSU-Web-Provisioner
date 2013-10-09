@@ -1,4 +1,5 @@
 <?php
+// @todo Clean this process up significantly. We should be able to use wp-cli during vagrant up
 
 add_action( 'init', 'wsu_populate_network' );
 /**
