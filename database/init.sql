@@ -1,2 +1,0 @@
-CREATE DATABASE IF NOT EXISTS `wsuwp`;
-GRANT ALL PRIVILEGES ON `wsuwp`.* TO 'wp'@'localhost' IDENTIFIED BY 'wp';
