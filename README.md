@@ -1,5 +1,7 @@
 # WSUWP-Environment
 
+* **Version:** 0.1-working
+
 ## Overview
 
 TBD.
