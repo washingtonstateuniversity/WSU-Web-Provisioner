@@ -1,7 +1,11 @@
-# Stuff that pops up locally for me - @jeremyfelt
-*.sublime*
+# Because OSX
 .DS_Store
+
+# Ignore Sublime project files.
+*.sublime*
+
+# Ignore PHPStorm project files.
 /.idea
 
-# Because this really is a working directory, ignore vagrant's files
+# Ignore Vagrant's runtime files.
 /.vagrant
