@@ -75,8 +75,4 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "config/nginx-config/sites/", "/etc/nginx/sites-enabled/"
 
-  # Provisioning
-  config.vm.provision :shell do |shell|
-      shell.path = File.join( "provision", "provision.sh" )
-  end
 end
