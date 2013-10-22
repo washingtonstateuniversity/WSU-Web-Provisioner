@@ -48,31 +48,4 @@ Vagrant.configure("2") do |config|
     ]
   end
 
-  # Drive mapping
-  #
-  # The following config.vm.share_folder settings will map directories in your Vagrant
-  # virtual machine to directories on your local machine. Once these are mapped, any
-  # changes made to the files in these directories will affect both the local and virtual
-  # machine versions. Think of it as two different ways to access the same file. When the
-  # virtual machine is destroyed with `vagrant destroy`, your files will remain in your local
-  # environment.
-
-  # /srv/database/
-  #
-  # If a database directory exists in the same directory as your Vagrantfile,
-  # a mapped directory inside the VM will be created that contains these files.
-  # This directory is used to maintain default database scripts as well as backed
-  # up mysql dumps (SQL files) that are to be imported automatically on vagrant up
-  config.vm.synced_folder "database/", "/srv/database"
-  config.vm.synced_folder "database/data/", "/var/lib/mysql", :mount_options => [ "dmode=777", "fmode=777" ]
-
-  # /srv/www/
-  #
-  # If a www directory exists in the same directory as your Vagrantfile, a mapped directory
-  # inside the VM will be created that acts as the default location for nginx sites. Put all
-  # of your project files here that you want to access through the web server
-  config.vm.synced_folder "www/", "/srv/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
-
-  config.vm.synced_folder "config/nginx-config/sites/", "/etc/nginx/sites-enabled/"
-
 end
