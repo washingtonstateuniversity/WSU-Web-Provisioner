@@ -14,10 +14,10 @@ Vagrant.configure("2") do |config|
   # Enable agent forwarding on vagrant ssh commands. This allows you to use identities
   # established on the host machine inside the guest. See the manual for ssh-add
   config.ssh.forward_agent = true
-  
-  # Ubuntu 12.0.4 LTS Precise, 32 bit release
-  config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+
+  # CentOS 6.4, 64 bit release
+  config.vm.box = "centos64_64"
+  config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
