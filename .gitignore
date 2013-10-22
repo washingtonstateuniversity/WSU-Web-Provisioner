@@ -5,20 +5,3 @@
 
 # Because this really is a working directory, ignore vagrant's files
 /.vagrant
-
-# No need to share our mysql data with each other
-/database/data/*
-
-# But we do still need the data directory.
-!/database/data
-!/database/data/.gitshow
-
-# And no need to share individual SQL files with each other
-*.sql
-*.sql.gz
-
-# BUT....
-
-# we do have default SQL files that should be included
-!/database/init.sql
-!/database/stages/*.sql
