@@ -9,5 +9,6 @@ nginx-repo:
 nginx:
   pkg.installed:
     - name: nginx
-  service:
-    - running
+  service.running:
+    - require:
+      - pkg: nginx
