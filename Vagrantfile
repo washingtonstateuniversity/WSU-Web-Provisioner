@@ -48,4 +48,15 @@ Vagrant.configure("2") do |config|
     ]
   end
 
+  # Salt Provisioning
+  #
+  # Map the provisioning directory to the guest machine and initiate the provisioning process
+  # with salt. On the first build of a virtual machine, if Salt has not yet been installed, it
+  # will be bootstrapped automatically.
+  config.vm.synced_folder "provision/salt", "/srv/salt"
+  config.vm.provision :salt do |salt|
+    salt.verbose = true
+    salt.minion_config = 'provision/salt/minions/vagrant.conf'
+    salt.run_highstate = true
+  end
 end
