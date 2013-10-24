@@ -15,7 +15,10 @@ nginx:
 
 php-fpm:
   pkg.installed:
-    - name: php54w-fpm
+    - pkgs:
+      - php54w-fpm
+      - php54w-cli
+      - php54w-mysql
   service.running:
     - require:
       - pkg: php-fpm
