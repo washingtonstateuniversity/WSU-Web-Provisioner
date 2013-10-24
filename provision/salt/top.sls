@@ -1,4 +1,5 @@
 base:
   '*':
+    - server
     - webserver
     - dbserver
