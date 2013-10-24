@@ -12,3 +12,10 @@ nginx:
   service.running:
     - require:
       - pkg: nginx
+
+php-fpm:
+  pkg.installed:
+    - name: php54w-fpm
+  service.running:
+    - require:
+      - pkg: php-fpm
