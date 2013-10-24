@@ -18,7 +18,7 @@ php-fpm:
     - pkgs:
       - php54w-fpm
       - php54w-cli
-      - php54w-mysql
+      - php54w-common
   service.running:
     - require:
       - pkg: php-fpm
