@@ -22,6 +22,7 @@ php-fpm:
       - php-mysql
       - php-pear
       - php-pdo
+      - php-pecl-zendopcache
       - php-pecl-xdebug
       - php-pecl-memcached
   service.running:
