@@ -16,9 +16,9 @@ nginx:
 php-fpm:
   pkg.installed:
     - pkgs:
-      - php54w-fpm
-      - php54w-cli
-      - php54w-common
+      - php54-fpm
+      - php54-cli
+      - php54-common
   service.running:
     - require:
       - pkg: php-fpm
