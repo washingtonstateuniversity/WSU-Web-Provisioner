@@ -1,4 +1,4 @@
-php54-pecl-xdebug:
+php-pecl-xdebug:
   pkg.installed:
     - pkgs:
-      - php54-pecl-xdebug
+      - php-pecl-xdebug

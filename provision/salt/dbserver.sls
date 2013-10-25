@@ -7,11 +7,11 @@ old-mysql:
       - mysql-libs
       - mysql-server
 
-mysql55-server:
+mysql-server:
   pkg.installed
 
-mysql55:
+mysql:
   service.running:
     - name: mysqld
     - require:
-      - pkg: mysql55-server
+      - pkg: mysql-server
