@@ -6,3 +6,4 @@ remi-rep:
     - require_in:
       - pkg: mysql-server
       - pkg: php-fpm
+      - pkg: memcached

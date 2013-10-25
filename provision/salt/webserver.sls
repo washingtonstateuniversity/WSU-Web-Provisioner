@@ -23,6 +23,7 @@ php-fpm:
       - php-pear
       - php-pdo
       - php-pecl-xdebug
+      - php-pecl-memcached
   service.running:
     - require:
       - pkg: php-fpm
