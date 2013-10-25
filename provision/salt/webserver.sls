@@ -22,7 +22,6 @@ php-fpm:
       - php54-mysql
       - php54-pear
       - php54-pdo
-      - php54-pecl-memcache
       - php54-pecl-xdebug
       - php54-pecl-imagick
   service.running:
