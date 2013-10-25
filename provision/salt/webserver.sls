@@ -1,3 +1,13 @@
+group-www-data:
+  group.present:
+    - name: www-data
+
+user-www-data:
+  user.present:
+    - name: www-data
+    - groups:
+      - www-data
+
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
@@ -12,6 +22,8 @@ nginx:
   service.running:
     - require:
       - pkg: nginx
+    - watch:
+      - file: /etc/nginx/nginx.conf
 
 php-fpm:
   pkg.installed:
@@ -36,3 +48,10 @@ ImageMagick:
     - pkgs:
       - php-pecl-imagick
       - ImageMagick
+
+/etc/nginx/nginx.conf:
+  file.managed:
+    - source: salt://config/nginx/nginx.conf
+    - user: root
+    - group: root
+    - mode: 644
