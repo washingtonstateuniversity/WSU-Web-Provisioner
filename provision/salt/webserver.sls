@@ -22,6 +22,8 @@ php-fpm:
       - php-mysql
       - php-pear
       - php-pdo
+      - php-mcrypt
+      - php-imap
       - php-pecl-zendopcache
       - php-pecl-xdebug
       - php-pecl-memcached
