@@ -24,6 +24,7 @@ nginx:
       - pkg: nginx
     - watch:
       - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/sites-enabled/default
 
 php-fpm:
   pkg.installed:
@@ -52,6 +53,13 @@ ImageMagick:
 /etc/nginx/nginx.conf:
   file.managed:
     - source: salt://config/nginx/nginx.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+/etc/nginx/sites-enabled/default:
+  file.managed:
+    - source: salt://config/nginx/default
     - user: root
     - group: root
     - mode: 644
