@@ -23,7 +23,12 @@ php-fpm:
       - php-pear
       - php-pdo
       - php-pecl-xdebug
-      - php-pecl-imagick
   service.running:
     - require:
       - pkg: php-fpm
+
+ImageMagick:
+  pkg.installed:
+    - pkgs:
+      - php-pecl-imagick
+      - ImageMagick
