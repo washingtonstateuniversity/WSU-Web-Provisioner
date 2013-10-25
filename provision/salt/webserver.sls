@@ -19,6 +19,12 @@ php-fpm:
       - php54-fpm
       - php54-cli
       - php54-common
+      - php54-mysql
+      - php54-pear
+      - php54-pdo
+      - php54-pecl-memcache
+      - php54-pecl-xdebug
+      - php54-pecl-imagick
   service.running:
     - require:
       - pkg: php-fpm
