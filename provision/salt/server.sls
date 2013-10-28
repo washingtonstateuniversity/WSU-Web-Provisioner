@@ -7,3 +7,7 @@ remi-rep:
       - pkg: mysql
       - pkg: php-fpm
       - pkg: memcached
+
+git:
+  pkg.installed:
+    - name: git
