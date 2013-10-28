@@ -15,3 +15,7 @@ wsuwp-initial:
     - unless: cd /var/tmp/wsuwp-platform-vcs
   require:
     - pkg: git
+
+wsuwp-update:
+  cmd.run:
+    - name: cd /var/tmp/wsuwp-platform-vcs; git pull origin master; git submodule update
