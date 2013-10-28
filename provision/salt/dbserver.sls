@@ -8,3 +8,12 @@ mysql:
       - mysql-server
   service.running:
     - name: mysqld
+    - watch:
+      - file: /etc/my.cnf
+
+/etc/my.cnf:
+  file.managed:
+    - source: salt://config/mysql/my.cnf
+    - user: root
+    - group: root
+    - mode: 644
