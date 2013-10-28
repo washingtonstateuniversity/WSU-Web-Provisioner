@@ -8,6 +8,17 @@ user-www-data:
     - groups:
       - www-data
 
+/var/www/wsuwp-platform:
+    file.directory:
+    - user: www-data
+    - group: www-data
+    - dir_mode: 755
+    - file_mode: 644
+    - recurse:
+        - user
+        - group
+        - mode
+
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
