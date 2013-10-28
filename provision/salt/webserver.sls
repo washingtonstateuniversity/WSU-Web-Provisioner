@@ -52,6 +52,13 @@ ImageMagick:
       - php-pecl-imagick
       - ImageMagick
 
+iptables:
+  pkg.installed:
+    - name: iptables
+  service.running:
+    - watch:
+      - file: /etc/sysconfig/iptables
+
 /etc/nginx/nginx.conf:
   file.managed:
     - source: salt://config/nginx/nginx.conf
@@ -72,3 +79,10 @@ ImageMagick:
     - user: root
     - group: root
     - mode: 644
+
+/etc/sysconfig/iptables:
+  file.managed:
+    - source: salt://config/iptables/iptables
+    - user: root
+    - group: root
+    - mode: 600

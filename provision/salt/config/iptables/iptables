@@ -1,0 +1,7 @@
+# Allow all traffic.
+*filter
+:INPUT ACCEPT [81:5076]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [44:3868]
+COMMIT
+# End
