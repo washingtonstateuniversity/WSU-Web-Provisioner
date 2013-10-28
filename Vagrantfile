@@ -26,6 +26,12 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "10.10.30.30"
 
   if vagrant_version >= "1.3.0"
+    config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :mount_options => [ "dmode=777", "fmode=777" ]
+  else
+    config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :extra => 'dmode=777,fmode=777'
+  end
+
+  if vagrant_version >= "1.3.0"
     config.vm.synced_folder "local", "/var/local", :mount_options => [ "dmode=775", "fmode=774" ]
   else
     config.vm.synced_folder "local", "/var/local", :extra => 'dmode=775,fmode=774'
