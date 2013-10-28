@@ -8,6 +8,13 @@ user-www-data:
     - groups:
       - www-data
 
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://config/resolv.conf
+    - user: root
+    - group: root
+    - mode: 644
+
 /var/www/wsuwp-platform:
     file.directory:
     - user: www-data
