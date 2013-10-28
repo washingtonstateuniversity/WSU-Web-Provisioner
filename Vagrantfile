@@ -5,6 +5,9 @@ dir = Dir.pwd
 
 Vagrant.configure("2") do |config|
 
+  # Capture the current version of Vagrant.
+  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
+
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
   end
@@ -21,6 +24,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
+
+  if vagrant_version >= "1.3.0"
+    config.vm.synced_folder "local", "/var/local", :mount_options => [ "dmode=775", "fmode=774" ]
+  else
+    config.vm.synced_folder "local", "/var/local", :extra => 'dmode=775,fmode=774'
+  end
 
   # Local Machine Hosts
   #

@@ -9,3 +9,6 @@
 
 # Ignore Vagrant's runtime files.
 /.vagrant
+
+/local/*
+!local/.gitshow
