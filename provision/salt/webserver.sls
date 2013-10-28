@@ -44,7 +44,7 @@ php-fpm:
     - require:
       - pkg: php-fpm
     - watch:
-      - file: /etc/php-fpm.d/www/conf
+      - file: /etc/php-fpm.d/www.conf
 
 ImageMagick:
   pkg.installed:
