@@ -1,8 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-dir = Dir.pwd
-
 Vagrant.configure("2") do |config|
 
   # Capture the current version of Vagrant.
