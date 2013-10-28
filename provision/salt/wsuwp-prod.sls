@@ -11,4 +11,4 @@ wsuwp-update:
 
 wsuwp-sync:
   cmd.run:
-    - name: rsync -rvzh --delete --exclude='.git' /var/tmp/wsuwp-platform-vcs/ /var/www/wsuwp-platform
+    - name: rsync -rvzh --delete --exclude='.git' /var/tmp/wsuwp-platform-vcs/ /var/www/wsuwp-platform; chown -R www-data:www-data /var/www/wsuwp-platform
