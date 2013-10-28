@@ -19,3 +19,7 @@ wsuwp-initial:
 wsuwp-update:
   cmd.run:
     - name: cd /var/tmp/wsuwp-platform-vcs; git pull origin master; git submodule update
+
+wsuwp-sync:
+  cmd.run:
+    - name: rsync -rvzh --delete --exclude='.git' /var/tmp/wsuwp-platform-vcs/ /var/www/wsuwp-platform
