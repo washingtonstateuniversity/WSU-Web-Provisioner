@@ -1,14 +1,3 @@
-/var/www/wsuwp-platform:
-    file.directory:
-    - user: www-data
-    - group: www-data
-    - dir_mode: 755
-    - file_mode: 644
-    - recurse:
-        - user
-        - group
-        - mode
-
 wsuwp-initial:
   cmd.run:
     - name: cd /var/tmp/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform-vcs; cd wsuwp-platform-vcs; git submodule init
