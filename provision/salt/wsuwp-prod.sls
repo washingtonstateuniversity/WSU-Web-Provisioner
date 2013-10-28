@@ -1,4 +1,17 @@
-wsuwp-prod:
+/var/www/wsuwp-platform:
+    file.directory:
+    - user: www-data
+    - group: www-data
+    - dir_mode: 755
+    - file_mode: 644
+    - recurse:
+        - user
+        - group
+        - mode
+
+wsuwp-initial:
   cmd.run:
-    - name: cd /var/www/; curl -LOk https://github.com/washingtonstateuniversity/WSUWP-Platform/archive/master.zip; unzip master.zip; mv WSUWP-Platform-master wsuwp-platform; rm /var/www/master.zip
-    - unless: -d /var/www/wsuwp-platform
+    - name: cd /var/tmp/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform-vcs; cd wsuwp-platform-vcs; git submodule init
+    - unless: cd /var/tmp/wsuwp-platform-vcs
+  require:
+    - pkg: git
