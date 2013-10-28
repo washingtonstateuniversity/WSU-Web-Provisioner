@@ -12,3 +12,24 @@ wsuwp-update:
 wsuwp-sync:
   cmd.run:
     - name: rsync -rvzh --delete --exclude='.git' /var/local/wsuwp-platform-vcs/ /var/www/wsuwp-platform; chown -R www-data:www-data /var/www/wsuwp-platform
+
+wsuwp-db:
+  mysql_user.present:
+    - name: wp
+    - password: wp
+    - host: localhost
+    - require:
+      - service: mysql
+      - pkg: mysql
+  mysql_database.present:
+    - name: wsuwp
+    - require:
+      - service: mysql
+      - pkg: mysql
+  mysql_grants.present:
+    - grant: all privileges
+    - database: wsuwp.*
+    - user: wp
+    - require:
+      - service: mysql
+      - pkg: mysql

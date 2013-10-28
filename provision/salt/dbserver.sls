@@ -27,6 +27,7 @@ mysql:
       - mysql
       - mysql-libs
       - mysql-server
+      - MySQL-python
   service.running:
     - name: mysqld
     - watch:
