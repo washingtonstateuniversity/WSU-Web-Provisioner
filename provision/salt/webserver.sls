@@ -43,6 +43,8 @@ php-fpm:
   service.running:
     - require:
       - pkg: php-fpm
+    - watch:
+      - file: /etc/php-fpm.d/www/conf
 
 ImageMagick:
   pkg.installed:
@@ -60,6 +62,13 @@ ImageMagick:
 /etc/nginx/sites-enabled/default:
   file.managed:
     - source: salt://config/nginx/default
+    - user: root
+    - group: root
+    - mode: 644
+
+/etc/php-fpm.d/www.conf:
+  file.managed:
+    - source: salt://config/php-fpm/www.conf
     - user: root
     - group: root
     - mode: 644
