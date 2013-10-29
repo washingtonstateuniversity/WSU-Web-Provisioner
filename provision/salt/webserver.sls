@@ -72,6 +72,8 @@ iptables:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: nginx
 
 /etc/nginx/sites-enabled/default:
   file.managed:
@@ -79,6 +81,8 @@ iptables:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: nginx
 
 /etc/php-fpm.d/www.conf:
   file.managed:
@@ -86,6 +90,8 @@ iptables:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: php-fpm
 
 /etc/sysconfig/iptables:
   file.managed:
@@ -95,7 +101,7 @@ iptables:
     - mode: 600
 
 /var/www/wsuwp-platform:
-    file.directory:
+  file.directory:
     - user: www-data
     - group: www-data
     - dir_mode: 755
@@ -104,3 +110,5 @@ iptables:
         - user
         - group
         - mode
+    - require:
+      - pkg: nginx

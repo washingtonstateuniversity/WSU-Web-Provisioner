@@ -9,7 +9,7 @@ user-mysql:
       - mysql
 
 /var/log/mysql:
-    file.directory:
+  file.directory:
     - user: mysql
     - group: mysql
     - dir_mode: 755
@@ -39,3 +39,5 @@ mysql:
     - user: root
     - group: root
     - mode: 644
+    - require:
+      - pkg: mysql
