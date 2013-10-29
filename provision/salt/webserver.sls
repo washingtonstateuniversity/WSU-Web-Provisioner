@@ -110,6 +110,7 @@ iptables:
     - group: www-data
     - dir_mode: 755
     - file_mode: 644
+    - makedirs: True
     - recurse:
         - user
         - group
