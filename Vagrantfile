@@ -3,9 +3,11 @@
 
 Vagrant.configure("2") do |config|
 
-  # Capture the current version of Vagrant.
+  # Capture the current version of Vagrant. We'll use this later
+  # to handle backward compatibility with Vagrant 1.2.x
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
 
+  # A Virtualbox specific setting to set the VM's memory to 512MB.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
   end
@@ -17,18 +19,23 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   # CentOS 6.4, 64 bit release
+  #
+  # Provides a fairly bare-bones box created by Puppet Labs
   config.vm.box = "centos-64-x64-puppetlabs"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
 
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
 
+  # Map a data directory for MySQL so that databases can persist across Vagrant sessions.
   if vagrant_version >= "1.3.0"
     config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :mount_options => [ "dmode=777", "fmode=777" ]
   else
     config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :extra => 'dmode=777,fmode=777'
   end
 
+  # Map a data directory for local use so that the process of checking out the WSUWP Platform
+  # only has to occur once every so often.
   if vagrant_version >= "1.3.0"
     config.vm.synced_folder "local", "/var/local", :mount_options => [ "dmode=775", "fmode=774" ]
   else
