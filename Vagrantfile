@@ -27,12 +27,10 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
 
-  # Map a data directory for local use so that the process of checking out the WSUWP Platform
-  # only has to occur once every so often.
   if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "local", "/var/local", :mount_options => [ "dmode=775", "fmode=774" ]
+    config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
   else
-    config.vm.synced_folder "local", "/var/local", :extra => 'dmode=775,fmode=774'
+    config.vm.synced_folder "www", "/var/www", :extra => 'dmode=775,fmode=774'
   end
 
   # Local Machine Hosts
@@ -77,4 +75,15 @@ Vagrant.configure("2") do |config|
     salt.minion_config = 'provision/salt/minions/vagrant.conf'
     salt.run_highstate = true
   end
+
+  # @todo - Can we move these into provisioning after the www-data user is created?
+  #
+  # Unmount the previously mounted /var/www directory, which is owned by vagrant:vagrant
+  config.vm.provision "shell",
+    inline: "sudo umount /var/www"
+
+  # Remount /var/www with www-data:www-data as an owner now that the user/group is available.
+  config.vm.provision "shell",
+    inline: "sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/"
+
 end

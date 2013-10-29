@@ -10,5 +10,6 @@
 # Ignore Vagrant's runtime files.
 /.vagrant
 
-/local/*
-!local/.gitshow
+# Ignore Web files pulled into the mapped www directory.
+/www/*
+!www/.gitshow

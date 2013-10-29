@@ -5,4 +5,4 @@ base:
     - cacheserver
     - devserver
     - dbserver
-    - wsuwp-prod
+    - wsuwp-dev
