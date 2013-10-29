@@ -104,18 +104,3 @@ iptables:
     - group: root
     - mode: 600
 
-/var/www/wsuwp-platform:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - dir_mode: 755
-    - file_mode: 644
-    - makedirs: True
-    - recurse:
-        - user
-        - group
-        - mode
-    - require:
-      - pkg: nginx
-      - user: www-data
-      - group: www-data
