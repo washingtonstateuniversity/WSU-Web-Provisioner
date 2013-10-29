@@ -7,6 +7,8 @@ user-www-data:
     - name: www-data
     - groups:
       - www-data
+    - require:
+      - group: www-data
 
 /etc/resolv.conf:
   file.managed:
@@ -29,6 +31,8 @@ nginx:
   service.running:
     - require:
       - pkg: nginx
+      - user: www-data
+      - group: www-data
     - watch:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/default
@@ -112,3 +116,5 @@ iptables:
         - mode
     - require:
       - pkg: nginx
+      - user: www-data
+      - group: www-data

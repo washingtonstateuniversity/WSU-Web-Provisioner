@@ -15,7 +15,7 @@ wsuwp-sync:
   cmd.run:
     - name: rsync -rvzh --delete --exclude='.git' /var/local/wsuwp-platform-vcs/ /var/www/wsuwp-platform; chown -R www-data:www-data /var/www/wsuwp-platform
     - require:
-      - pkg: git
+      - file: /var/www/wsuwp-platform
 
 wsuwp-db:
   mysql_user.present:
