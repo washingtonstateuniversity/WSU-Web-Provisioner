@@ -1,3 +1,6 @@
+# Provide the WSUWP Platform to our production environment.
+#
+# @todo consider web files as part of a deployment process instead.
 wsuwp-initial:
   cmd.run:
     - name: cd /var/local/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform-vcs; cd wsuwp-platform-vcs; git submodule init
