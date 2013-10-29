@@ -15,17 +15,6 @@ user-www-data:
     - group: root
     - mode: 644
 
-/var/www/wsuwp-platform:
-    file.directory:
-    - user: www-data
-    - group: www-data
-    - dir_mode: 755
-    - file_mode: 644
-    - recurse:
-        - user
-        - group
-        - mode
-
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
@@ -104,3 +93,14 @@ iptables:
     - user: root
     - group: root
     - mode: 600
+
+/var/www/wsuwp-platform:
+    file.directory:
+    - user: www-data
+    - group: www-data
+    - dir_mode: 755
+    - file_mode: 644
+    - recurse:
+        - user
+        - group
+        - mode
