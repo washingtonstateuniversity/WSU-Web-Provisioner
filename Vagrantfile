@@ -27,13 +27,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
 
-  # Map a data directory for MySQL so that databases can persist across Vagrant sessions.
-  if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :mount_options => [ "dmode=777", "fmode=777" ]
-  else
-    config.vm.synced_folder "database/mysql/", "/var/lib/mysql", :extra => 'dmode=777,fmode=777'
-  end
-
   # Map a data directory for local use so that the process of checking out the WSUWP Platform
   # only has to occur once every so often.
   if vagrant_version >= "1.3.0"

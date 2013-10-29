@@ -12,6 +12,3 @@
 
 /local/*
 !local/.gitshow
-
-/database/mysql/*
-!database/mysql/.gitshow
