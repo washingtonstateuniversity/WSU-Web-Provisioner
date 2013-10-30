@@ -1,7 +1,7 @@
 server {
     listen       80 default_server;
-    root         /var/www/wsuwp-platform;
-    server_name  10.10.30.30 wp.wsu.edu;
+    root         /var/www/html;
+    server_name  10.10.30.30;
     
     location / {
         index index.php;
