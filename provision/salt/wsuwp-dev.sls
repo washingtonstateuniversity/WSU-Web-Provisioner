@@ -32,3 +32,29 @@ wsuwp-db:
     - require:
       - service: mysql
       - pkg: mysql
+
+# After the operations in /var/www/ are complete, the mapped directory needs to be
+# unmounted and then mounted again with www-data:www-data ownership.
+wsuwp-www-umount-initial:
+  cmd.run:
+    - name: sudo umount /var/www/
+    - require:
+      - cmd: wsuwp-dev-initial
+    - require_in:
+      - cmd: wsuwp-www-mount-initial
+
+wsuwp-www-umount-update:
+  cmd.run:
+    - name: sudo umount /var/www/
+    - require:
+      - cmd: wsuwp-dev-update
+    - require_in:
+      - cmd: wsuwp-www-mount-update
+
+wsuwp-www-mount-initial:
+  cmd.run:
+    - name: sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
+
+wsuwp-www-mount-update:
+  cmd.run:
+    - name: sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/

@@ -76,14 +76,4 @@ Vagrant.configure("2") do |config|
     salt.run_highstate = true
   end
 
-  # @todo - Can we move these into provisioning after the www-data user is created?
-  #
-  # Unmount the previously mounted /var/www directory, which is owned by vagrant:vagrant
-  config.vm.provision "shell",
-    inline: "sudo umount /var/www"
-
-  # Remount /var/www with www-data:www-data as an owner now that the user/group is available.
-  config.vm.provision "shell",
-    inline: "sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/"
-
 end
