@@ -63,6 +63,13 @@ install-dev-plugins:
     - require:
       - cmd: wp-cli
 
+activate-dev-plugins:
+  cmd.run:
+    - name: wp plugin activate user-switching --network; wp plugin activate debug-bar --network
+    - cwd: /var/www/wsuwp-platform/wordpress/
+    - require:
+      - cmd: install-dev-plugins
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
