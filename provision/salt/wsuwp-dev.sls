@@ -56,6 +56,13 @@ wsuwp-db:
       - service: mysql
       - pkg: mysql
 
+install-dev-plugins:
+  cmd.run:
+    - name: wp plugin install user-switching; wp plugin install debug-bar;
+    - cwd: /var/www/wsuwp-platform/wordpress/
+    - require:
+      - cmd: wp-cli
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
