@@ -76,8 +76,8 @@ wsuwp-www-umount-update:
 
 wsuwp-www-mount-initial:
   cmd.run:
-    - name: sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
+    - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
 
 wsuwp-www-mount-update:
   cmd.run:
-    - name: sudo mount -t vboxsf -o uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
+    - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
