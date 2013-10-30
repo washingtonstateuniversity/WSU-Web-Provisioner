@@ -1,4 +1,16 @@
 # Setup the WSUWP Platform for local development in Vagrant.
+wp-cli:
+  cmd.run:
+    - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash
+    - unless: which wp
+    - user: vagrant
+    - require:
+      - pkg: php-fpm
+      - pkg: git
+  file.symlink:
+    - name: /usr/bin/wp
+    - target: /home/vagrant/.wp-cli/bin/wp
+
 wsuwp-dev-initial:
   cmd.run:
     - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init
