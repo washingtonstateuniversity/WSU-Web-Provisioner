@@ -88,6 +88,15 @@ iptables:
     - require:
       - pkg: nginx
 
+/etc/nginx/sites-enabled/wp.wsu.edu.conf:
+  file.managed:
+    - source: salt://config/nginx/wp.wsu.edu.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: nginx
+
 /etc/php-fpm.d/www.conf:
   file.managed:
     - source: salt://config/php-fpm/www.conf
@@ -103,4 +112,3 @@ iptables:
     - user: root
     - group: root
     - mode: 600
-
