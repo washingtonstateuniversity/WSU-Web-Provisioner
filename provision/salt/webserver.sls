@@ -36,6 +36,7 @@ nginx:
     - watch:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/default
+      - file: /etc/nginx/sites-enabled/wp.wsu.edu.conf
 
 php-fpm:
   pkg.installed:
