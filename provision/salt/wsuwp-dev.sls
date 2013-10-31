@@ -7,9 +7,13 @@ wp-cli:
     - require:
       - pkg: php-fpm
       - pkg: git
+    - require_in:
+      - cmd: install-dev-plugins
   file.symlink:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
+    - require_in:
+      - cmd: install-dev-plugins
 
 wsuwp-dev-initial:
   cmd.run:
@@ -67,15 +71,13 @@ install-dev-plugins:
   cmd.run:
     - name: wp plugin install user-switching; wp plugin install debug-bar;
     - cwd: /var/www/wsuwp-platform/wordpress/
-    - require:
-      - cmd: wp-cli
+    - require_in:
+      - cmd: activate-dev-plugins
 
 activate-dev-plugins:
   cmd.run:
     - name: wp plugin activate user-switching --network; wp plugin activate debug-bar --network
     - cwd: /var/www/wsuwp-platform/wordpress/
-    - require:
-      - cmd: install-dev-plugins
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
