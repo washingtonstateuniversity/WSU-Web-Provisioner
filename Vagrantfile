@@ -1,6 +1,13 @@
+# WSUWP Environment Vagrant Configuration
+#
+# This is the development Vagrantfile for the WSUWP Environment project. This
+# Vagrant setup helps to describe an environment for local development that
+# matches the WSUWP Environment production setup as closely as possible.
+#
+# We recommend Vagrant 1.3.5 and Virtualbox 4.3.
+#
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
 
   # Capture the current version of Vagrant. We'll use this later
