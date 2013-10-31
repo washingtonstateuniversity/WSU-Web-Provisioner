@@ -4,7 +4,11 @@
 
 ## Overview
 
-TBD.
+Work is underway at Washington State University to build a central WordPress publishing platform for use by many groups within the University.
+
+A major goal is to open source as much of the work as possible for use by other universities and organizations around the world.
+
+The goal of the WSUWP Environment project is to provide provisioning for development and production environments that can be used to implement the [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform) project.
 
 ## Getting Started
 
@@ -17,14 +21,22 @@ TBD.
 	* `git clone https://github.com/washingtonstateuniversity/WSUWP-Environment.git wsuwp-environment`
 1. Navigate to `wsuwp-environment` in your terminal
 1. Type `vagrant up`
-	* On a Linux or OSX machine, you may need to enter your password so that the hosts file can be edited by the plugin.
+	* On a Linux or OSX machine, you may need to enter your password so that the hosts file can be edited by the vagrant-hostsupdater plugin.
 	* On a Windows machine, either run the command prompt as an administrator or modify the permissions of your hosts file so that no password is required.
+1. Visit `http://wp.wsu.edu` in your browser.
+	* See [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
 
-## To update the repository
+## What is Provided
 
-In the `wsuwp-environment` directory:
+The environment provided by WSUWP Environment is intended to match the production environment associated with the central WSUWP system at Washington State University. This allows developers to extend the platform locally and properly test themes, plugins, and the platform itself before these changes are deployed to production.
 
-1. Type `git pull origin master` to bring down the latest changes to the repository.
+Over time, pieces of the environment will be extracted so that the domain `wp.wsu.edu` can be changed for ease of use with other systems.
+
+## Keep Updated
+
+WSUWP Environment is under active development. Until we establish a schedule of regular releases, it would be best to stay updated with this repository as much as possible.
+
+In your local `wsuwp-environment` directory, the latest changes can be pulled down at any time with `git pull origin master`. Running `vagrant provision` will cause any state changes in the provisioning files to be applied to the local development environment, possibly updating parts of the [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform) as well.
 
 ## Expectations
 
