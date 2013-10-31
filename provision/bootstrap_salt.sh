@@ -320,7 +320,7 @@ fi
 
 # Define installation type
 if [ "$#" -eq 0 ];then
-    ITYPE="stable"
+    ITYPE="testing"
 else
     __check_unparsed_options "$*"
     ITYPE=$1
