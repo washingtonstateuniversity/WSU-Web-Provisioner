@@ -5,8 +5,10 @@ user-vagrant:
     - groups:
       - vagrant
       - www-data
+      - mysql
     - require:
       - group: www-data
+      - group: mysql
     - require_in:
       - cmd: wp-cli
 
@@ -43,11 +45,15 @@ wsuwp-db:
     - require:
       - service: mysql
       - pkg: mysql
+    - require_in:
+      - cmd: wsuwp-db-import
   mysql_database.present:
     - name: wsuwp
     - require:
       - service: mysql
       - pkg: mysql
+    - require_in:
+      - cmd: wsuwp-db-import
   mysql_grants.present:
     - grant: all privileges
     - database: wsuwp.*
@@ -55,6 +61,14 @@ wsuwp-db:
     - require:
       - service: mysql
       - pkg: mysql
+    - require_in:
+      - cmd: wsuwp-db-import
+
+wsuwp-db-import:
+  cmd.run:
+    - name: mysql -u wp -pwp wsuwp < wsuwp-02-initial-multi-network.sql
+    - cwd: /vagrant/database
+    - unless: cat /var/lib/mvysql/wsuwp/wp_options.frm
 
 install-dev-plugins:
   cmd.run:
