@@ -15,12 +15,6 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--memory", 512]
   end
 
-  # Forward Agent
-  #
-  # Enable agent forwarding on vagrant ssh commands. This allows you to use identities
-  # established on the host machine inside the guest. See the manual for ssh-add
-  config.ssh.forward_agent = true
-
   # CentOS 6.4, 64 bit release
   #
   # Provides a fairly bare-bones box created by Puppet Labs
