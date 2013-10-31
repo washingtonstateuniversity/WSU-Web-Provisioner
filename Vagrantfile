@@ -10,10 +10,6 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
 
-  # Capture the current version of Vagrant. We'll use this later
-  # to handle backward compatibility with Vagrant 1.2.x
-  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
-
   # A Virtualbox specific setting to set the VM's memory to 512MB.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
@@ -34,11 +30,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wp.wsu.edu"
   config.vm.network :private_network, ip: "10.10.30.30"
 
-  if vagrant_version >= "1.3.0"
-    config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
-  else
-    config.vm.synced_folder "www", "/var/www", :extra => 'dmode=775,fmode=774'
-  end
+  config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
 
   # Local Machine Hosts
   #
