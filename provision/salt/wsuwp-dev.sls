@@ -90,6 +90,7 @@ wsuwp-www-umount-initial:
   cmd.run:
     - name: sudo umount /var/www/
     - require:
+      - sls: webserver
       - cmd: wsuwp-dev-initial
     - require_in:
       - cmd: wsuwp-www-mount-initial
@@ -98,6 +99,7 @@ wsuwp-www-umount-update:
   cmd.run:
     - name: sudo umount /var/www/
     - require:
+      - sls: webserver
       - cmd: wsuwp-dev-update
     - require_in:
       - cmd: wsuwp-www-mount-update
