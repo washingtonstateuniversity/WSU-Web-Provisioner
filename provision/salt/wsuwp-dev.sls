@@ -30,6 +30,7 @@ wsuwp-db:
     - password: wp
     - host: localhost
     - require:
+      - sls: dbserver
       - service: mysql
       - pkg: mysql
     - require_in:
@@ -37,6 +38,7 @@ wsuwp-db:
   mysql_database.present:
     - name: wsuwp
     - require:
+      - sls: dbserver
       - service: mysql
       - pkg: mysql
     - require_in:
@@ -46,6 +48,7 @@ wsuwp-db:
     - database: wsuwp.*
     - user: wp
     - require:
+      - sls: dbserver
       - service: mysql
       - pkg: mysql
     - require_in:
@@ -56,6 +59,9 @@ wsuwp-db-import:
     - name: mysql -u wp -pwp wsuwp < wsuwp-02-initial-multi-network.sql
     - cwd: /vagrant/database
     - unless: cat /var/lib/mvysql/wsuwp/wp_options.frm
+    - require:
+      - sls: dbserver
+      - service: mysql
 
 install-dev-plugins:
   cmd.run:
