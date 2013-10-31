@@ -31,7 +31,7 @@ wsuwp-db:
     - host: localhost
     - require:
       - sls: dbserver
-      - service: mysql
+      - service: mysqld
       - pkg: mysql
     - require_in:
       - cmd: wsuwp-db-import
@@ -39,7 +39,7 @@ wsuwp-db:
     - name: wsuwp
     - require:
       - sls: dbserver
-      - service: mysql
+      - service: mysqld
       - pkg: mysql
     - require_in:
       - cmd: wsuwp-db-import
@@ -49,7 +49,7 @@ wsuwp-db:
     - user: wp
     - require:
       - sls: dbserver
-      - service: mysql
+      - service: mysqld
       - pkg: mysql
     - require_in:
       - cmd: wsuwp-db-import
@@ -61,7 +61,7 @@ wsuwp-db-import:
     - unless: cat /var/lib/mvysql/wsuwp/wp_options.frm
     - require:
       - sls: dbserver
-      - service: mysql
+      - service: mysqld
 
 install-dev-plugins:
   cmd.run:
