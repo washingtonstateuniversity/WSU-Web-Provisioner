@@ -10,7 +10,7 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
 
-  # A Virtualbox specific setting to set the VM's memory to 512MB.
+  # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
   end
