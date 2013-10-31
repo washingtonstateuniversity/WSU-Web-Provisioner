@@ -15,16 +15,17 @@ wp-cli:
     - require_in:
       - cmd: install-dev-plugins
 
+wsuwp-dev-update:
+  cmd.run:
+    - name: cd /var/www/wsuwp-platform; git pull origin master; git submodule update
+    - onlyif: cd /var/www/wsuwp-platform
+    - require:
+      - pkg: git
+
 wsuwp-dev-initial:
   cmd.run:
     - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
     - unless: cd /var/www/wsuwp-platform
-    - require:
-      - pkg: git
-
-wsuwp-dev-update:
-  cmd.run:
-    - name: cd /var/www/wsuwp-platform; git pull origin master; git submodule update
     - require:
       - pkg: git
 
@@ -87,22 +88,10 @@ wsuwp-www-umount-initial:
     - require:
       - sls: webserver
       - cmd: wsuwp-dev-initial
+      - cmd: activate-dev-plugins
     - require_in:
       - cmd: wsuwp-www-mount-initial
 
-wsuwp-www-umount-update:
-  cmd.run:
-    - name: sudo umount /var/www/
-    - require:
-      - sls: webserver
-      - cmd: wsuwp-dev-update
-    - require_in:
-      - cmd: wsuwp-www-mount-update
-
 wsuwp-www-mount-initial:
-  cmd.run:
-    - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
-
-wsuwp-www-mount-update:
   cmd.run:
     - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
