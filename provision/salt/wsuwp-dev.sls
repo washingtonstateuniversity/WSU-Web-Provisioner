@@ -1,17 +1,4 @@
 # Setup the WSUWP Platform for local development in Vagrant.
-user-vagrant:
-  user.present:
-    - name: vagrant
-    - groups:
-      - vagrant
-      - www-data
-      - mysql
-    - require:
-      - group: www-data
-      - group: mysql
-    - require_in:
-      - cmd: wp-cli
-
 wp-cli:
   cmd.run:
     - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash

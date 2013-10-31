@@ -7,13 +7,29 @@ user-mysql:
     - name: mysql
     - groups:
       - mysql
+    - require_in:
+      - pkg: mysql
+
+user-vagrant:
+  user.present:
+    - name: vagrant
+    - groups:
+      - vagrant
+      - www-data
+      - mysql
+    - require:
+      - group: www-data
+      - group: mysql
+    - require_in:
+      - cmd: wp-cli
+      - pkg: mysql
 
 /var/log/mysql:
   file.directory:
     - user: mysql
     - group: mysql
-    - dir_mode: 755
-    - file_mode: 644
+    - dir_mode: 775
+    - file_mode: 664
     - recurse:
         - user
         - group
@@ -26,10 +42,6 @@ mysql:
       - mysql-libs
       - mysql-server
       - MySQL-python
-  service.running:
-    - name: mysqld
-    - watch:
-      - file: /etc/my.cnf
 
 /etc/my.cnf:
   file.managed:
@@ -39,3 +51,11 @@ mysql:
     - mode: 644
     - require:
       - pkg: mysql
+
+mysql-start:
+  service.running:
+    - name: mysqld
+    - watch:
+      - file: /etc/my.cnf
+    - require:
+      - file: /etc/my.cnf
