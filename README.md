@@ -1,6 +1,6 @@
 # WSUWP-Environment
 
-* **Version:** 0.1-working
+* **Version:** 0.1
 
 ## Overview
 
