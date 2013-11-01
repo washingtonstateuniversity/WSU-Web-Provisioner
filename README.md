@@ -1,7 +1,5 @@
 # WSUWP-Environment
 
-* **Version:** 0.1
-
 ## Overview
 
 Work is underway at Washington State University to build a central WordPress publishing platform for use by many groups within the University.
