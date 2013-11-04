@@ -44,4 +44,4 @@ In your local `wsuwp-environment` directory, the latest changes can be pulled do
 * `vagrant up` after `vagrant destroy` takes about 7 minutes on a 42Mbps university connection.
 	* This assumes the persistent files for the WSUWP Platform are still in place.
 * `vagrant up` after `vagrant destroy` without the persistent WSUWP Platform files takes about X minutes on a 42Mbps university connection.
-* `vagrant up` after `vagrant halt` takes about X minutes on a 42Mbps university connection.
+* `vagrant up` after `vagrant halt` takes about 2 minutes on a 42Mbps university connection. Though connection speed should not matter much for this.
