@@ -61,7 +61,7 @@ wsuwp-db:
 
 wsuwp-db-import:
   cmd.run:
-    - name: mysql -u wp -pwp wsuwp < wsuwp-02-initial-multi-network.sql
+    - name: mysql -u wp -pwp wsuwp < wsuwp-03-initial-multi-network-users.sql
     - cwd: /vagrant/database
     - unless: cat /var/lib/mvysql/wsuwp/wp_options.frm
     - require:
