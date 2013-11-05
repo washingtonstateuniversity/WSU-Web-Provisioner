@@ -73,6 +73,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :salt do |salt|
     salt.bootstrap_script = 'provision/bootstrap_salt.sh'
+    salt.install_type = 'testing'
     salt.verbose = true
     salt.minion_config = 'provision/salt/minions/vagrant.conf'
     salt.run_highstate = true
