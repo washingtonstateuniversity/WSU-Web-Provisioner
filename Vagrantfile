@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
 
   # Set the default hostname and IP address for the virtual machine. If you have any other
   # Vagrant environments on the 10.10.30.x subnet, you may want to consider modifying this.
-  config.vm.hostname = "wp.wsu.edu"
+  config.vm.hostname = "wsuwp"
   config.vm.network :private_network, ip: "10.10.30.30"
 
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
@@ -42,14 +42,15 @@ Vagrant.configure("2") do |config|
   # scenarios with the WSUWP Platform setup.
   if defined? VagrantPlugins::HostsUpdater
     config.hostsupdater.aliases = [
+                     "wp.wsu.edu",
     	       "invalid.wp.wsu.edu",
     	       "content.wp.wsu.edu",
     	      "network1.wp.wsu.edu",
-      "invalid.network1.wp.wsu.edu",
+    "invalid.network1.wp.wsu.edu",
     	"site1.network1.wp.wsu.edu",
     	"site2.network1.wp.wsu.edu",
     	      "network2.wp.wsu.edu",
-      "invalid.network2.wp.wsu.edu",
+    "invalid.network2.wp.wsu.edu",
     	          "school1.wsu.edu",
     	    "site1.school1.wsu.edu",
     	    "site2.school1.wsu.edu",
