@@ -7,13 +7,9 @@ wp-cli:
     - require:
       - pkg: php-fpm
       - pkg: git
-    - require_in:
-      - cmd: install-dev-plugins
   file.symlink:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
-    - require_in:
-      - cmd: install-dev-plugins
 
 wsuwp-dev-update:
   cmd.run:
@@ -68,12 +64,16 @@ wsuwp-db-import:
       - sls: dbserver
       - service: mysqld
 
-install-dev-plugins:
+{% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
+install-dev-{{ plugin }}:
   cmd.run:
-    - name: wp plugin install user-switching; wp plugin install debug-bar;
+    - name: wp plugin install {{ install_arg['name'] }} --network
     - cwd: /var/www/wsuwp-platform/wordpress/
+    - require:
+      - cmd: wp-cli
     - require_in:
       - cmd: activate-dev-plugins
+{% endfor %}
 
 activate-dev-plugins:
   cmd.run:
