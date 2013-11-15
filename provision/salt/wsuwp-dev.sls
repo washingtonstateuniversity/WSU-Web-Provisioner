@@ -1,4 +1,9 @@
+# wsuwp-dev.sls
+#
 # Setup the WSUWP Platform for local development in Vagrant.
+############################################################
+
+# Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
     - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash
