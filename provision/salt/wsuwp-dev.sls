@@ -11,17 +11,17 @@ wp-cli:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
 
-wsuwp-dev-update:
-  cmd.run:
-    - name: cd /var/www/wsuwp-platform; git pull origin master; git submodule update
-    - onlyif: cd /var/www/wsuwp-platform
-    - require:
-      - pkg: git
-
 wsuwp-dev-initial:
   cmd.run:
     - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
     - unless: cd /var/www/wsuwp-platform
+    - require:
+      - pkg: git
+
+wsuwp-dev-update:
+  cmd.run:
+    - name: cd /var/www/wsuwp-platform; git pull origin master; git submodule update
+    - onlyif: cd /var/www/wsuwp-platform
     - require:
       - pkg: git
 
