@@ -67,18 +67,13 @@ wsuwp-db-import:
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
-    - name: wp plugin install {{ install_arg['name'] }} --network
+    - name: wp plugin install {{ install_arg['name'] }} --network; wp plugin activate {{ install_arg['name'] }};
     - cwd: /var/www/wsuwp-platform/wordpress/
     - require:
       - cmd: wp-cli
     - require_in:
-      - cmd: activate-dev-plugins
+      - cmd: wsuwp-www-umount-initial
 {% endfor %}
-
-activate-dev-plugins:
-  cmd.run:
-    - name: wp plugin activate user-switching --network; wp plugin activate debug-bar --network
-    - cwd: /var/www/wsuwp-platform/wordpress/
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
@@ -88,7 +83,6 @@ wsuwp-www-umount-initial:
     - require:
       - sls: webserver
       - cmd: wsuwp-dev-initial
-      - cmd: activate-dev-plugins
     - require_in:
       - cmd: wsuwp-www-mount-initial
 
