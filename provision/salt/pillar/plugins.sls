@@ -9,3 +9,9 @@ wp-plugins:
     name: debug-bar-console
   rewrite-rules-inspector:
     name: rewrite-rules-inspector
+
+git-wp-plugins:
+  query-monitor:
+    name: query-monitor
+    git: https://github.com/johnbillion/QueryMonitor.git
+    branch: master

@@ -80,6 +80,26 @@ install-dev-{{ plugin }}:
       - cmd: wsuwp-www-umount-initial
 {% endfor %}
 
+{% for plugin, install_arg in pillar.get('git-wp-plugins',{}).items() %}
+install-dev-git-initial-{{ plugin }}:
+  cmd.run:
+    - name: git clone {{ install_arg['git'] }} {{ install_arg['name'] }}
+    - cwd: /var/www/wsuwp-platform/content/plugins/
+    - unless: cd /var/www/wsuwp-platform/content/plugins/{{install_arg['name'] }}
+    - require:
+      - pkg: git
+      - cmd: wsuwp-dev-initial
+
+update-dev-git-{{ plugin }}:
+  cmd.run:
+    - name: git pull origin master
+    - cwd: /var/www/wsuwp-platform/content/plugins/{{ install_arg['name'] }}
+    - onlyif: cd /var/www/wsuwp-platform/content/plugins/{{ install_arg['name'] }}
+    - require:
+      - pkg: git
+      - cmd: wsuwp-dev-initial
+{% endfor %}
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
