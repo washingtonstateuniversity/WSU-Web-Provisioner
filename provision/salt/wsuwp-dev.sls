@@ -100,6 +100,24 @@ update-dev-git-{{ plugin }}:
       - cmd: wsuwp-dev-initial
 {% endfor %}
 
+install-wsu-spine-theme:
+  cmd.run:
+    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
+    - cwd: /var/www/wsuwp-platform/content/themes/
+    - unless: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
+    - require:
+      - pkg: git
+      - cmd: wsuwp-dev-initial
+
+update-wsu-spine-theme:
+  cmd.run:
+    - name: git pull origin master
+    - cwd: /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent/
+    - onlyif: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
+    - require:
+      - pkg: git
+      - cmd: wsuwp-dev-initial
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
