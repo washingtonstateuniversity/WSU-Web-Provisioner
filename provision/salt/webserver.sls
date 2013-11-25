@@ -114,6 +114,15 @@ iptables:
     - require:
       - pkg: php-fpm
 
+/etc/php.ini:
+  file.managed:
+    - source: salt://config/php-fpm/php.ini
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: php-fpm
+
 /etc/sysconfig/iptables:
   file.managed:
     - source: salt://config/iptables/iptables
