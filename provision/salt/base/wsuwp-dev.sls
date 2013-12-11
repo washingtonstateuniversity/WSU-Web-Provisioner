@@ -138,3 +138,12 @@ wsuwp-flush-cache:
     - name: sudo service memcached restart
     - require:
       - sls: cacheserver
+
+/etc/php.d/xdebug.ini:
+  file.managed:
+    - source: salt://config/php-fpm/xdebug.ini
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: php-fpm
