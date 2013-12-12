@@ -21,7 +21,6 @@ user-vagrant:
       - group: www-data
       - group: mysql
     - require_in:
-      - cmd: wp-cli
       - pkg: mysql
 
 /var/log/mysql:
