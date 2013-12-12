@@ -30,23 +30,10 @@ wsuwp-sync:
     - require:
       - file: /var/www/wsuwp-platform
 
+# Need to determine how to use provide production database user/pass
 wsuwp-db:
-  mysql_user.present:
-    - name: wp
-    - password: wp
-    - host: localhost
-    - require:
-      - service: mysql
-      - pkg: mysql
   mysql_database.present:
     - name: wsuwp
-    - require:
-      - service: mysql
-      - pkg: mysql
-  mysql_grants.present:
-    - grant: all privileges
-    - database: wsuwp.*
-    - user: wp
     - require:
       - service: mysql
       - pkg: mysql
