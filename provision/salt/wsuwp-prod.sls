@@ -26,7 +26,7 @@ wsuwp-update:
 
 wsuwp-sync:
   cmd.run:
-    - name: rsync -rvzh --delete --exclude='.git' --exclude='remote-config.php' /var/local/wsuwp-platform-vcs/ /var/www/wsuwp-platform; chown -R www-data:www-data /var/www/wsuwp-platform
+    - name: rsync -rvzh --delete --exclude='.git' --exclude='local-config.php' --exclude='remote-config.php' /var/local/wsuwp-platform-vcs/ /var/www/wsuwp-platform; chown -R www-data:www-data /var/www/wsuwp-platform
     - require:
       - file: /var/www/wsuwp-platform
 
