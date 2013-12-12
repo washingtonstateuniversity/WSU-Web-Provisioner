@@ -11,10 +11,10 @@ base:
     - server
     - webserver
     - cacheserver
-    - devserver
     - dbserver
   'env:vagrant':
     - match: grain
+    - devserver
     - wsuwp-dev
   'env:production':
     - match: grain
