@@ -13,4 +13,6 @@ base:
     - cacheserver
     - devserver
     - dbserver
+  'env:vagrant':
+    - match: grain
     - wsuwp-dev
