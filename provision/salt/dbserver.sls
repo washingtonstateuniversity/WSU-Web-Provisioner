@@ -47,7 +47,7 @@ mysql:
     - source: salt://config/mysql/my.cnf
     - user: root
     - group: root
-    - mode: 644
+    - mode: 664
     - require:
       - pkg: mysql
 
