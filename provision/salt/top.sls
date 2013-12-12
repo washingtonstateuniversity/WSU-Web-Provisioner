@@ -16,3 +16,6 @@ base:
   'env:vagrant':
     - match: grain
     - wsuwp-dev
+  'env:production':
+    - match: grain
+    - wsuwp-prod
