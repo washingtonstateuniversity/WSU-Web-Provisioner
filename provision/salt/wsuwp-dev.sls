@@ -39,15 +39,11 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
   mysql_database.present:
     - name: wsuwp
     - require:
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
   mysql_grants.present:
     - grant: all privileges
     - database: wsuwp.*
@@ -55,17 +51,6 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
-    - require_in:
-      - cmd: wsuwp-db-import
-
-wsuwp-db-import:
-  cmd.run:
-    - name: mysql -u wp -pwp wsuwp < wsuwp-03-initial-multi-network-users.sql
-    - cwd: /vagrant/database
-    - unless: cat /var/lib/mysql/wsuwp/wp_options.frm
-    - require:
-      - sls: dbserver
-      - service: mysqld
 
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
