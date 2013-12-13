@@ -37,7 +37,6 @@ wsuwp-db:
     - password: wp
     - host: localhost
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
     - require_in:
@@ -45,7 +44,6 @@ wsuwp-db:
   mysql_database.present:
     - name: wsuwp
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
     - require_in:
@@ -55,7 +53,6 @@ wsuwp-db:
     - database: wsuwp.*
     - user: wp
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
     - require_in:
