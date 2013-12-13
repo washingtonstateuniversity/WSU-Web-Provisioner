@@ -26,13 +26,6 @@ wsuwp-dev-initial:
     - require:
       - pkg: git
 
-wsuwp-dev-update:
-  cmd.run:
-    - name: cd /var/www/wsuwp-platform; git pull origin master; git submodule update
-    - onlyif: cd /var/www/wsuwp-platform
-    - require:
-      - pkg: git
-
 wsuwp-db:
   mysql_user.present:
     - name: wp
