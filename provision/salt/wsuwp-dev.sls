@@ -16,6 +16,9 @@ wp-cli:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
 
+# If the WSUWP Platform project is not yet available in the virtual machine,
+# clone the repository from GitHub and initialize the submodules so that WordPress
+# is available to us.
 wsuwp-dev-initial:
   cmd.run:
     - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
