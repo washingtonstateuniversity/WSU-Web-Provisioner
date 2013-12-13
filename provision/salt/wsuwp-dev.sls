@@ -26,6 +26,11 @@ wsuwp-dev-initial:
     - require:
       - pkg: git
 
+# Setup the MySQL requirements for WSUWP Platform
+#
+# user: wp
+# pass: wp
+# db:   wsuwp
 wsuwp-db:
   mysql_user.present:
     - name: wp
