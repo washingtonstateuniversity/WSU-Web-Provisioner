@@ -83,7 +83,7 @@ install-dev-{{ plugin }}:
 install-dev-git-initial-{{ plugin }}:
   cmd.run:
     - name: git clone {{ install_arg['git'] }} {{ install_arg['name'] }}
-    - cwd: /var/www/wsuwp-platform/content/plugins/
+    - cwd: /var/www/wsuwp-platform/wp-content/plugins
     - unless: cd /var/www/wsuwp-platform/content/plugins/{{install_arg['name'] }}
     - require:
       - pkg: git
@@ -92,8 +92,8 @@ install-dev-git-initial-{{ plugin }}:
 update-dev-git-{{ plugin }}:
   cmd.run:
     - name: git pull origin master
-    - cwd: /var/www/wsuwp-platform/content/plugins/{{ install_arg['name'] }}
-    - onlyif: cd /var/www/wsuwp-platform/content/plugins/{{ install_arg['name'] }}
+    - cwd: /var/www/wsuwp-platform/wp-content/plugins/{{ install_arg['name'] }}
+    - onlyif: cd /var/www/wsuwp-platform/wp-content/plugins/{{ install_arg['name'] }}
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
@@ -102,8 +102,8 @@ update-dev-git-{{ plugin }}:
 install-wsu-spine-theme:
   cmd.run:
     - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
-    - cwd: /var/www/wsuwp-platform/content/themes/
-    - unless: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
+    - cwd: /var/www/wsuwp-platform/wp-content/themes/
+    - unless: cd /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
@@ -111,8 +111,8 @@ install-wsu-spine-theme:
 update-wsu-spine-theme:
   cmd.run:
     - name: git pull origin master
-    - cwd: /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent/
-    - onlyif: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
+    - cwd: /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent/
+    - onlyif: cd /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
