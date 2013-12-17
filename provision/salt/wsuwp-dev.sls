@@ -36,11 +36,15 @@ wsuwp-db:
     - name: wp
     - password: wp
     - host: localhost
+    - require_in:
+      - cmd: wsuwp-install-network
     - require:
       - service: mysqld
       - pkg: mysql
   mysql_database.present:
     - name: wsuwp
+    - require_in:
+      - cmd: wsuwp-install-network
     - require:
       - service: mysqld
       - pkg: mysql
@@ -48,9 +52,19 @@ wsuwp-db:
     - grant: all privileges
     - database: wsuwp.*
     - user: wp
+    - require_in:
+      - cmd: wsuwp-install-network
     - require:
       - service: mysqld
       - pkg: mysql
+
+# Install WordPress
+wsuwp-install-network:
+  cmd.run:
+    - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.wsu.edu"
+    - cwd: /var/www/wsuwp-platform/
+    - require:
+      - cmd: wsuwp-dev-initial
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
