@@ -68,6 +68,8 @@ wsuwp-install-network:
       - cmd: wp-cli
       - cmd: wsuwp-dev-initial
 
+# Add a default set of users to the WordPress environment via wp-cli. These can be
+# configured in the users.sls pillar.
 {% for user, user_arg in pillar.get('wp-users',{}).items() %}
 wp-add-user-{{ user }}:
   cmd.run:
@@ -77,6 +79,8 @@ wp-add-user-{{ user }}:
       - cmd: wsuwp-install-network
 {% endfor %}
 
+# Add a default set of development plugins from the WordPress.org repository via wp-cli.
+# These can be configured through the plugins.sls pillar data.
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
@@ -88,6 +92,8 @@ install-dev-{{ plugin }}:
       - cmd: wsuwp-www-umount-initial
 {% endfor %}
 
+# Add a default set of development plugins from GitHub and update them when necessary.
+# These can be configured through the plugins.sls pillar data.
 {% for plugin, install_arg in pillar.get('git-wp-plugins',{}).items() %}
 install-dev-git-initial-{{ plugin }}:
   cmd.run:
@@ -108,6 +114,7 @@ update-dev-git-{{ plugin }}:
       - cmd: wsuwp-install-network
 {% endfor %}
 
+# Install the WSU Spine Parent theme available on GitHub.
 install-wsu-spine-theme:
   cmd.run:
     - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
@@ -117,6 +124,7 @@ install-wsu-spine-theme:
       - pkg: git
       - cmd: wsuwp-install-network
 
+# Update the WSU Spine Parent theme to the latest version.
 update-wsu-spine-theme:
   cmd.run:
     - name: git pull origin master
@@ -141,6 +149,7 @@ wsuwp-www-mount-initial:
   cmd.run:
     - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
 
+# Whenever provisioning runs, it doesn't hurt to flush our object cache.
 wsuwp-flush-cache:
   cmd.run:
     - name: sudo service memcached restart
