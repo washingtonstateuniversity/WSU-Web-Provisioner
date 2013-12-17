@@ -58,7 +58,8 @@ wsuwp-db:
       - service: mysqld
       - pkg: mysql
 
-# Install WordPress
+# Install our primary WordPress network with a default admin and password for the
+# development environment.
 wsuwp-install-network:
   cmd.run:
     - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
