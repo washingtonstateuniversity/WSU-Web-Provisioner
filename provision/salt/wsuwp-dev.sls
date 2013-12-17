@@ -87,7 +87,7 @@ install-dev-git-initial-{{ plugin }}:
     - unless: cd /var/www/wsuwp-platform/content/plugins/{{install_arg['name'] }}
     - require:
       - pkg: git
-      - cmd: wsuwp-dev-initial
+      - cmd: wsuwp-install-network
 
 update-dev-git-{{ plugin }}:
   cmd.run:
@@ -96,7 +96,7 @@ update-dev-git-{{ plugin }}:
     - onlyif: cd /var/www/wsuwp-platform/content/plugins/{{ install_arg['name'] }}
     - require:
       - pkg: git
-      - cmd: wsuwp-dev-initial
+      - cmd: wsuwp-install-network
 {% endfor %}
 
 install-wsu-spine-theme:
@@ -106,7 +106,7 @@ install-wsu-spine-theme:
     - unless: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
-      - cmd: wsuwp-dev-initial
+      - cmd: wsuwp-install-network
 
 update-wsu-spine-theme:
   cmd.run:
@@ -115,7 +115,7 @@ update-wsu-spine-theme:
     - onlyif: cd /var/www/wsuwp-platform/content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
-      - cmd: wsuwp-dev-initial
+      - cmd: wsuwp-install-network
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
