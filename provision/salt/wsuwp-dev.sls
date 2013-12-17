@@ -68,6 +68,17 @@ wsuwp-install-network:
       - cmd: wp-cli
       - cmd: wsuwp-dev-initial
 
+{% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
+install-dev-{{ plugin }}:
+  cmd.run:
+    - name: wp plugin install {{ install_arg['name'] }} --network; wp plugin activate {{ install_arg['name'] }};
+    - cwd: /var/www/wsuwp-platform/wordpress/
+    - require:
+      - cmd: wsuwp-install-network
+    - require_in:
+      - cmd: wsuwp-www-umount-initial
+{% endfor %}
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
