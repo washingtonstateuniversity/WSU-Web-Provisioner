@@ -71,7 +71,7 @@ wsuwp-install-network:
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
-    - name: wp plugin install {{ install_arg['name'] }} --network; wp plugin activate {{ install_arg['name'] }};
+    - name: wp plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }};
     - cwd: /var/www/wsuwp-platform/wordpress/
     - require:
       - cmd: wsuwp-install-network
