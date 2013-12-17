@@ -155,3 +155,11 @@ wsuwp-flush-cache:
     - name: sudo service memcached restart
     - require:
       - sls: cacheserver
+
+# Whenever provisioning runs, it doesn't hurt to restart php-fpm, flushing the opcode cache.
+wsuwp-flush-php-fpm:
+  cmd.run:
+    - name: sudo service php-fpm restart
+    - require:
+      - sls: webserver
+
