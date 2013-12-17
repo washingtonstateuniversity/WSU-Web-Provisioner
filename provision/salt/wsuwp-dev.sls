@@ -84,7 +84,7 @@ install-dev-git-initial-{{ plugin }}:
   cmd.run:
     - name: git clone {{ install_arg['git'] }} {{ install_arg['name'] }}
     - cwd: /var/www/wsuwp-platform/wp-content/plugins
-    - unless: cd /var/www/wsuwp-platform/content/plugins/{{install_arg['name'] }}
+    - unless: cd /var/www/wsuwp-platform/wp-content/plugins/{{install_arg['name'] }}
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
