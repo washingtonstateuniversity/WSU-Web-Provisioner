@@ -65,6 +65,7 @@ wsuwp-install-network:
     - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
     - cwd: /var/www/wsuwp-platform/
     - require:
+      - cmd: wp-cli
       - cmd: wsuwp-dev-initial
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
