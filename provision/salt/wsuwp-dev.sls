@@ -68,6 +68,15 @@ wsuwp-install-network:
       - cmd: wp-cli
       - cmd: wsuwp-dev-initial
 
+{% for user, user_arg in pillar.get('wp-users',{}).items() %}
+wp-add-user-{{ user }}:
+  cmd.run:
+    - name: wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}"
+    - cwd: /var/www/wsuwp-platform/wordpress/
+    - require:
+      - cmd: wsuwp-install-network
+{% endfor %}
+
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
