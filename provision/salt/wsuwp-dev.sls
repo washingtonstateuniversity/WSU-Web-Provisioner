@@ -61,10 +61,8 @@ wsuwp-db:
 # Install WordPress
 wsuwp-install-network:
   cmd.run:
-    - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.wsu.edu"
+    - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
     - cwd: /var/www/wsuwp-platform/
-    - require:
-      - cmd: wsuwp-dev-initial
 
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
