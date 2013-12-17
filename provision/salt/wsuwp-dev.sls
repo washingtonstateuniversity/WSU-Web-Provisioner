@@ -134,6 +134,17 @@ update-wsu-spine-theme:
       - pkg: git
       - cmd: wsuwp-install-network
 
+# Use rsync to sync the mu-plugins directory now that WordPress has been installed. This
+# may introduce some strangeness in developing for the platform, as changes will need to be
+# added back to the git repository through content rather than wp-content. We'll figure out
+# the proper way forward.
+sync-mu-plugins:
+  cmd.run:
+    - name: rsync -rvzh --delete --exclude '*.git*' content/mu-plugins/ wp-content/mu-plugins/
+    - cwd: /var/www/wsuwp-platform/
+    - require:
+      - cmd: wsuwp-install-network
+
 # After the operations in /var/www/ are complete, the mapped directory needs to be
 # unmounted and then mounted again with www-data:www-data ownership.
 wsuwp-www-umount-initial:
