@@ -7,6 +7,7 @@
 wp-cli:
   cmd.run:
     - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash
+    - cwd: /home/vagrant/
     - unless: which wp
     - user: vagrant
     - require:
