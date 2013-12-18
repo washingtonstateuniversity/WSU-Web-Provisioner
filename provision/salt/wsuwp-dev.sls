@@ -7,6 +7,7 @@
 wp-cli:
   cmd.run:
     - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash
+    - cwd: /home/vagrant/
     - unless: which wp
     - user: vagrant
     - require:
@@ -21,7 +22,8 @@ wp-cli:
 # is available to us.
 wsuwp-dev-initial:
   cmd.run:
-    - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
+    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
+    - cwd: /var/www/
     - unless: cd /var/www/wsuwp-platform
     - require:
       - pkg: git
@@ -150,6 +152,7 @@ sync-mu-plugins:
 wsuwp-www-umount-initial:
   cmd.run:
     - name: sudo umount /var/www/
+    - cwd: /
     - require:
       - sls: webserver
       - cmd: wsuwp-dev-initial
@@ -159,11 +162,13 @@ wsuwp-www-umount-initial:
 wsuwp-www-mount-initial:
   cmd.run:
     - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
+    - cwd: /
 
 # Whenever provisioning runs, it doesn't hurt to flush our object cache.
 wsuwp-flush-cache:
   cmd.run:
     - name: sudo service memcached restart
+    - cwd: /
     - require:
       - sls: cacheserver
 
@@ -171,6 +176,7 @@ wsuwp-flush-cache:
 wsuwp-flush-php-fpm:
   cmd.run:
     - name: sudo service php-fpm restart
+    - cwd: /
     - require:
       - sls: webserver
 

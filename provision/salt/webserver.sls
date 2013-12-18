@@ -49,6 +49,7 @@ nginx:
 nginx-init:
   cmd.run:
     - name: chkconfig --level 2345 nginx on
+    - cwd: /
     - require:
       - pkg: nginx
 
@@ -76,6 +77,7 @@ php-fpm:
 php-fpm-init:
   cmd.run:
     - name: chkconfig --level 2345 php-fpm on
+    - cwd: /
     - require:
       - pkg: php-fpm
 

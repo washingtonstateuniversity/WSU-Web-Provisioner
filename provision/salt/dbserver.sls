@@ -46,6 +46,7 @@ mysql:
 mysqld-init:
   cmd.run:
     - name: chkconfig --level 2345 mysqld on
+    - cwd: /
     - require:
       - pkg: mysql
 
