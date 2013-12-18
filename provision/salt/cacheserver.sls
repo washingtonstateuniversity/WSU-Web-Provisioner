@@ -16,3 +16,10 @@ memcached:
   service.running:
     - require:
       - pkg: memcached
+
+# Set memcached to run in levels 2345.
+memcached-init:
+  cmd.run:
+    - name: chkconfig --level 2345 memcached on
+    - require:
+      - pkg: memcached

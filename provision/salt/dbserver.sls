@@ -42,6 +42,13 @@ mysql:
       - mysql-server
       - MySQL-python
 
+# Set MySQL to run in levels 2345.
+mysqld-init:
+  cmd.run:
+    - name: chkconfig --level 2345 mysqld on
+    - require:
+      - pkg: mysql
+
 /etc/my.cnf:
   file.managed:
     - source: salt://config/mysql/my.cnf
