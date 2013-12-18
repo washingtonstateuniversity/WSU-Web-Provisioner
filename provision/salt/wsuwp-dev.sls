@@ -22,7 +22,8 @@ wp-cli:
 # is available to us.
 wsuwp-dev-initial:
   cmd.run:
-    - name: cd /var/www/; git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
+    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
+    - cwd: /var/www/
     - unless: cd /var/www/wsuwp-platform
     - require:
       - pkg: git
