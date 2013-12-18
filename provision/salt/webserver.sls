@@ -45,6 +45,13 @@ nginx:
       - file: /etc/nginx/sites-enabled/default
       - file: /etc/nginx/sites-enabled/wp.wsu.edu.conf
 
+# Set Nginx to run in levels 2345.
+nginx-init:
+  cmd.run:
+    - name: chkconfig --level 2345 nginx on
+    - require:
+      - pkg: nginx
+
 php-fpm:
   pkg.installed:
     - pkgs:
@@ -64,6 +71,13 @@ php-fpm:
       - pkg: php-fpm
     - watch:
       - file: /etc/php-fpm.d/www.conf
+
+# Set php-fpm to run in levels 2345.
+php-fpm-init:
+  cmd.run:
+    - name: chkconfig --level 2345 php-fpm on
+    - require:
+      - pkg: php-fpm
 
 ImageMagick:
   pkg.installed:
