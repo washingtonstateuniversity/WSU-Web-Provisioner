@@ -60,6 +60,16 @@ wsuwp-db:
       - service: mysqld
       - pkg: mysql
 
+# As object cache will be available to WordPress throughout provisioning at the plugin
+# level, stop memcached before applying any related commands to avoid possible cache
+# and database pollution or crossing.
+wsuwp-prep-install:
+  cmd.run:
+    - name: service memcached stop
+    - cwd: /
+    - require_in:
+      - cmd: wsuwp-install-network
+
 # Install our primary WordPress network with a default admin and password for the
 # development environment.
 wsuwp-install-network:
