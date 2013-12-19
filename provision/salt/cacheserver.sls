@@ -21,5 +21,6 @@ memcached:
 memcached-init:
   cmd.run:
     - name: chkconfig --level 2345 memcached on
+    - cwd: /
     - require:
       - pkg: memcached
