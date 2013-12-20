@@ -9,14 +9,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Custom plugin used by the WSUWP Environment
-#
-# * Detect if this is an initial `vagrant up`
-module WSUWPCustom
-  class Plugin < Vagrant.plugin('2')
-    puts self.methods
-  end
-end
+# Look for the machine ID file. This should indicate if the VM state is suspended, halted, or up.
+machines_file = File.expand_path(File.dirname(__FILE__) + '/.vagrant/machines/default/virtualbox/id')
+machine_exists = File.file?(machines_file)
 
 Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
