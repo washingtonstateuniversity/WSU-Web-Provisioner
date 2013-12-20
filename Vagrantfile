@@ -8,8 +8,12 @@
 #
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-Vagrant.configure("2") do |config|
 
+# Look for the machine ID file. This should indicate if the VM state is suspended, halted, or up.
+machines_file = File.expand_path(File.dirname(__FILE__) + '/.vagrant/machines/default/virtualbox/id')
+machine_exists = File.file?(machines_file)
+
+Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
@@ -29,7 +33,11 @@ Vagrant.configure("2") do |config|
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
   # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
   # during provisioning.
-  config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
+  if machine_exists
+    config.vm.synced_folder "www", "/var/www", owner: 'www-data', group: 'www-data', :mount_options => [ "dmode=775", "fmode=774" ]
+  else
+    config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
+  end
 
   # Local Machine Hosts
   #
