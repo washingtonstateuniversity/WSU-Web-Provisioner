@@ -8,8 +8,17 @@
 #
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-Vagrant.configure("2") do |config|
 
+# Custom plugin used by the WSUWP Environment
+#
+# * Detect if this is an initial `vagrant up`
+module WSUWPCustom
+  class Plugin < Vagrant.plugin('2')
+    puts self.methods
+  end
+end
+
+Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--memory", 512]
