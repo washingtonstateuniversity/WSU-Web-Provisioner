@@ -33,7 +33,11 @@ Vagrant.configure("2") do |config|
   # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
   # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
   # during provisioning.
-  config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
+  if machine_exists
+    config.vm.synced_folder "www", "/var/www", owner: 'www-data', group: 'www-data', :mount_options => [ "dmode=775", "fmode=774" ]
+  else
+    config.vm.synced_folder "www", "/var/www", :mount_options => [ "dmode=775", "fmode=774" ]
+  end
 
   # Local Machine Hosts
   #
