@@ -65,7 +65,6 @@ php-fpm:
       - php-mcrypt
       - php-imap
       - php-pecl-zendopcache
-      - php-pecl-xdebug
       - php-pecl-memcached
   service.running:
     - require:
