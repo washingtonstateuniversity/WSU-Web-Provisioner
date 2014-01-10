@@ -41,8 +41,8 @@ Vagrant.configure("2") do |config|
   # be aware of the domains specified below. Watch the provisioning script as you may be
   # required to enter a password for Vagrant to access your hosts file.
   #
-  # The domains provided in this setup are intended to act as a good representation of possible
-  # scenarios with the WSUWP Platform setup.
+  # Only the default domain, wp.wsu.edu, is provided. Add a `custom-hosts` file to this Vagrant
+  # directory and provide additional hosts there. These should be added as one host per line.
   if defined? VagrantPlugins::HostsUpdater
     hosts = [ "wp.wsu.edu" ]
 
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
       paths << path
     end
 
-    # Parse through the custom-hosts files in each of the found paths and put the hosts
+    # Parse through the `custom-hosts` files in each of the found paths and put the hosts
     # that are found into a single array.
     paths.each do |path|
       new_hosts = []
