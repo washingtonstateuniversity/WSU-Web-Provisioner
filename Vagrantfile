@@ -12,6 +12,7 @@
 # Look for the machine ID file. This should indicate if the VM state is suspended, halted, or up.
 machines_file = File.expand_path(File.dirname(__FILE__) + '/.vagrant/machines/default/virtualbox/id')
 machine_exists = File.file?(machines_file)
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
@@ -40,32 +41,30 @@ Vagrant.configure("2") do |config|
   # be aware of the domains specified below. Watch the provisioning script as you may be
   # required to enter a password for Vagrant to access your hosts file.
   #
-  # The domains provided in this setup are intended to act as a good representation of possible
-  # scenarios with the WSUWP Platform setup.
+  # Only the default domain, wp.wsu.edu, is provided. Add a `custom-hosts` file to this Vagrant
+  # directory and provide additional hosts there. These should be added as one host per line.
   if defined? VagrantPlugins::HostsUpdater
-    config.hostsupdater.aliases = [
-                     "wp.wsu.edu",
-               "test1.wp.wsu.edu",
-    	       "invalid.wp.wsu.edu",
-    	       "content.wp.wsu.edu",
-    	      "network1.wp.wsu.edu",
-      "test1.network1.wp.wsu.edu",
-    "invalid.network1.wp.wsu.edu",
-    	"site1.network1.wp.wsu.edu",
-    	"site2.network1.wp.wsu.edu",
-    	      "network2.wp.wsu.edu",
-      "test1.network2.wp.wsu.edu",
-    "invalid.network2.wp.wsu.edu",
-    	          "school1.wsu.edu",
-          "test1.school1.wsu.edu",
-    	    "site1.school1.wsu.edu",
-    	    "site2.school1.wsu.edu",
-    	  "invalid.school1.wsu.edu",
-    	          "school2.wsu.edu",
-          "test1.school2.wsu.edu",
-    	  "invalid.school2.wsu.edu",
-    	          "invalid.wsu.edu"
-    ]
+    hosts = [ "wp.wsu.edu" ]
+
+    paths = []
+    Dir.glob(vagrant_dir + '/custom-hosts').each do |path|
+      paths << path
+    end
+
+    # Parse through the `custom-hosts` files in each of the found paths and put the hosts
+    # that are found into a single array.
+    paths.each do |path|
+      new_hosts = []
+      file_hosts = IO.read(path).split( "\n" )
+      file_hosts.each do |line|
+        if line[0..0] != "#"
+          new_hosts << line
+        end
+      end
+      hosts.concat new_hosts
+    end
+
+    config.hostsupdater.aliases = hosts
   end
 
   # Salt Provisioning
