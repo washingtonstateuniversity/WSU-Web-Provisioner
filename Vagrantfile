@@ -30,14 +30,8 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "wsuwp"
   config.vm.network :private_network, ip: "10.10.30.30"
 
-  # Mount the local project's www/ directory as /var/www inside the virtual machine. This will
-  # be mounted as the 'vagrant' user at first, then unmounted and mounted again as 'www-data'
-  # during provisioning.
-  if machine_exists
-    config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
-  else
-    config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
-  end
+  # Mount the local project's www/ directory as /var/www inside the virtual machine.
+  config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
 
   # Local Machine Hosts
   #
