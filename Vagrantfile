@@ -40,10 +40,29 @@ Vagrant.configure("2") do |config|
   # In the following section, we make use of two plugins for Vagrant to add network hosts entries
   # to both your local (host) machine and the virtual (guest) machine. Only the default domain,
   # wp.wsu.edu in this configuration, is provided.
-  # 
+  #
   # Add a `custom-hosts` file to this Vagrant directory and provide additional hosts there when
   # required. These should be added as one host per line.
   #############################################################################
+
+  # Parse through the `custom-hosts` files in each of the found paths and put the hosts
+  # that are found into a single array.
+  paths = []
+  Dir.glob(vagrant_dir + '/*-hosts').each do |path|
+    paths << path
+  end
+
+  hosts = []
+  paths.each do |path|
+    new_hosts = []
+    file_hosts = IO.read(path).split( "\n" )
+    file_hosts.each do |line|
+      if line[0..0] != "#"
+        new_hosts << line
+      end
+    end
+    hosts.concat new_hosts
+  end
 
   # Local Machine Hosts (/etc/hosts on the host)
   #
@@ -56,26 +75,6 @@ Vagrant.configure("2") do |config|
   # This may require the entry of a password in OSX or Linux, and the acceptance of a UAC
   # prompt in Windows.
   if defined? VagrantPlugins::HostsUpdater
-    hosts = []
-
-    paths = []
-    Dir.glob(vagrant_dir + '/*-hosts').each do |path|
-      paths << path
-    end
-
-    # Parse through the `custom-hosts` files in each of the found paths and put the hosts
-    # that are found into a single array.
-    paths.each do |path|
-      new_hosts = []
-      file_hosts = IO.read(path).split( "\n" )
-      file_hosts.each do |line|
-        if line[0..0] != "#"
-          new_hosts << line
-        end
-      end
-      hosts.concat new_hosts
-    end
-
     config.hostsupdater.aliases = hosts
   end
 
