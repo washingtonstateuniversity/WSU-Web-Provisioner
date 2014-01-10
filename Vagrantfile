@@ -78,6 +78,15 @@ Vagrant.configure("2") do |config|
     config.hostsupdater.aliases = hosts
   end
 
+  # Virtual Machine Hosts (/etc/hosts on the guest)
+  #
+  # If the Vagrant plugin vagrant-hosts is installed, this project's `*-wsuwp-hosts` files will
+  # be parsed and the entries found will be added to the virtual machine's hosts file so that
+  # it is able to access itself at those network addresses.
+  config.vm.provision :hosts do |provisioner|
+    provisioner.add_host '10.0.30.30', hosts
+  end
+
   # Salt Provisioning
   #
   # Map the provisioning directory to the guest machine and initiate the provisioning process
