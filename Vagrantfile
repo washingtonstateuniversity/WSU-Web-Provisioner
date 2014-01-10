@@ -34,15 +34,27 @@ Vagrant.configure("2") do |config|
   # Mount the local project's www/ directory as /var/www inside the virtual machine.
   config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
 
-  # Local Machine Hosts
+  #############################################################################
+  # Automatic Hosts Entries
   #
-  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file to
-  # be aware of the domains specified below. Watch the provisioning script as you may be
-  # required to enter a password for Vagrant to access your hosts file.
+  # In the following section, we make use of two plugins for Vagrant to add network hosts entries
+  # to both your local (host) machine and the virtual (guest) machine. Only the default domain,
+  # wp.wsu.edu in this configuration, is provided.
+  # 
+  # Add a `custom-hosts` file to this Vagrant directory and provide additional hosts there when
+  # required. These should be added as one host per line.
+  #############################################################################
+
+  # Local Machine Hosts (/etc/hosts on the host)
   #
-  # Only the default domain, wp.wsu.edu, is provided. Add a `custom-hosts` file to this Vagrant
-  # directory and provide additional hosts there. These should be added as one host per line.
+  # If the Vagrant plugin hostsupdater is installed, this project's `*-wsuwp-hosts` files will
+  # be parsed and the entries found will be added to your local machine's hosts file so that
+  # you are able to access the server configured inside the guest machine.
+  #
+  # vagrant-hostsupdater https://github.com/cogitatio/vagrant-hostsupdater
+  #
+  # This may require the entry of a password in OSX or Linux, and the acceptance of a UAC
+  # prompt in Windows.
   if defined? VagrantPlugins::HostsUpdater
     hosts = []
 
