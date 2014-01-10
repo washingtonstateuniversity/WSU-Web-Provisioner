@@ -100,8 +100,6 @@ install-dev-{{ plugin }}:
     - cwd: /var/www/wsuwp-platform/wordpress/
     - require:
       - cmd: wsuwp-install-network
-    - require_in:
-      - cmd: wsuwp-www-umount-initial
 {% endfor %}
 
 # Add a default set of development plugins from GitHub and update them when necessary.
@@ -145,23 +143,6 @@ update-wsu-spine-theme:
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
-
-# After the operations in /var/www/ are complete, the mapped directory needs to be
-# unmounted and then mounted again with www-data:www-data ownership.
-wsuwp-www-umount-initial:
-  cmd.run:
-    - name: sudo umount /var/www/
-    - cwd: /
-    - require:
-      - sls: webserver
-      - cmd: wsuwp-dev-initial
-    - require_in:
-      - cmd: wsuwp-www-mount-initial
-
-wsuwp-www-mount-initial:
-  cmd.run:
-    - name: sudo mount -t vboxsf -o dmode=775,fmode=664,uid=`id -u www-data`,gid=`id -g www-data` /var/www/ /var/www/
-    - cwd: /
 
 # Whenever provisioning runs, it doesn't hurt to flush our object cache.
 wsuwp-flush-cache:
