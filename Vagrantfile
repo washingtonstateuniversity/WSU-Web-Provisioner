@@ -12,6 +12,7 @@
 # Look for the machine ID file. This should indicate if the VM state is suspended, halted, or up.
 machines_file = File.expand_path(File.dirname(__FILE__) + '/.vagrant/machines/default/virtualbox/id')
 machine_exists = File.file?(machines_file)
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure("2") do |config|
   # Virtualbox specific setting to allocate 512MB of memory to the virtual machine.
@@ -43,7 +44,7 @@ Vagrant.configure("2") do |config|
   # The domains provided in this setup are intended to act as a good representation of possible
   # scenarios with the WSUWP Platform setup.
   if defined? VagrantPlugins::HostsUpdater
-    config.hostsupdater.aliases = [
+    hosts = [
                      "wp.wsu.edu",
                "test1.wp.wsu.edu",
     	       "invalid.wp.wsu.edu",
@@ -66,6 +67,27 @@ Vagrant.configure("2") do |config|
     	  "invalid.school2.wsu.edu",
     	          "invalid.wsu.edu"
     ]
+
+    paths = []
+    Dir.glob(vagrant_dir + '/custom-hosts').each do |path|
+      paths << path
+    end
+
+    # Parse through the custom-hosts files in each of the found paths and put the hosts
+    # that are found into a single array.
+    hosts = []
+    paths.each do |path|
+      new_hosts = []
+      file_hosts = IO.read(path).split( "\n" )
+      file_hosts.each do |line|
+        if line[0..0] != "#"
+          new_hosts << line
+        end
+      end
+      hosts.concat new_hosts
+    end
+
+    config.hostsupdater.aliases = hosts
   end
 
   # Salt Provisioning
