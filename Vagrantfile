@@ -44,29 +44,7 @@ Vagrant.configure("2") do |config|
   # The domains provided in this setup are intended to act as a good representation of possible
   # scenarios with the WSUWP Platform setup.
   if defined? VagrantPlugins::HostsUpdater
-    hosts = [
-                     "wp.wsu.edu",
-               "test1.wp.wsu.edu",
-    	       "invalid.wp.wsu.edu",
-    	       "content.wp.wsu.edu",
-    	      "network1.wp.wsu.edu",
-      "test1.network1.wp.wsu.edu",
-    "invalid.network1.wp.wsu.edu",
-    	"site1.network1.wp.wsu.edu",
-    	"site2.network1.wp.wsu.edu",
-    	      "network2.wp.wsu.edu",
-      "test1.network2.wp.wsu.edu",
-    "invalid.network2.wp.wsu.edu",
-    	          "school1.wsu.edu",
-          "test1.school1.wsu.edu",
-    	    "site1.school1.wsu.edu",
-    	    "site2.school1.wsu.edu",
-    	  "invalid.school1.wsu.edu",
-    	          "school2.wsu.edu",
-          "test1.school2.wsu.edu",
-    	  "invalid.school2.wsu.edu",
-    	          "invalid.wsu.edu"
-    ]
+    hosts = [ "wp.wsu.edu" ]
 
     paths = []
     Dir.glob(vagrant_dir + '/custom-hosts').each do |path|
@@ -75,7 +53,6 @@ Vagrant.configure("2") do |config|
 
     # Parse through the custom-hosts files in each of the found paths and put the hosts
     # that are found into a single array.
-    hosts = []
     paths.each do |path|
       new_hosts = []
       file_hosts = IO.read(path).split( "\n" )
