@@ -44,10 +44,10 @@ Vagrant.configure("2") do |config|
   # Only the default domain, wp.wsu.edu, is provided. Add a `custom-hosts` file to this Vagrant
   # directory and provide additional hosts there. These should be added as one host per line.
   if defined? VagrantPlugins::HostsUpdater
-    hosts = [ "wp.wsu.edu" ]
+    hosts = []
 
     paths = []
-    Dir.glob(vagrant_dir + '/custom-hosts').each do |path|
+    Dir.glob(vagrant_dir + '/*-hosts').each do |path|
       paths << path
     end
 
