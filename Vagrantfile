@@ -41,14 +41,14 @@ Vagrant.configure("2") do |config|
   # to both your local (host) machine and the virtual (guest) machine. Only the default domain,
   # wp.wsu.edu in this configuration, is provided.
   #
-  # Add a `custom-hosts` file to this Vagrant directory and provide additional hosts there when
-  # required. These should be added as one host per line.
+  # Add a `custom-wsuwp-hosts` file to this Vagrant directory and provide additional hosts there
+  # when required. These should be added as one host per line.
   #############################################################################
 
-  # Parse through the `custom-hosts` files in each of the found paths and put the hosts
+  # Parse through the `*-wsuwp-hosts` files in each of the found paths and put the hosts
   # that are found into a single array.
   paths = []
-  Dir.glob(vagrant_dir + '/*-hosts').each do |path|
+  Dir.glob(vagrant_dir + '/*-wsuwp-hosts').each do |path|
     paths << path
   end
 
