@@ -14,7 +14,9 @@ The goal of the WSUWP Environment project is to provide provisioning for develop
 1. Download and install the latest version of [Vagrant](http://downloads.vagrantup.com/)
 	* `vagrant` is now available to you as a command in your terminal
 1. Type `vagrant plugin install vagrant-hostsupdater`
-	* This installs the [Vagrant hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin to easily manage domains
+	* This installs the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin to manage domains on your local machine.
+1. Type `vagrant plugin install vagrant-hosts`
+	* This installs the [vagrant-hosts](https://github.com/adrienthebo/vagrant-hosts) plugin to manage domains inside the VM.
 1. Clone or extract this repository into a local directory on your machine into a directory of your choosing
 	* `git clone https://github.com/washingtonstateuniversity/WSUWP-Environment.git wsuwp-environment`
 1. Navigate to `wsuwp-environment` in your terminal

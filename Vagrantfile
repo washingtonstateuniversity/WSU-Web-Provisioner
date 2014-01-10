@@ -34,37 +34,61 @@ Vagrant.configure("2") do |config|
   # Mount the local project's www/ directory as /var/www inside the virtual machine.
   config.vm.synced_folder "www", "/var/www", :mount_options => [ "uid=510,gid=510", "dmode=775", "fmode=774" ]
 
-  # Local Machine Hosts
+  #############################################################################
+  # Automatic Hosts Entries
   #
-  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file to
-  # be aware of the domains specified below. Watch the provisioning script as you may be
-  # required to enter a password for Vagrant to access your hosts file.
+  # In the following section, we make use of two plugins for Vagrant to add network hosts entries
+  # to both your local (host) machine and the virtual (guest) machine. Only the default domain,
+  # wp.wsu.edu in this configuration, is provided.
   #
-  # Only the default domain, wp.wsu.edu, is provided. Add a `custom-hosts` file to this Vagrant
-  # directory and provide additional hosts there. These should be added as one host per line.
-  if defined? VagrantPlugins::HostsUpdater
-    hosts = [ "wp.wsu.edu" ]
+  # Add a `custom-wsuwp-hosts` file to this Vagrant directory and provide additional hosts there
+  # when required. These should be added as one host per line.
+  #############################################################################
 
-    paths = []
-    Dir.glob(vagrant_dir + '/custom-hosts').each do |path|
-      paths << path
-    end
+  # Parse through the `*-wsuwp-hosts` files in each of the found paths and put the hosts
+  # that are found into a single array.
+  paths = []
+  Dir.glob(vagrant_dir + '/*-wsuwp-hosts').each do |path|
+    paths << path
+  end
 
-    # Parse through the `custom-hosts` files in each of the found paths and put the hosts
-    # that are found into a single array.
-    paths.each do |path|
-      new_hosts = []
-      file_hosts = IO.read(path).split( "\n" )
-      file_hosts.each do |line|
-        if line[0..0] != "#"
-          new_hosts << line
-        end
+  hosts = []
+  paths.each do |path|
+    new_hosts = []
+    file_hosts = IO.read(path).split( "\n" )
+    file_hosts.each do |line|
+      if line[0..0] != "#"
+        new_hosts << line
       end
-      hosts.concat new_hosts
     end
+    hosts.concat new_hosts
+  end
 
+  # Local Machine Hosts (/etc/hosts on the host)
+  #
+  # If the Vagrant plugin hostsupdater is installed, this project's `*-wsuwp-hosts` files will
+  # be parsed and the entries found will be added to your local machine's hosts file so that
+  # you are able to access the server configured inside the guest machine.
+  #
+  # vagrant-hostsupdater https://github.com/cogitatio/vagrant-hostsupdater
+  #
+  # This may require the entry of a password in OSX or Linux, and the acceptance of a UAC
+  # prompt in Windows.
+  if defined? VagrantPlugins::HostsUpdater
     config.hostsupdater.aliases = hosts
+  end
+
+  # Virtual Machine Hosts (/etc/hosts on the guest)
+  #
+  # If the Vagrant plugin vagrant-hosts is installed, this project's `*-wsuwp-hosts` files will
+  # be parsed and the entries found will be added to the virtual machine's hosts file so that
+  # it is able to access itself at those network addresses.
+  #
+  # vagrant-hosts https://github.com/adrienthebo/vagrant-hosts
+  #
+  # This will only run during provisioning.
+  config.vm.provision :hosts do |provisioner|
+    provisioner.add_host '10.0.30.30', hosts
   end
 
   # Salt Provisioning

@@ -13,13 +13,6 @@ user-www-data:
     - require:
       - group: www-data
 
-/etc/hosts:
-  file.managed:
-    - source: salt://config/hosts
-    - user: root
-    - group: root
-    - mode: 644
-
 /etc/resolv.conf:
   file.managed:
     - source: salt://config/resolv.conf

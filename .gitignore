@@ -15,4 +15,4 @@
 !www/.gitshow
 
 # Ignore custom hosts defined for project level development.
-custom-hosts
+custom-*-hosts
