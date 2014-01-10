@@ -13,3 +13,6 @@
 # Ignore Web files pulled into the mapped www directory.
 /www/*
 !www/.gitshow
+
+# Ignore custom hosts defined for project level development.
+custom-hosts
