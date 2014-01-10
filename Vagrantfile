@@ -83,6 +83,10 @@ Vagrant.configure("2") do |config|
   # If the Vagrant plugin vagrant-hosts is installed, this project's `*-wsuwp-hosts` files will
   # be parsed and the entries found will be added to the virtual machine's hosts file so that
   # it is able to access itself at those network addresses.
+  #
+  # vagrant-hosts https://github.com/adrienthebo/vagrant-hosts
+  #
+  # This will only run during provisioning.
   config.vm.provision :hosts do |provisioner|
     provisioner.add_host '10.0.30.30', hosts
   end
