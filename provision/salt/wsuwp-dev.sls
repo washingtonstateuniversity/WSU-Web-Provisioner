@@ -17,17 +17,6 @@ wp-cli:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
 
-# If the WSUWP Platform project is not yet available in the virtual machine,
-# clone the repository from GitHub and initialize the submodules so that WordPress
-# is available to us.
-wsuwp-dev-initial:
-  cmd.run:
-    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-Platform.git wsuwp-platform; cd wsuwp-platform; git submodule init; git submodule update
-    - cwd: /var/www/
-    - unless: cd /var/www/wsuwp-platform
-    - require:
-      - pkg: git
-
 # Setup the MySQL requirements for WSUWP Platform
 #
 # user: wp
@@ -75,10 +64,9 @@ wsuwp-prep-install:
 wsuwp-install-network:
   cmd.run:
     - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
-    - cwd: /var/www/wsuwp-platform/
+    - cwd: /var/www/
     - require:
       - cmd: wp-cli
-      - cmd: wsuwp-dev-initial
 
 # Add a default set of users to the WordPress environment via wp-cli. These can be
 # configured in the users.sls pillar.
@@ -86,7 +74,7 @@ wsuwp-install-network:
 wp-add-user-{{ user }}:
   cmd.run:
     - name: wp user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
-    - cwd: /var/www/wsuwp-platform/wordpress/
+    - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
 {% endfor %}
@@ -97,7 +85,7 @@ wp-add-user-{{ user }}:
 install-dev-{{ plugin }}:
   cmd.run:
     - name: wp plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
-    - cwd: /var/www/wsuwp-platform/wordpress/
+    - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
 {% endfor %}
@@ -108,8 +96,8 @@ install-dev-{{ plugin }}:
 install-dev-git-initial-{{ plugin }}:
   cmd.run:
     - name: git clone {{ install_arg['git'] }} {{ install_arg['name'] }}
-    - cwd: /var/www/wsuwp-platform/wp-content/plugins
-    - unless: cd /var/www/wsuwp-platform/wp-content/plugins/{{install_arg['name'] }}
+    - cwd: /var/www/wp-content/plugins
+    - unless: cd /var/www/wp-content/plugins/{{install_arg['name'] }}
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
@@ -117,8 +105,8 @@ install-dev-git-initial-{{ plugin }}:
 update-dev-git-{{ plugin }}:
   cmd.run:
     - name: git pull origin master
-    - cwd: /var/www/wsuwp-platform/wp-content/plugins/{{ install_arg['name'] }}
-    - onlyif: cd /var/www/wsuwp-platform/wp-content/plugins/{{ install_arg['name'] }}
+    - cwd: /var/www/wp-content/plugins/{{ install_arg['name'] }}
+    - onlyif: cd /var/www/wp-content/plugins/{{ install_arg['name'] }}
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
@@ -128,8 +116,8 @@ update-dev-git-{{ plugin }}:
 install-wsu-spine-theme:
   cmd.run:
     - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
-    - cwd: /var/www/wsuwp-platform/wp-content/themes/
-    - unless: cd /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent
+    - cwd: /var/www/wp-content/themes/
+    - unless: cd /var/www/wp-content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
@@ -138,8 +126,8 @@ install-wsu-spine-theme:
 update-wsu-spine-theme:
   cmd.run:
     - name: git pull origin master
-    - cwd: /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent/
-    - onlyif: cd /var/www/wsuwp-platform/wp-content/themes/wsuwp-spine-parent
+    - cwd: /var/www/wp-content/themes/wsuwp-spine-parent/
+    - onlyif: cd /var/www/wp-content/themes/wsuwp-spine-parent
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
