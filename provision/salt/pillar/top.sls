@@ -1,4 +1,0 @@
-base:
-  '*':
-    - plugins
-    - users
