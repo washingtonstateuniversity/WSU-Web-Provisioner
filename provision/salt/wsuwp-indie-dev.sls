@@ -16,7 +16,7 @@ wp-cli:
     - name: /usr/bin/wp
     - target: /home/vagrant/.wp-cli/bin/wp
 
-wsuwp-db:
+wsuwp-indie-db:
   mysql_user.present:
     - name: wp
     - password: wp
@@ -27,7 +27,7 @@ wsuwp-db:
       - pkg: mysql
 
 {% for project, project_args in pillar.get('wp-single-projects',{}).items() %}
-wsuwp-db-{{ project }}:
+wsuwp-indie-db-{{ project }}:
   mysql_database.present:
     - name: {{ project_args['database'] }}
     - require:
@@ -43,12 +43,12 @@ wsuwp-db-{{ project }}:
       - service: mysqld
       - pkg: mysql
 
-wsuwp-nginx-{{ project }}:
+wsuwp-indie-nginx-{{ project }}:
   cmd.run:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
 {% endfor %}
 
-wsuwp-flush-cache:
+wsuwp-indie-flush-cache:
   cmd.run:
     - name: sudo service memcached restart
     - require:
