@@ -6,15 +6,10 @@
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.13.0/wp-cli.phar > wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
     - unless: which wp
-    - user: vagrant
     - require:
       - pkg: php-fpm
-      - pkg: git
-  file.symlink:
-    - name: /usr/bin/wp
-    - target: /home/vagrant/.wp-cli/bin/wp
 
 wsuwp-indie-db:
   mysql_user.present:
