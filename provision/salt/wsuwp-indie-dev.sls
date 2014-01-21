@@ -46,6 +46,8 @@ wsuwp-indie-db-{{ project }}:
 wsuwp-indie-nginx-{{ project }}:
   cmd.run:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
+    - require:
+      - sls: webserver
 {% endfor %}
 
 wsuwp-indie-flush:
