@@ -48,12 +48,9 @@ wsuwp-indie-nginx-{{ project }}:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
 {% endfor %}
 
-wsuwp-indie-flush-cache:
+wsuwp-indie-flush:
   cmd.run:
-    - name: sudo service memcached restart
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
     - require:
       - sls: cacheserver
-  cmd.run:
-    - name: sudo service nginx restart
-    - require:
       - sls: webserver
