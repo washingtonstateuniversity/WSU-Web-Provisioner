@@ -52,11 +52,13 @@ Current minions include:
 * `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
 * `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
 
-## Provisioning in Vagrant
+## Provisioning
+
+### In Vagrant
 
 There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
 
-### Managed through Scripting
+#### Managed through Scripting
 
 As you'll see below, Vagrant has direct support for using Salt as a provisioner. While this could be extremely useful, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
 
@@ -83,7 +85,7 @@ This starts by using [cURL](http://curl.haxx.se/) to download the most recent ve
 
 This very much mimics a workflow that may exist on a production server and will be useful in ensuring that things are working as expected before going live.
 
-### Managed by Vagrant
+#### Managed by Vagrant
 
 Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the VM.
 
@@ -102,7 +104,7 @@ This requires that at least the minion config is available to the virtual machin
 
 When Vagrant boots the virtual machine with this configuration, Salt will be bootstrapped automatically, and the provisioning settings included in the mapped minion will be followed. This also requires that the provisioning be made available to the virtual machine by mapped directory ahead of time.
 
-## Provisioning in Production
+### In Production
 
 Production provisioning will follow a process very similar to that of managing Salt in Vagrant through scripting.
 
