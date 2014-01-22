@@ -17,9 +17,9 @@ Current minions include:
 * `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
 * `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
 
-## Projects using WSU Web Provisioner
+## Current Projects
 
-These projects are currently using the current version of WSU Web Provisioner.
+These projects are currently using WSU Web Provisioner for provisioning.
 
 * [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
 * [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
