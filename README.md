@@ -31,7 +31,7 @@ Shell scripting can be used during the provisioning of a virtual machine to setu
 
 Example:
 
-{{{
+```
 $script =<<SCRIPT
   cd /srv && rm -fr serverbase
   cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
@@ -44,7 +44,7 @@ $script =<<SCRIPT
 SCRIPT
 
 config.vm.provision "shell", inline: $script
-}}}
+```
 
 This starts by using [cURL](http://curl.haxx.se/) to download the most recent version of the WSU Web Provisioner. Over time we'll likely specify a specific version in this URL. After staging things in a `wsu-web` directory, we copy over a custom configuration for [yum](http://yum.baseurl.org/). This allows us to specify a few things about our use of yum, primarily that we don't try to do any automatic Linux kernel upgrades. Once this is set, we check for the Salt installation on the virtual machine through `bootstrap_salt.sh` and then use `salt-call` to process the provisioning configuration.
 
@@ -56,13 +56,13 @@ Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/pro
 
 Example:
 
-{{{
+```
 config.vm.provision :salt do |salt|
   salt.install_type = 'testing'
   salt.verbose = true
   salt.minion_config = 'provision/salt/minions/vagrant.conf'
   salt.run_highstate = true
 end
-}}}
+```
 
 This requires that at least the minion config is available to the virtual machine ahead of time. In the example above, a local directory `provision/salt/minions/` would exist containing the minion file `vagrant.conf`. An example of how we used to do this in the WSUWP Platform project can be found [in this version](https://github.com/washingtonstateuniversity/WSUWP-Platform/blob/1ece16674191a4692b30240a11dae754efa775fc/Vagrantfile#L91).
