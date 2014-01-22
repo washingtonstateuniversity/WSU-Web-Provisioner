@@ -4,7 +4,35 @@ This repository contains provisioning for the Linux servers maintained by WSU We
 
 * [Salt](http://www.saltstack.com/community/) is used to manage configuration and provisioning.
 
-## Minion Config
+## Organization
+
+### Salt Bootstrap
+
+A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file is often provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project, but we were running into issues where a 404 prevented the script from being processed correctly each time.
+
+As new versions of this script are certified to work, this bootstrap file will be updated.
+
+### Salt State Files
+
+All of the `.sls` files defining various server roles are located in `provision/salt/`. These files explain the various states that should be provided when provisioning runs.
+
+A primary objective is to keep the naming as attached to a specific role as possible. If no conflicts exist between projects, `webserver.sls` should provide things that make a web server. Similarly, `dbserver.sls` should provide things that make a database server.
+
+If conflicts arise, care will be taken to name these roles in a descriptive fashion.
+
+### Package Configuration
+
+Configuration files specific to various packages that are being installed throughout provisioning are located in `provision/salt/config/`.
+
+The organization of this area currently leaves quite a bit to be desired. Over time, we should find better ways of organizing this for both general and specific project needs.
+
+### Pillar Data
+
+Pillar data should be specific to the environment. We provide a `provision/salt/pillar/` directory by default, but this will likely only ever be filled by a project that wants to include additional data.
+
+There are some concepts to fully wrap our heads around here as well.
+
+### Minion Config
 
 Minions exist in `provision/salt/minions/` and are used to specify a configuration specific to a server during provisioning.
 
