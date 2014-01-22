@@ -23,6 +23,33 @@ Current minions include:
 
 There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
 
+### Managed through Scripting
+
+As you'll see below, Vagrant has direct support for using Salt as a provisioner. While this could be extremely useful, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
+
+Shell scripting can be used during the provisioning of a virtual machine to setup a few environment basics before downloading the most recent provisioning setup (this repository) and calling Salt to process it.
+
+Example:
+
+{{{
+$script =<<SCRIPT
+  cd /srv && rm -fr serverbase
+  cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
+  cd /srv && unzip serverbase.zip
+  cd /srv && mv WSU-Web-Provisioner-master wsu-web
+  cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
+  sh /srv/wsu-web/provision/bootstrap_salt.sh
+  cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
+  salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
+SCRIPT
+
+config.vm.provision "shell", inline: $script
+}}}
+
+This starts by using [cURL](http://curl.haxx.se/) to download the most recent version of the WSU Web Provisioner. Over time we'll likely specify a specific version in this URL. After staging things in a `wsu-web` directory, we copy over a custom configuration for [yum](http://yum.baseurl.org/). This allows us to specify a few things about our use of yum, primarily that we don't try to do any automatic Linux kernel upgrades. Once this is set, we check for the Salt installation on the virtual machine through `bootstrap_salt.sh` and then use `salt-call` to process the provisioning configuration.
+
+This very much mimics a workflow that may exist on a production server and will be useful in ensuring that things are working as expected before going live.
+
 ### Managed by Vagrant
 
 Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the VM.
