@@ -17,6 +17,13 @@ Current minions include:
 * `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
 * `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
 
+## Projects using WSU Web Provisioner
+
+These projects are currently using the current version of WSU Web Provisioner.
+
+* [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
+* [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
+
 ## Provisioning in Vagrant
 
 There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
