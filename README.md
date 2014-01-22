@@ -17,8 +17,6 @@ Current minions include:
 * `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
 * `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
 
-## Provisioning in Production
-
 ## Provisioning in Vagrant
 
 There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
@@ -68,3 +66,11 @@ end
 This requires that at least the minion config is available to the virtual machine ahead of time. In the example above, a local directory `provision/salt/minions/` would exist containing the minion file `vagrant.conf`. An example of how we used to do this in the WSUWP Platform project can be found [in this version](https://github.com/washingtonstateuniversity/WSUWP-Platform/blob/1ece16674191a4692b30240a11dae754efa775fc/Vagrantfile#L91).
 
 When Vagrant boots the virtual machine with this configuration, Salt will be bootstrapped automatically, and the provisioning settings included in the mapped minion will be followed. This also requires that the provisioning be made available to the virtual machine by mapped directory ahead of time.
+
+## Provisioning in Production
+
+Production provisioning will follow a process very similar to that of managing Salt in Vagrant through scripting.
+
+The files contained in the WSU Web Provisioner repository will need to be deployed to a directory on production, likely `/srv/salt/` or something similar. The minion file for the specific production server will need to be copied to `/etc/salt/minion.d/`. Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
+
+From here, things get pretty automatic. Salt will process all of the various state (`.sls`) files and ensure that pieces of the server are configured to match.
