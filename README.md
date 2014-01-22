@@ -4,6 +4,13 @@ This repository contains provisioning for the Linux servers maintained by WSU We
 
 * [Salt](http://www.saltstack.com/community/) is used to manage configuration and provisioning.
 
+## Current Projects
+
+These projects are currently using WSU Web Provisioner for provisioning.
+
+* [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
+* [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
+
 ## Organization
 
 ### Salt Bootstrap
@@ -44,13 +51,6 @@ Current minions include:
 * `wsuwp-vagrant.conf` for the development environment of the WSUWP Platform.
 * `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
 * `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
-
-## Current Projects
-
-These projects are currently using WSU Web Provisioner for provisioning.
-
-* [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
-* [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
 
 ## Provisioning in Vagrant
 
