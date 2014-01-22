@@ -46,7 +46,7 @@ SCRIPT
 config.vm.provision "shell", inline: $script
 ```
 
-This starts by using [cURL](http://curl.haxx.se/) to download the most recent version of the WSU Web Provisioner. Over time we'll likely specify a specific version in this URL. After staging things in a `wsu-web` directory, we copy over a custom configuration for [yum](http://yum.baseurl.org/). This allows us to specify a few things about our use of yum, primarily that we don't try to do any automatic Linux kernel upgrades. Once this is set, we check for the Salt installation on the virtual machine through `bootstrap_salt.sh` and then use `salt-call` to process the provisioning configuration.
+This starts by using [cURL](http://curl.haxx.se/) to download the most recent version of the WSU Web Provisioner. Over time we'll likely specify a specific version in this URL. After staging things in a `wsu-web` directory, we copy over a custom configuration for [yum](http://yum.baseurl.org/). This allows us to specify a few things about our use of yum, primarily that we don't try to do any automatic Linux kernel upgrades. Once this is set, we check for the Salt installation on the virtual machine through `bootstrap_salt.sh`, copy over the specific minion configuration included with the WSU Web Provisioner package, and then use `salt-call` to process the provisioning configuration.
 
 This very much mimics a workflow that may exist on a production server and will be useful in ensuring that things are working as expected before going live.
 
