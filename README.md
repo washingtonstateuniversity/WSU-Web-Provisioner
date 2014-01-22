@@ -66,3 +66,5 @@ end
 ```
 
 This requires that at least the minion config is available to the virtual machine ahead of time. In the example above, a local directory `provision/salt/minions/` would exist containing the minion file `vagrant.conf`. An example of how we used to do this in the WSUWP Platform project can be found [in this version](https://github.com/washingtonstateuniversity/WSUWP-Platform/blob/1ece16674191a4692b30240a11dae754efa775fc/Vagrantfile#L91).
+
+When Vagrant boots the virtual machine with this configuration, Salt will be bootstrapped automatically, and the provisioning settings included in the mapped minion will be followed. This also requires that the provisioning be made available to the virtual machine by mapped directory ahead of time.
