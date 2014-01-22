@@ -2,7 +2,7 @@ server {
     listen       80 default_server;
     root         /var/www/html;
     server_name  _;
-    
+
     location / {
         index index.php;
         try_files $uri $uri/ /index.php?$args;
