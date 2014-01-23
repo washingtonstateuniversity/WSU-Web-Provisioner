@@ -20,4 +20,5 @@ base:
     - match: grain
     - wsuwp-prod
   'wsuwp-indie-dev':
+    - devserver
     - wsuwp-indie-dev
