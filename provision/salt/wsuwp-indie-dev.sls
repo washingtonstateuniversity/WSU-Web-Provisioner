@@ -11,14 +11,6 @@ wp-cli:
     - require:
       - pkg: php-fpm
 
-{% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
-wsuwp-indie-nginx-{{ site }}:
-  cmd.run:
-    - name: cp /var/www/{{ site_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ site_args['name'] }}.conf
-    - require:
-      - sls: webserver
-{% endfor %}
-
 wsuwp-indie-flush:
   cmd.run:
     - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
