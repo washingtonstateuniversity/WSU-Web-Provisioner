@@ -71,13 +71,11 @@ wsuwp-indie-db-{{ site }}:
     - password: {{ site_args['db_pass'] }}
     - host: {{ site_args['db_host'] }}
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
   mysql_database.present:
     - name: {{ site_args['database'] }}
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
@@ -85,7 +83,6 @@ wsuwp-indie-db-{{ site }}:
     - database: {{ site_args['database'] }}.*
     - user: wp
     - require:
-      - sls: dbserver
       - service: mysqld
       - pkg: mysql
 {% endfor %}
