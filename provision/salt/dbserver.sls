@@ -63,3 +63,22 @@ set_localhost_root_password:
         - watch:
             - pkg: mysql
             - service: mysqld
+
+{% for project, project_args in pillar.get('wp-single-projects',{}).items() %}
+wsuwp-indie-db-{{ project }}:
+  mysql_database.present:
+    - name: {{ project_args['database'] }}
+    - require:
+      - sls: dbserver
+      - service: mysqld
+      - pkg: mysql
+  mysql_grants.present:
+    - grant: select, insert, update, delete
+    - database: {{ project_args['database'] }}.*
+    - user: wp
+    - require:
+      - sls: dbserver
+      - service: mysqld
+      - pkg: mysql
+
+{% endfor %}

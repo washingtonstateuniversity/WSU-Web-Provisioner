@@ -22,22 +22,6 @@ wsuwp-indie-db:
       - pkg: mysql
 
 {% for project, project_args in pillar.get('wp-single-projects',{}).items() %}
-wsuwp-indie-db-{{ project }}:
-  mysql_database.present:
-    - name: {{ project_args['database'] }}
-    - require:
-      - sls: dbserver
-      - service: mysqld
-      - pkg: mysql
-  mysql_grants.present:
-    - grant: select, insert, update, delete
-    - database: {{ project_args['database'] }}.*
-    - user: wp
-    - require:
-      - sls: dbserver
-      - service: mysqld
-      - pkg: mysql
-
 wsuwp-indie-nginx-{{ project }}:
   cmd.run:
     - name: cp /var/www/{{ project_args['name'] }}/wsuwp-single-nginx.conf /etc/nginx/sites-enabled/{{ project_args['name'] }}.conf
