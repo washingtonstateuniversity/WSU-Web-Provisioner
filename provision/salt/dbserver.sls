@@ -66,6 +66,14 @@ set_localhost_root_password:
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 wsuwp-indie-db-{{ site }}:
+  mysql_user.present:
+    - name: wp
+    - password: wp
+    - host: localhost
+    - require:
+      - sls: dbserver
+      - service: mysqld
+      - pkg: mysql
   mysql_database.present:
     - name: {{ site_args['database'] }}
     - require:
@@ -80,5 +88,4 @@ wsuwp-indie-db-{{ site }}:
       - sls: dbserver
       - service: mysqld
       - pkg: mysql
-
 {% endfor %}

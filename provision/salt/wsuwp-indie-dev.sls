@@ -11,16 +11,6 @@ wp-cli:
     - require:
       - pkg: php-fpm
 
-wsuwp-indie-db:
-  mysql_user.present:
-    - name: wp
-    - password: wp
-    - host: localhost
-    - require:
-      - sls: dbserver
-      - service: mysqld
-      - pkg: mysql
-
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 wsuwp-indie-nginx-{{ site }}:
   cmd.run:
