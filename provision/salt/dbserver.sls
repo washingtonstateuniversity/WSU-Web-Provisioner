@@ -53,3 +53,13 @@ mysql-start:
       - file: /etc/my.cnf
     - require:
       - file: /etc/my.cnf
+
+set_localhost_root_password:
+    mysql_user.present:
+        - name: root
+        - host: localhost
+        - password: {{ pillar['mysql.pass'] }}
+        - connection_pass: ""
+        - watch:
+            - pkg: mysql
+            - service: mysqld
