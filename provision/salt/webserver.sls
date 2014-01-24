@@ -125,7 +125,7 @@ iptables:
     - group:    root
     - mode:     644
     - require:
-      - pkg:    nginx-full
+      - pkg:    nginx
 
 {% endfor %}
 
