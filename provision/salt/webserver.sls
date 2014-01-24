@@ -74,6 +74,7 @@ php-fpm:
       - pkg: php-fpm
     - watch:
       - file: /etc/php-fpm.d/www.conf
+      - file: /etc/php.ini
 
 # Set php-fpm to run in levels 2345.
 php-fpm-init:
