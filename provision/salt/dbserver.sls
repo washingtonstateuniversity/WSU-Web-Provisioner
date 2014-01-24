@@ -81,7 +81,7 @@ wsuwp-indie-db-{{ site }}:
   mysql_grants.present:
     - grant: select, insert, update, delete
     - database: {{ site_args['database'] }}.*
-    - user: wp
+    - user: {{ site_args['db_user'] }}
     - require:
       - service: mysqld
       - pkg: mysql
