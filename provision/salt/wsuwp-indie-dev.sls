@@ -30,7 +30,7 @@ wsuwp-indie-db-{{ project }}:
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
-    - grant: all privileges
+    - grant: select, insert, update, delete
     - database: {{ project_args['database'] }}.*
     - user: wp
     - require:

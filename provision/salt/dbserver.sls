@@ -10,19 +10,6 @@ user-mysql:
     - require_in:
       - pkg: mysql
 
-user-vagrant:
-  user.present:
-    - name: vagrant
-    - groups:
-      - vagrant
-      - www-data
-      - mysql
-    - require:
-      - group: www-data
-      - group: mysql
-    - require_in:
-      - pkg: mysql
-
 /var/log/mysql:
   file.directory:
     - user: mysql
@@ -66,3 +53,13 @@ mysql-start:
       - file: /etc/my.cnf
     - require:
       - file: /etc/my.cnf
+
+set_localhost_root_password:
+    mysql_user.present:
+        - name: root
+        - host: localhost
+        - password: {{ pillar['mysql.pass'] }}
+        - connection_pass: ""
+        - watch:
+            - pkg: mysql
+            - service: mysqld

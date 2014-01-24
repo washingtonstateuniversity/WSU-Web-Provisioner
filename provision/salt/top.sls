@@ -19,6 +19,6 @@ base:
   'env:wsuwp-production':
     - match: grain
     - wsuwp-prod
-  'env:wsuwp-indie-vagrant':
-    - match: grain
+  'wsuwp-indie-dev':
+    - devserver
     - wsuwp-indie-dev
