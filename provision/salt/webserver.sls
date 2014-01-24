@@ -115,14 +115,19 @@ iptables:
     - require:
       - pkg: nginx
 
-/etc/nginx/sites-enabled/wp.wsu.edu.conf:
+{% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
+
+/etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
   file.managed:
-    - source: salt://config/nginx/wp.wsu.edu.conf
-    - user: root
-    - group: root
-    - mode: 644
+    - template: jinja
+    - source:   salt://config/nginx/wsuwp-indie-site.conf.jinja
+    - user:     root
+    - group:    root
+    - mode:     644
     - require:
-      - pkg: nginx
+      - pkg:    nginx-full
+
+{% endfor %}
 
 /etc/php-fpm.d/www.conf:
   file.managed:
