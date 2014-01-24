@@ -126,7 +126,8 @@ iptables:
     - mode:     644
     - require:
       - pkg:    nginx
-
+    - context:
+      site_data: {{ site_args['nginx'] }}
 {% endfor %}
 
 /etc/php-fpm.d/www.conf:
