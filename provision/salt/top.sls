@@ -9,6 +9,7 @@
 base:
   '*':
     - server
+    - security
     - webserver
     - cacheserver
     - dbserver
