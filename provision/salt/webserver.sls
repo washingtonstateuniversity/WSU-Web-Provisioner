@@ -13,13 +13,6 @@ user-www-data:
     - require:
       - group: www-data
 
-/etc/resolv.conf:
-  file.managed:
-    - source: salt://config/resolv.conf
-    - user: root
-    - group: root
-    - mode: 644
-
 /etc/dhcp/dhclient-enter-hooks:
   file.managed:
     - source: salt://config/dhclient-enter-hooks

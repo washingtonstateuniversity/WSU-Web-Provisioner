@@ -1,3 +1,10 @@
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://config/resolv.conf
+    - user: root
+    - group: root
+    - mode: 644
+
 remi-rep:
   pkgrepo.managed:
     - humanname: Remi Repository
