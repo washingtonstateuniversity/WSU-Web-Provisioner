@@ -13,13 +13,6 @@ user-www-data:
     - require:
       - group: www-data
 
-/etc/dhcp/dhclient-enter-hooks:
-  file.managed:
-    - source: salt://config/dhclient-enter-hooks
-    - user: root
-    - group: root
-    - mode: 755
-
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
