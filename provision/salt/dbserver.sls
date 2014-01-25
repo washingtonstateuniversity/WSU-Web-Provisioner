@@ -73,13 +73,11 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
-      - mysql_user: root
   mysql_database.present:
     - name: {{ site_args['database'] }}
     - require:
       - service: mysqld
       - pkg: mysql
-      - mysql_user: root
   mysql_grants.present:
     - grant: select, insert, update, delete
     - database: {{ site_args['database'] }}.*
@@ -87,5 +85,4 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
-      - mysql_user: root
 {% endfor %}
