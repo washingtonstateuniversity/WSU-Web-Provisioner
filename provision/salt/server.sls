@@ -20,7 +20,6 @@
 # nameservers may not be accessible from inside the firewall in production.
 /etc/resolv.conf:
   file.managed:
-    - source: salt://config/resolv.conf
     - user: root
     - group: root
     - mode: 644
