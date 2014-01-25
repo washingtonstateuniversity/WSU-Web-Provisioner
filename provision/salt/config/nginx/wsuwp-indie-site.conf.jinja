@@ -1,9 +1,9 @@
 ################################################################
-# wp.wsu.edu local nginx configuration
+# {{ site_data['server_name'] }} nginx configuration
 server {
     listen       80;
-    server_name  *.wsu.edu;
-    root         /var/www/wordpress;
+    server_name  {{ site_data['server_name'] }};
+    root         /var/www/{{ site_data['directory'] }};
 
     location / {
         index index.php;

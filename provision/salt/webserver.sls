@@ -13,20 +13,6 @@ user-www-data:
     - require:
       - group: www-data
 
-/etc/resolv.conf:
-  file.managed:
-    - source: salt://config/resolv.conf
-    - user: root
-    - group: root
-    - mode: 644
-
-/etc/dhcp/dhclient-enter-hooks:
-  file.managed:
-    - source: salt://config/dhclient-enter-hooks
-    - user: root
-    - group: root
-    - mode: 755
-
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
@@ -45,8 +31,7 @@ nginx:
       - group: www-data
     - watch:
       - file: /etc/nginx/nginx.conf
-      - file: /etc/nginx/sites-enabled/default
-      - file: /etc/nginx/sites-enabled/wp.wsu.edu.conf
+      - file: /etc/nginx/sites-enabled/*
 
 # Set Nginx to run in levels 2345.
 nginx-init:
@@ -74,6 +59,7 @@ php-fpm:
       - pkg: php-fpm
     - watch:
       - file: /etc/php-fpm.d/www.conf
+      - file: /etc/php.ini
 
 # Set php-fpm to run in levels 2345.
 php-fpm-init:
@@ -114,14 +100,20 @@ iptables:
     - require:
       - pkg: nginx
 
-/etc/nginx/sites-enabled/wp.wsu.edu.conf:
+{% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
+
+/etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
   file.managed:
-    - source: salt://config/nginx/wp.wsu.edu.conf
-    - user: root
-    - group: root
-    - mode: 644
+    - template: jinja
+    - source:   salt://config/nginx/wsuwp-indie-site.conf.jinja
+    - user:     root
+    - group:    root
+    - mode:     644
     - require:
-      - pkg: nginx
+      - pkg:    nginx
+    - context:
+      site_data: {{ site_args['nginx'] }}
+{% endfor %}
 
 /etc/php-fpm.d/www.conf:
   file.managed:

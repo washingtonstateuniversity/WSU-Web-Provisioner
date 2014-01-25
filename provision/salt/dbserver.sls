@@ -63,3 +63,26 @@ set_localhost_root_password:
         - watch:
             - pkg: mysql
             - service: mysqld
+
+{% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
+wsuwp-indie-db-{{ site }}:
+  mysql_user.present:
+    - name: {{ site_args['db_user'] }}
+    - password: {{ site_args['db_pass'] }}
+    - host: {{ site_args['db_host'] }}
+    - require:
+      - service: mysqld
+      - pkg: mysql
+  mysql_database.present:
+    - name: {{ site_args['database'] }}
+    - require:
+      - service: mysqld
+      - pkg: mysql
+  mysql_grants.present:
+    - grant: select, insert, update, delete
+    - database: {{ site_args['database'] }}.*
+    - user: {{ site_args['db_user'] }}
+    - require:
+      - service: mysqld
+      - pkg: mysql
+{% endfor %}
