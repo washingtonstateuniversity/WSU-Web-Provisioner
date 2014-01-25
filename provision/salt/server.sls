@@ -4,6 +4,7 @@
     - user: root
     - group: root
     - mode: 644
+    - contents_pillar: network.nameservers
 
 remi-rep:
   pkgrepo.managed:
