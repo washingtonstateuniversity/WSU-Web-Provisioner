@@ -45,8 +45,7 @@ nginx:
       - group: www-data
     - watch:
       - file: /etc/nginx/nginx.conf
-      - file: /etc/nginx/sites-enabled/default
-      - file: /etc/nginx/sites-enabled/wp.wsu.edu.conf
+      - file: /etc/nginx/sites-enabled/*
 
 # Set Nginx to run in levels 2345.
 nginx-init:
