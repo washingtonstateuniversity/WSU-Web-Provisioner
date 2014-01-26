@@ -35,9 +35,35 @@ The organization of this area currently leaves quite a bit to be desired. Over t
 
 ### Pillar Data
 
-Pillar data should be specific to the environment. We provide a `provision/salt/pillar/` directory by default, but this will likely only ever be filled by a project that wants to include additional data.
+Pillar data is specific to the minion. Its location is specified in each minion configuration with this syntax:
 
-There are some concepts to fully wrap our heads around here as well.
+```
+# The location for pillar data on this server.
+pillar_roots:
+  base:
+    - /srv/pillar
+```
+
+With the above configuration, pillar data should be provided in `/srv/pillar/` on the server being provisioned.
+
+Depending on the top of minion being provisioned, different data is required in the pillar directory. By default, a `top.sls` file should be provided that always loads a `network.sls`:
+
+````
+base:
+  '*':
+    - network
+```
+
+`network.sls` should contain settings specific to the network.
+
+```
+network:
+  nameservers: |
+    nameserver 8.8.8.8
+    nameserver 8.8.4.4
+```
+
+There are current projects that support `mysql.sls` and `sites.sls` pillar data. Over time these will be grouped into both common and specific areas. As this happens, documentation will be built out in this repository for support.
 
 ### Minion Config
 
