@@ -49,8 +49,7 @@ Current minions include:
 
 * `wsuwp-production.conf` for the production environment of the WSUWP Platform.
 * `wsuwp-vagrant.conf` for the development environment of the WSUWP Platform.
-* `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
-* `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
+* `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
 
 ## Provisioning
 
