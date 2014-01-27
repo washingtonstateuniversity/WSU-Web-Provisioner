@@ -132,6 +132,8 @@ When Vagrant boots the virtual machine with this configuration, Salt will be boo
 
 Production provisioning will follow a process very similar to that of managing Salt in Vagrant through scripting.
 
-The files contained in the WSU Web Provisioner repository will need to be deployed to a directory on production, likely `/srv/salt/` or something similar. The minion file for the specific production server will need to be copied to `/etc/salt/minion.d/`. Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
+The files contained in the WSU Web Provisioner repository will need to be deployed to a directory on production, likely `/srv/salt/` or something similar. The minion file for the specific production server will need to be copied to `/etc/salt/minion.d/`. The pillar data required by the minion's provisioning configuration should be added in a location such as `/srv/pillar/`.
+
+Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
 
 From here, things get pretty automatic. Salt will process all of the various state (`.sls`) files and ensure that pieces of the server are configured to match.
