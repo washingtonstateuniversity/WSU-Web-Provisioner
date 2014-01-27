@@ -65,6 +65,7 @@ set_localhost_root_password:
             - service: mysqld
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
+{% if site_args['db_user'] %}
 wsuwp-indie-db-{{ site }}:
   mysql_user.present:
     - name: {{ site_args['db_user'] }}
@@ -85,4 +86,5 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
+{% endif %}
 {% endfor %}
