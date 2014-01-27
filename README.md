@@ -92,9 +92,9 @@ Example:
 
 ```
 $script =<<SCRIPT
-  cd /srv && rm -fr serverbase
-  cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
-  cd /srv && unzip serverbase.zip
+  cd /srv && rm -fr wsu-web
+  cd /srv && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
+  cd /srv && unzip wsu-web.zip
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
   sh /srv/wsu-web/provision/bootstrap_salt.sh
