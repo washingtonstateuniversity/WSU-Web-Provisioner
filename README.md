@@ -1,8 +1,9 @@
 # WSU Web Provisioner
 
-This repository contains provisioning for the Linux servers maintained by WSU Web Communication.
+This repository contains provisioning for the Linux servers maintained by [WSU Web Communication](http://web.wsu.edu).
 
 * [Salt](http://www.saltstack.com/community/) is used to manage configuration and provisioning.
+* [Vagrant](http://vagrantup.com) is used to provide development environments.
 
 ## Current Projects
 
@@ -15,17 +16,17 @@ These projects are currently using WSU Web Provisioner for provisioning.
 
 ### Salt Bootstrap
 
-A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file is often provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project, but we were running into issues where a 404 prevented the script from being processed correctly each time.
+A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project and included in this repository to aid in consistent provisioning.
 
 As new versions of this script are certified to work, this bootstrap file will be updated.
 
 ### Salt State Files
 
-All of the `.sls` files defining various server roles are located in `provision/salt/`. These files explain the various states that should be provided when provisioning runs.
+All `.sls` files defining various server roles are located in `provision/salt/`. These files explain the various states that should be provided when provisioning runs.
 
-A primary objective is to keep the naming as attached to a specific role as possible. If no conflicts exist between projects, `webserver.sls` should provide things that make a web server. Similarly, `dbserver.sls` should provide things that make a database server.
+Naming of state files should be as specific to the provisioned role as possible. If no conflicts exist between projects, `webserver.sls` should provide things that make a web server. Similarly, `dbserver.sls` should provide things that make a database server.
 
-If conflicts arise, care will be taken to name these roles in a descriptive fashion.
+If conflicts arise, care will be taken to name these state files in a descriptive fashion that indicates role and varying factor.
 
 ### Package Configuration
 
@@ -136,4 +137,4 @@ The files contained in the WSU Web Provisioner repository will need to be deploy
 
 Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
 
-From here, things get pretty automatic. Salt will process all of the various state (`.sls`) files and ensure that pieces of the server are configured to match.
+From here, things get pretty automatic. Salt will process all of the various state files and ensure that pieces of the server are configured to match.
