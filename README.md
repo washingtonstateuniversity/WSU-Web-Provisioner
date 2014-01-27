@@ -16,7 +16,7 @@ These projects are currently using WSU Web Provisioner for provisioning.
 
 ### Salt Bootstrap
 
-A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project and included in this repository to aid in consistent provisioning.
+A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file is provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project and included in this repository.
 
 As new versions of this script are certified to work, this bootstrap file will be updated.
 
@@ -47,7 +47,7 @@ pillar_roots:
 
 With the above configuration, pillar data should be provided in `/srv/pillar/` on the server being provisioned.
 
-Depending on the top of minion being provisioned, different data is required in the pillar directory. By default, a `top.sls` file should be provided that always loads a `network.sls`:
+Depending on the type of minion being provisioned, different data is required in the pillar directory. By default, a `top.sls` file should be provided that always loads a `network.sls`:
 
 ````
 base:
@@ -70,7 +70,7 @@ There are current projects that support `mysql.sls` and `sites.sls` pillar data.
 
 Minions exist in `provision/salt/minions/` and are used to specify a configuration specific to a server during provisioning.
 
-Naming of the minions should follow the format of `project.conf`. In some cases, a project will need more than one minion configuration for development and production, or for other server roles that are part of that project. These should be explictly named as `project` `-` `environment.conf`.
+Naming of the minions should follow the format of `project.conf`. In some cases a project will need more than one minion configuration for development and production or for other server roles that are part of that project. These should be explictly named as `project` `-` `environment.conf`.
 
 Current minions include:
 
@@ -112,7 +112,7 @@ This very much mimics a workflow that may exist on a production server and will 
 
 #### Managed by Vagrant
 
-Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the VM.
+Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the virtual machine.
 
 Example:
 
