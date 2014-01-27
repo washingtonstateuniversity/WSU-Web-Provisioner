@@ -79,7 +79,7 @@ wsuwp-indie-db-{{ site }}:
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
-    - grant: select, insert, update, delete
+    - grant: select, insert, create, update, delete
     - database: {{ site_args['database'] }}.*
     - user: {{ site_args['db_user'] }}
     - require:

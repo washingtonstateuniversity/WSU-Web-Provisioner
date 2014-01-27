@@ -1,8 +1,9 @@
 # WSU Web Provisioner
 
-This repository contains provisioning for the Linux servers maintained by WSU Web Communication.
+This repository contains provisioning for the Linux servers maintained by [WSU Web Communication](http://web.wsu.edu).
 
 * [Salt](http://www.saltstack.com/community/) is used to manage configuration and provisioning.
+* [Vagrant](http://vagrantup.com) is used to provide development environments.
 
 ## Current Projects
 
@@ -15,17 +16,17 @@ These projects are currently using WSU Web Provisioner for provisioning.
 
 ### Salt Bootstrap
 
-A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file is often provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project, but we were running into issues where a 404 prevented the script from being processed correctly each time.
+A copy of `bootstrap_salt.sh` is maintained in the `provision/` directory to perform initial installation of Salt on a server. This file is provided through the [Salt Bootstrap](https://github.com/saltstack/salt-bootstrap) project and included in this repository.
 
 As new versions of this script are certified to work, this bootstrap file will be updated.
 
 ### Salt State Files
 
-All of the `.sls` files defining various server roles are located in `provision/salt/`. These files explain the various states that should be provided when provisioning runs.
+All `.sls` files defining various server roles are located in `provision/salt/`. These files explain the various states that should be provided when provisioning runs.
 
-A primary objective is to keep the naming as attached to a specific role as possible. If no conflicts exist between projects, `webserver.sls` should provide things that make a web server. Similarly, `dbserver.sls` should provide things that make a database server.
+Naming of state files should be as specific to the provisioned role as possible. If no conflicts exist between projects, `webserver.sls` should provide things that make a web server. Similarly, `dbserver.sls` should provide things that make a database server.
 
-If conflicts arise, care will be taken to name these roles in a descriptive fashion.
+If conflicts arise, care will be taken to name these state files in a descriptive fashion that indicates role and varying factor.
 
 ### Package Configuration
 
@@ -35,22 +36,46 @@ The organization of this area currently leaves quite a bit to be desired. Over t
 
 ### Pillar Data
 
-Pillar data should be specific to the environment. We provide a `provision/salt/pillar/` directory by default, but this will likely only ever be filled by a project that wants to include additional data.
+Pillar data is specific to the minion. Its location is specified in each minion configuration with this syntax:
 
-There are some concepts to fully wrap our heads around here as well.
+```
+# The location for pillar data on this server.
+pillar_roots:
+  base:
+    - /srv/pillar
+```
+
+With the above configuration, pillar data should be provided in `/srv/pillar/` on the server being provisioned.
+
+Depending on the type of minion being provisioned, different data is required in the pillar directory. By default, a `top.sls` file should be provided that always loads a `network.sls`:
+
+````
+base:
+  '*':
+    - network
+```
+
+`network.sls` should contain settings specific to the network.
+
+```
+network:
+  nameservers: |
+    nameserver 8.8.8.8
+    nameserver 8.8.4.4
+```
+
+There are current projects that support `mysql.sls` and `sites.sls` pillar data. Over time these will be grouped into both common and specific areas. As this happens, documentation will be built out in this repository for support.
 
 ### Minion Config
 
 Minions exist in `provision/salt/minions/` and are used to specify a configuration specific to a server during provisioning.
 
-Naming of the minions should follow a `project` `-` `location` format.
+Naming of the minions should follow the format of `project.conf`. In some cases a project will need more than one minion configuration for development and production or for other server roles that are part of that project. These should be explictly named as `project` `-` `environment.conf`.
 
 Current minions include:
 
-* `wsuwp-production.conf` for the production environment of the WSUWP Platform.
-* `wsuwp-vagrant.conf` for the development environment of the WSUWP Platform.
-* `wsuwp-indie-production.conf` for the production environment for the server containing individual WordPress sites.
-* `wsuwp-indie-vagrant.conf` for the development environment containing individual WordPress sites.
+* `wsuwp.conf` for both the production and development environments providing the WSUWP Platform.
+* `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
 
 ## Provisioning
 
@@ -68,9 +93,9 @@ Example:
 
 ```
 $script =<<SCRIPT
-  cd /srv && rm -fr serverbase
-  cd /srv && curl -o serverbase.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
-  cd /srv && unzip serverbase.zip
+  cd /srv && rm -fr wsu-web
+  cd /srv && curl -o wsu-web.zip -L https://github.com/washingtonstateuniversity/wsu-web-provisioner/archive/master.zip
+  cd /srv && unzip wsu-web.zip
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
   sh /srv/wsu-web/provision/bootstrap_salt.sh
@@ -87,7 +112,7 @@ This very much mimics a workflow that may exist on a production server and will 
 
 #### Managed by Vagrant
 
-Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the VM.
+Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the virtual machine.
 
 Example:
 
@@ -108,6 +133,8 @@ When Vagrant boots the virtual machine with this configuration, Salt will be boo
 
 Production provisioning will follow a process very similar to that of managing Salt in Vagrant through scripting.
 
-The files contained in the WSU Web Provisioner repository will need to be deployed to a directory on production, likely `/srv/salt/` or something similar. The minion file for the specific production server will need to be copied to `/etc/salt/minion.d/`. Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
+The files contained in the WSU Web Provisioner repository will need to be deployed to a directory on production, likely `/srv/salt/` or something similar. The minion file for the specific production server will need to be copied to `/etc/salt/minion.d/`. The pillar data required by the minion's provisioning configuration should be added in a location such as `/srv/pillar/`.
 
-From here, things get pretty automatic. Salt will process all of the various state (`.sls`) files and ensure that pieces of the server are configured to match.
+Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
+
+From here, things get pretty automatic. Salt will process all of the various state files and ensure that pieces of the server are configured to match.
