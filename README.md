@@ -69,12 +69,11 @@ There are current projects that support `mysql.sls` and `sites.sls` pillar data.
 
 Minions exist in `provision/salt/minions/` and are used to specify a configuration specific to a server during provisioning.
 
-Naming of the minions should follow a `project` `-` `location` format.
+Naming of the minions should follow the format of `project.conf`. In some cases, a project will need more than one minion configuration for development and production, or for other server roles that are part of that project. These should be explictly named as `project` `-` `environment.conf`.
 
 Current minions include:
 
-* `wsuwp-production.conf` for the production environment of the WSUWP Platform.
-* `wsuwp-vagrant.conf` for the development environment of the WSUWP Platform.
+* `wsuwp.conf` for both the production and development environments providing the WSUWP Platform.
 * `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
 
 ## Provisioning
