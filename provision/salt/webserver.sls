@@ -60,6 +60,7 @@ php-fpm:
     - watch:
       - file: /etc/php-fpm.d/www.conf
       - file: /etc/php.ini
+      - file: /etc/php.d/opcache.ini
 
 # Set php-fpm to run in levels 2345.
 php-fpm-init:
@@ -111,6 +112,15 @@ ImageMagick:
 /etc/php-fpm.d/www.conf:
   file.managed:
     - source: salt://config/php-fpm/www.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: php-fpm
+
+/etc/php.d/opcache.ini:
+  file.managed:
+    - source: salt://config/php-fpm/opcache.ini
     - user: root
     - group: root
     - mode: 644
