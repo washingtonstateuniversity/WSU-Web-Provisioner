@@ -13,12 +13,10 @@ base:
     - webserver
     - cacheserver
     - dbserver
-  'env:wsuwp-vagrant':
-    - match: grain
+  'wsuwp-dev':
     - devserver
     - wsuwp-dev
-  'env:wsuwp-production':
-    - match: grain
+  'wsuwp-prod-01':
     - wsuwp-prod
   'wsuwp-indie-dev':
     - devserver
