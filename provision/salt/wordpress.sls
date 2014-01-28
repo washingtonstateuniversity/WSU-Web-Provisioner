@@ -37,7 +37,6 @@ wp-initial-download:
 site-dir-setup-{{ site_args['name'] }}:
   cmd.run:
     - name: mkdir -p /var/www/{{ site_args['name'] }}
-    - user: www-data
     - require:
       - pkg: nginx
 
