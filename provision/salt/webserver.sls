@@ -119,6 +119,66 @@ ImageMagick:
       - user
       - group
       - mode
+
+/var/www/{{ site_args['name'] }}/wp-content:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+
+/var/www/{{ site_args['name'] }}/wp-content/plugins:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+
+/var/www/{{ site_args['name'] }}/wp-content/mu-plugins:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+
+/var/www/{{ site_args['name'] }}/wp-content/themes:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+
+/var/www/{{ site_args['name'] }}/wp-content/uploads:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
 {% endfor %}
 
 /etc/php-fpm.d/www.conf:
