@@ -13,7 +13,7 @@ base:
     - webserver
     - cacheserver
     - dbserver
-  'project:wordpress'
+  'project:wordpress':
     - match: grain
     - wordpress
   'env:wsuwp-vagrant':
