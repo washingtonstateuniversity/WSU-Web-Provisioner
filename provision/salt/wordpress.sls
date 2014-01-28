@@ -61,6 +61,7 @@ wp-dir-setup-{{ site_args['name'] }}:
     - user: www-data
     - require:
       - pkg: nginx
+      - cmd: site-dir-setup-{{ site_args['name'] }}
 
 wp-initial-wordpress-{{ site_args['name'] }}:
   cmd.run:
@@ -70,6 +71,7 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - user: root
     - require:
       - cmd: wp-initial-download
+      - cmd: wp-dir-setup-{{ site_args['name'] }}
 
 {% if site_args['db_user'] %}
 /var/www/{{ site_args['name'] }}/wp-config.php:
