@@ -54,12 +54,13 @@ wp-dir-setup-{{ site_args['name'] }}:
     - require:
       - pkg: nginx
 
-wp-initial-zip-{{ site_args['name'] }}:
+wp-initial-wordpress-{{ site_args['name'] }}:
   cmd.run:
-    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip && unzip wordpress.zip && rm wordpress.zip
+    - name: cp /tmp/wordpress.zip ./wordpress.zip && chown www-data:www-data wordpress.zip && su www-data --command="unzip wordpress.zip" && rm wordpress.zip
     - cwd: /var/www/{{ site_args['name'] }}/
     - unless: test -f wordpress/index.php
-    - user: www-data
-    - group: www-data
+    - user: root
+    - require:
+      - cmd: wp-initial-download
 
 {% endfor %}
