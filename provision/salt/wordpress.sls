@@ -39,7 +39,7 @@ wsuwp-indie-db-{{ site }}:
 
 wp-dir-setup-{{ site_args['name'] }}:
   cmd.run:
-    - name: mkdir -p wordpress && mkdir -p wp-content && mkdir -p wp-content/plugins && mkdir -p wp-content/themes && mkdir -p wp-content/mu-plugins && mkdir -p wp-content/uploads
+    - name: mkdir -p wordpress && mkdir -p wp-content/plugins && mkdir -p wp-content/themes && mkdir -p wp-content/mu-plugins && mkdir -p wp-content/uploads
     - cwd: /var/www/{{ site_args['name'] }}
     - user: www-data
     - require:
