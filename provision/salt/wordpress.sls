@@ -71,4 +71,17 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - require:
       - cmd: wp-initial-download
 
+/var/www/{{ site_args['name'] }}/wp-config.php:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/wordpress/wp-config.php.jinja
+    - user:     www-data
+    - group:    www-data
+    - mode:     644
+    - require:
+      - pkg: nginx
+      - cmd: site-dir-setup-{{ site_args['name'] }}
+    - context:
+      site_data: {{ site_args }}
+
 {% endfor %}
