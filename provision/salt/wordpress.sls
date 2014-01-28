@@ -71,6 +71,7 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - require:
       - cmd: wp-initial-download
 
+{% if site_args['db_user'] %}
 /var/www/{{ site_args['name'] }}/wp-config.php:
   file.managed:
     - template: jinja
@@ -82,5 +83,5 @@ wp-initial-wordpress-{{ site_args['name'] }}:
       - cmd: site-dir-setup-{{ site_args['name'] }}
     - context:
       site_data: {{ site_args }}
-
+{% endif %}
 {% endfor %}
