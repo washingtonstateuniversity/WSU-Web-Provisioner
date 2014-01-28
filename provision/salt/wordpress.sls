@@ -41,8 +41,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -53,8 +51,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -65,8 +61,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -77,8 +71,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -89,8 +81,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -101,8 +91,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 644
-    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -113,8 +101,6 @@ wsuwp-indie-db-{{ site }}:
   file.directory:
     - user: www-data
     - group: www-data
-    - file_mode: 444
-    - dir_mode: 555
     - makedirs: True
     - recurse:
       - user
