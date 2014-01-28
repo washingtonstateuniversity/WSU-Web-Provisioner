@@ -93,6 +93,6 @@ wp-set-permissions-{{ site_args['name'] }}:
     - require:
       - cmd: site-dir-setup-{{ site_args['name'] }}
       - cmd: wp-initial-wordpress-{{site_args['name'] }}
-      - cmd: wp_dir_setup-{{ site_args['name'] }}
+      - cmd: wp-dir-setup-{{ site_args['name'] }}
 {% endif %}
 {% endfor %}
