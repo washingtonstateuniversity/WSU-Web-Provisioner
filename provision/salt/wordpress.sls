@@ -8,11 +8,13 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_database.present:
     - name: {{ site_args['database'] }}
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_grants.present:
     - grant: select, insert, create, update, delete
     - database: {{ site_args['database'] }}.*
@@ -20,6 +22,7 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
 {% endif %}
 {% endfor %}
 
@@ -31,6 +34,7 @@ wp-initial-download:
     - unless: test -f /tmp/wordpress.zip
     - require:
       - pkg: nginx
+      - sls: webserver
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
@@ -39,6 +43,7 @@ site-dir-setup-{{ site_args['name'] }}:
     - name: mkdir -p /var/www/{{ site_args['name'] }}
     - require:
       - pkg: nginx
+      - sls: webserver
 
 {% if pillar['network']['location'] == 'remote' %}
 wp-set-site-permissions-{{ site_args['name'] }}:
