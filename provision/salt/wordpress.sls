@@ -77,7 +77,6 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - source:   salt://config/wordpress/wp-config.php.jinja
     - user:     www-data
     - group:    www-data
-    - mode:     644
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['name'] }}
