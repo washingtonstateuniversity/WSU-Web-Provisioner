@@ -64,7 +64,7 @@ wp-dir-setup-{{ site_args['name'] }}:
 
 wp-initial-wordpress-{{ site_args['name'] }}:
   cmd.run:
-    - name: cp /tmp/wordpress.zip ./wordpress.zip && chown www-data:www-data wordpress.zip && su www-data --command="unzip wordpress.zip" && rm wordpress.zip
+    - name: cp /tmp/wordpress.zip ./wordpress.zip && chown www-data:www-data wordpress.zip && unzip wordpress.zip && rm wordpress.zip
     - cwd: /var/www/{{ site_args['name'] }}/
     - unless: test -f wordpress/index.php
     - user: root
