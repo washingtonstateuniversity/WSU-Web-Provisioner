@@ -85,4 +85,14 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - context:
       site_data: {{ site_args }}
 {% endif %}
+
+{% if pillar['network']['location'] == 'remote' %}
+wp-set-permissions-{{ site_args['name'] }}:
+  cmd.run:
+    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - require:
+      - cmd: site-dir-setup-{{ site_args['name'] }}
+      - cmd: wp-initial-wordpress-{{site_args['name'] }}
+      - cmd: wp_dir_setup-{{ site_args['name'] }}
+{% endif %}
 {% endfor %}
