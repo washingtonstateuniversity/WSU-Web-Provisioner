@@ -34,6 +34,13 @@ wp-initial-download:
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
+site-dir-setup-{{ site_args['name'] }}:
+  cmd.run:
+    - name: mkdir -p /var/www/{{ site_args['name'] }}
+    - user: www-data
+    - require:
+      - pkg: nginx
+
 /etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
   file.managed:
     - template: jinja
@@ -43,6 +50,7 @@ wp-initial-download:
     - mode:     644
     - require:
       - pkg:    nginx
+      - cmd:    site-dir-setup-{{ site_args['name'] }}
     - context:
       site_data: {{ site_args['nginx'] }}
 
