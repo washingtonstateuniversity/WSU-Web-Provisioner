@@ -37,75 +37,13 @@ wsuwp-indie-db-{{ site }}:
     - context:
       site_data: {{ site_args['nginx'] }}
 
-/var/www/{{ site_args['name'] }}:
-  file.directory:
+wp-dir-setup-{{ site_args['name'] }}:
+  cmd.run:
+    - name: mkdir wordpress && mkdir wp-content && mkdir wp-content/plugins && mkdir wp-content/themes && mkdir wp-content/mu-plugins && mkdir wp-content/uploads
+    - cwd: /var/www/{{ site_args['name'] }}
     - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wp-content:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wp-content/plugins:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wp-content/mu-plugins:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wp-content/themes:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wp-content/uploads:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
-
-/var/www/{{ site_args['name'] }}/wordpress:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
+    - require:
+      - pkg: nginx
 
 wp-initial-zip-{{ site_args['name'] }}:
   cmd.run:
