@@ -179,6 +179,18 @@ ImageMagick:
       - user
       - group
       - mode
+
+/var/www/{{ site_args['name'] }}/wordpress:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 444
+    - dir_mode: 555
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
 {% endfor %}
 
 /etc/php-fpm.d/www.conf:
