@@ -107,6 +107,18 @@ ImageMagick:
       - pkg:    nginx
     - context:
       site_data: {{ site_args['nginx'] }}
+
+/var/www/{{ site_args['name'] }}:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - file_mode: 644
+    - dir_mode: 755
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
 {% endfor %}
 
 /etc/php-fpm.d/www.conf:
