@@ -120,4 +120,13 @@ wsuwp-indie-db-{{ site }}:
       - user
       - group
       - mode
+
+wp-initial-zip-{{ site_args['name'] }}:
+  cmd.run:
+    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip && unzip wordpress.zip && rm wordpress.zip
+    - cwd: /var/www/{{ site_args['name'] }}/
+    - unless: test -f wordpress/index.php
+    - user: www-data
+    - group: www-data
+
 {% endfor %}
