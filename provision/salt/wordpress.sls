@@ -23,6 +23,15 @@ wsuwp-indie-db-{{ site }}:
 {% endif %}
 {% endfor %}
 
+wp-initial-download:
+  cmd.run:
+    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip
+    - cwd: /tmp/
+    - user: root
+    - unless: test -f /tmp/wordpress.zip
+    - require:
+      - pkg: nginx
+
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
 /etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
