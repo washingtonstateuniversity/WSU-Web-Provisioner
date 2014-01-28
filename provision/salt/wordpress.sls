@@ -40,6 +40,14 @@ site-dir-setup-{{ site_args['name'] }}:
     - require:
       - pkg: nginx
 
+{% if pillar['network']['location'] == 'remote' %}
+wp-set-site-permissions-{{ site_args['name'] }}:
+  cmd.run:
+    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - require:
+      - cmd: site-dir-setup-{{ site_args['name'] }}
+{% endif %}
+
 /etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
   file.managed:
     - template: jinja
