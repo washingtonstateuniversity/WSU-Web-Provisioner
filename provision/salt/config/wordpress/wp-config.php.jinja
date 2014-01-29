@@ -39,8 +39,13 @@ define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
  * It is strongly recommended that plugin and theme developers use WP_DEBUG
  * in their development environments.
  */
-define( 'WP_DEBUG',    true );
+{% if pillar['network']['location'] == 'local' %}
+define( 'WP_DEBUG',    true  );
 define( 'SAVEQUERIES', true  );
+{% else %}
+define( 'WP_DEBUG',    false );
+define( 'SAVEQUERIES', false );
+{% endif %}
 
 /**
  * Disable the theme and plugin editors in the admin dashboard and disable
