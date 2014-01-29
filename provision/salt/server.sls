@@ -47,3 +47,8 @@ git:
 htop:
   pkg.installed:
     - name: htop
+
+# iotop is useful for monitoring disk activity
+iotop:
+  pkg.installed:
+    - name: iotop
