@@ -90,6 +90,9 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - source:   salt://config/wordpress/wp-config.php.jinja
     - user:     www-data
     - group:    www-data
+    {% if pillar['network']['location'] == 'remote' %}
+    - mode:     644
+    {% endif %}
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['name'] }}
