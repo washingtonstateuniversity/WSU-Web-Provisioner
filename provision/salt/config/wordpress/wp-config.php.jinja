@@ -1,25 +1,19 @@
 <?php
 
-/** The name of the database for WordPress */
+/**
+ * The database name, username, password, and host that WordPress
+ * should use to connect to MySQL
+ */
 define( 'DB_NAME',     '{{ site_data['database'] }}' );
+define( 'DB_USER',     '{{ site_data['db_user']  }}' );
+define( 'DB_PASSWORD', '{{ site_data['db_pass']  }}' );
+define( 'DB_HOST',     '{{ site_data['db_host']  }}' );
 
-/** MySQL database username */
-define( 'DB_USER',     '{{ site_data['db_user'] }}'  );
-
-/** MySQL database password */
-define( 'DB_PASSWORD', '{{ site_data['db_pass'] }}'  );
-
-/** MySQL hostname */
-define( 'DB_HOST',     '{{ site_data['db_host'] }}'  );
-
-/**#@+
- * Authentication Unique Keys and Salts.
+/**
+ * Authentication Unique Keys and Salts. Changing these invalidates
+ * existing cookies and forces reauthentication.
  *
- * Change these to different unique phrases!
- * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
- * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
- *
- * @since 2.6.0
+ * Generated through https://api.wordpress.org/secret-key/1.1/salt/
  */
 {% if 'nonces' in site_data %}
 {{ site_data['nonces'] }}
@@ -61,8 +55,7 @@ define('WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
 {% endif %}
 
 /**
- * Disable the theme and plugin editors in the admin dashboard and disable
- * the ability to install or update plugins or themes.
+ * Disable the theme and plugin editors in the admin dashboard.
  */
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'DISALLOW_FILE_MODS', false );
