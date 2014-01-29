@@ -52,3 +52,7 @@ htop:
 iotop:
   pkg.installed:
     - name: iotop
+
+telnet:
+  pkg.installed:
+    - name: telnet
