@@ -1,11 +1,14 @@
-# The current * base is a placeholder until we are prepared
-# to provision more than one environment. At that point this
-# will be split so that `vagrant` runs a specific series of
-# states.
+# The current '*' state is intended to run for every server that
+# uses WSU Web Provisioner for provisioning. This includes general
+# server, security, web, cache, and database. Over time these may
+# be split further as the roles may separate between projects.
 #
-# As an example, the 'wsuwp-dev' state will not be run on
-# production. Likely, another 'wsuwp-prod' will be available
-# at that time.
+# If a minion specifies that it is part of a 'wordpress' project,
+# an additional state file is loaded that applies the opinionated
+# configurations around those states.
+#
+# Environments for wsuwp-vagrant and wsuwp-production are also
+# allowed for, though these will be refactored shortly.
 base:
   '*':
     - server
