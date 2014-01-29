@@ -21,14 +21,18 @@ define( 'DB_HOST',     '{{ site_data['db_host'] }}'  );
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         '|.vKWocgGQ/a|C[~|y|YaW[bMDiGb0vkw,<gAu{8keq);4Q.]S7b08[)pEl<+61E');
-define('SECURE_AUTH_KEY',  '}0e4c|V.K/Wy%C:)&gd|L| {5~0DVp%L) &T}HAjjZL[?{,9^$eqsoB6p3S).R[;');
-define('LOGGED_IN_KEY',    ';d6);h(v%kM[6~*R/?EB{^UR/akT[Ufs>RUg=~B}z9f=sBN16NAT!o#!Vc,V%=<?');
-define('NONCE_KEY',        '6*k/P>TjL+V8(rP/r9S9I8Wo!{ niB+n[zc4hl($7iGB?QVG8w-O~&-]rH57A)[Z');
-define('AUTH_SALT',        'Z4-E+xKD0$EE}kOF,?,a6hwk0yd-q~&xY+Ns?Yt)EP^}WjoBt?T>5,77$&$U1iA,');
-define('SECURE_AUTH_SALT', 'QIFabl/`t{cY3Sn;6Ank%SVYl)Kfys>BR$J3HxA[BXD0{~^<h+/.yw,H-D90 ao$');
-define('LOGGED_IN_SALT',   '#_u=Re@wlAMe}S8O-[uuM--4fJDS!!U%f,~X3R=r=L{n+n||PcB(5v@/#so<bz?q');
-define('NONCE_SALT',       'nL|jc0+~ka>:{+w1^n?|)Ke+s{dY;oK@l:Z.?wD%C9XVxY/FyX_Fy;mhNMkQ:}4z');
+{% if 'nonces' in site_data %}
+{{ site_data['nonces'] }}
+{% else %}
+define('AUTH_KEY',         'makethisuniqueonproduction');
+define('SECURE_AUTH_KEY',  'makethisuniqueonproduction');
+define('LOGGED_IN_KEY',    'makethisuniqueonproduction');
+define('NONCE_KEY',        'makethisuniqueonproduction');
+define('AUTH_SALT',        'makethisuniqueonproduction');
+define('SECURE_AUTH_SALT', 'makethisuniqueonproduction');
+define('LOGGED_IN_SALT',   'makethisuniqueonproduction');
+define('NONCE_SALT',       'makethisuniqueonproduction');
+{% endif %}
 
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
