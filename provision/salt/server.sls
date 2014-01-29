@@ -42,3 +42,8 @@ remi-rep:
 git:
   pkg.installed:
     - name: git
+
+# htop is a useful server resource monitoring tool
+htop:
+  pkg.installed:
+    - name: htop
