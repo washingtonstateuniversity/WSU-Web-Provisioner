@@ -56,13 +56,16 @@ define( 'WP_CACHE',          true                           );
 define( 'WP_CACHE_KEY_SALT', '{{ site_data['cache_key'] }}' );
 {% endif %}
 
+{% if 'default_theme' in site_data %}
+define('WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
+{% endif %}
+
 /**
  * Disable the theme and plugin editors in the admin dashboard and disable
  * the ability to install or update plugins or themes.
  */
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'DISALLOW_FILE_MODS', false );
-
 
 $table_prefix  = 'wp_';
 
