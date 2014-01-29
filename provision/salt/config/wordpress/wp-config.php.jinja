@@ -36,13 +36,6 @@ define('NONCE_SALT',       'makethisuniqueonproduction');
 
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- */
 {% if pillar['network']['location'] == 'local' %}
 define( 'WP_DEBUG',    true  );
 define( 'SAVEQUERIES', true  );
@@ -52,8 +45,15 @@ define( 'SAVEQUERIES', false );
 {% endif %}
 
 {% if 'cache_key' in site_data %}
-define( 'WP_CACHE',          true                           );
+// Define a salt for cache keys to avoid collisions and errors.
 define( 'WP_CACHE_KEY_SALT', '{{ site_data['cache_key'] }}' );
+{% endif %}
+
+{% if 'batcache' in site_data %}
+// Enable page cache through batcache. wp-content/advanced-cache.php must exist.
+global $batcache;
+$batcache = {{ site_data['batcache'] }};
+define( 'WP_CACHE',          true     );
 {% endif %}
 
 {% if 'default_theme' in site_data %}
