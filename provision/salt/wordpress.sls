@@ -122,3 +122,11 @@ wp-cli:
     - unless: which wp
     - require:
       - pkg: php-fpm
+
+wsuwp-indie-flush:
+  cmd.run:
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
+    - require:
+      - sls: cacheserver
+      - sls: webserver
+
