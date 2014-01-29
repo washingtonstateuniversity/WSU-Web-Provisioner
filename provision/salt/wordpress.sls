@@ -8,18 +8,22 @@ wsuwp-indie-db-{{ site }}:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_database.present:
     - name: {{ site_args['database'] }}
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_grants.present:
     - grant: select, insert, create, update, delete
     - database: {{ site_args['database'] }}.*
     - user: {{ site_args['db_user'] }}
+    - host: {{ site_args['db_host'] }}
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
 {% endif %}
 {% endfor %}
 
@@ -37,9 +41,16 @@ wp-initial-download:
 site-dir-setup-{{ site_args['name'] }}:
   cmd.run:
     - name: mkdir -p /var/www/{{ site_args['name'] }}
-    - user: www-data
     - require:
       - pkg: nginx
+
+{% if pillar['network']['location'] == 'remote' %}
+wp-set-site-permissions-{{ site_args['name'] }}:
+  cmd.run:
+    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - require:
+      - cmd: site-dir-setup-{{ site_args['name'] }}
+{% endif %}
 
 /etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
   file.managed:
@@ -74,16 +85,50 @@ wp-initial-wordpress-{{ site_args['name'] }}:
       - cmd: wp-dir-setup-{{ site_args['name'] }}
 
 {% if site_args['db_user'] %}
-/var/www/{{ site_args['name'] }}/wp-config.php:
+/var/wsuwp-config/{{ site_args['name'] }}-wp-config.php:
   file.managed:
     - template: jinja
     - source:   salt://config/wordpress/wp-config.php.jinja
     - user:     www-data
     - group:    www-data
+    - mode:     644
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['name'] }}
+    - require_in:
+      - cmd: wp-copy-config-{{ site_args['name'] }}
     - context:
       site_data: {{ site_args }}
+
+wp-copy-config-{{ site_args['name'] }}:
+  cmd.run:
+    - name: cp /var/wsuwp-config/{{ site_args['name'] }}-wp-config.php /var/www/{{ site_args['name'] }}/wp-config.php
+{% endif %}
+
+{% if pillar['network']['location'] == 'remote' %}
+wp-set-permissions-{{ site_args['name'] }}:
+  cmd.run:
+    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - require:
+      - cmd: site-dir-setup-{{ site_args['name'] }}
+      - cmd: wp-initial-wordpress-{{site_args['name'] }}
+      - cmd: wp-dir-setup-{{ site_args['name'] }}
 {% endif %}
 {% endfor %}
+
+# Install wp-cli to provide a way to manage WordPress at the command line.
+wp-cli:
+  cmd.run:
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.13.0/wp-cli.phar > wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
+    - cwd: /tmp
+    - unless: which wp
+    - require:
+      - pkg: php-fpm
+
+wsuwp-indie-flush:
+  cmd.run:
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
+    - require:
+      - sls: cacheserver
+      - sls: webserver
+
