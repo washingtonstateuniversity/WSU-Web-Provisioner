@@ -22,11 +22,6 @@ wp-initial-download:
 {% do site_args.update({'db_pass':'wp'}) %}
 {% endif %}
 
-{% if site_args['database'] is defined %}
-{% else %}
-{% do site_args.update({'database':'wp'}) %}
-{% endif %}
-
 {% if site_args['db_host'] is defined %}
 {% else %}
 {% do site_args.update({'db_host':'127.0.0.1'}) %}
