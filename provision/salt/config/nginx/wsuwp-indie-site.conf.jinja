@@ -42,13 +42,6 @@ server {
         deny all;
     }
 
-    # Pass uploaded files to wp-includes/ms-files.php.
-    rewrite /files/$ /index.php last;
-
-    if ($uri !~ wp-content/plugins) {
-        rewrite /files/(.+)$ /wp-includes/ms-files.php?file=$1 last;
-    }
-
     # Rewrite multisite in a subdirectory '.../wp-.*' and '.../*.php'.
     if (!-e $request_filename) {
         rewrite ^/[_0-9a-zA-Z-]+(/wp-.*) $1 last;
