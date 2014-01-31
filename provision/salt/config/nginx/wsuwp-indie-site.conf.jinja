@@ -10,6 +10,11 @@ server {
         try_files $uri $uri/ /index.php$is_args$args;
     }
 
+    # The wp-content directory is one level up from our standard root directory
+    location ~ ^/wp-content/(.*)$ {
+        alias /var/www/{{ site_data['name'] }}/wp-content/$1;
+    }
+
     # Add trailing slash to */wp-admin requests.
     rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 
