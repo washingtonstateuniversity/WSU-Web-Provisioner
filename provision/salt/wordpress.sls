@@ -7,8 +7,31 @@ wp-initial-download:
     - require:
       - pkg: nginx
 
+# Loop through all of the sites defined in the local sites.sls pillar data
+# and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
-{% if site_args['db_user'] %}
+
+# Set some corresponding defaults
+{% if site_args['db_user'] is defined %}
+{% else %}
+{% set site_args['db_user'] = 'wp' %}
+{% endif %}
+
+{% if site_args['db_pass'] is defined %}
+{% else %}
+{% set site_args['db_pass'] = 'wp' %}
+{% endif %}
+
+{% if site_args['database'] is defined %}
+{% else %}
+{% set site_args['database'] = 'wp' %}
+{% endif %}
+
+{% if site_args['db_host'] is defined %}
+{% else %}
+{% set site_args['db_host'] = '127.0.0.1' %}
+{% endif %}
+
 wsuwp-indie-db-{{ site }}:
   mysql_user.present:
     - name: {{ site_args['db_user'] }}
@@ -19,7 +42,7 @@ wsuwp-indie-db-{{ site }}:
       - pkg: mysql
       - sls: dbserver
   mysql_database.present:
-    - name: {{ site_args['database'] }}
+    - name: {{ site_args['db_name'] }}
     - require:
       - service: mysqld
       - pkg: mysql
@@ -33,10 +56,6 @@ wsuwp-indie-db-{{ site }}:
       - service: mysqld
       - pkg: mysql
       - sls: dbserver
-{% endif %}
-{% endfor %}
-
-{% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
 site-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
@@ -84,7 +103,6 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
       - cmd: wp-initial-download
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
 
-{% if site_args['db_user'] %}
 /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php:
   file.managed:
     - template: jinja
@@ -103,7 +121,6 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
 wp-copy-config-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php /var/www/{{ site_args['directory'] }}/wp-config.php
-{% endif %}
 
 {% if pillar['network']['location'] == 'remote' %}
 wp-set-permissions-{{ site_args['name'] }}:
