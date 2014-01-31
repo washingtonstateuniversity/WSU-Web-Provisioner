@@ -58,14 +58,6 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require:
       - pkg: nginx
 
-{% if pillar['network']['location'] == 'remote' %}
-wp-set-site-permissions-{{ site_args['directory'] }}:
-  cmd.run:
-    - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }}
-    - require:
-      - cmd: site-dir-setup-{{ site_args['directory'] }}
-{% endif %}
-
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   file.managed:
     - template: jinja
