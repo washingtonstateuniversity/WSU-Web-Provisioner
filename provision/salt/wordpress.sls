@@ -42,7 +42,7 @@ wsuwp-indie-db-{{ site }}:
       - pkg: mysql
       - sls: dbserver
   mysql_database.present:
-    - name: {{ site_args['db_name'] }}
+    - name: {{ site_args['database'] }}
     - require:
       - service: mysqld
       - pkg: mysql
