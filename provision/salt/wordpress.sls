@@ -14,22 +14,22 @@ wp-initial-download:
 # Set some corresponding defaults
 {% if site_args['db_user'] is defined %}
 {% else %}
-{% set site_args['db_user'] = 'wp' %}
+{% do site_args.update({'db_user':'wp'}) %}
 {% endif %}
 
 {% if site_args['db_pass'] is defined %}
 {% else %}
-{% set site_args['db_pass'] = 'wp' %}
+{% do site_args.update({'db_pass':'wp'}) %}
 {% endif %}
 
 {% if site_args['database'] is defined %}
 {% else %}
-{% set site_args['database'] = 'wp' %}
+{% do site_args.update({'database':'wp'}) %}
 {% endif %}
 
 {% if site_args['db_host'] is defined %}
 {% else %}
-{% set site_args['db_host'] = '127.0.0.1' %}
+{% do site_args.update({'db_host':'127.0.0.1'}) %}
 {% endif %}
 
 wsuwp-indie-db-{{ site }}:
