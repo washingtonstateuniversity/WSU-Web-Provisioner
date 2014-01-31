@@ -1,3 +1,11 @@
+# wordpress.sls
+#
+# States related to setting up WordPress environments for one or multiple
+# projects. This state file relies heavily on pillar data from sites.sls, 
+# though has some allowance with default database settings.
+
+# Download an initial installation of WordPress to be available to any
+# new sites that we configure.
 wp-initial-download:
   cmd.run:
     - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip
@@ -11,7 +19,8 @@ wp-initial-download:
 # and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
-# Set some corresponding defaults
+# Set defaults for database information so that it doesn't need to be set
+# in a local environment's sites.sls
 {% if site_args['db_user'] is defined %}
 {% else %}
 {% do site_args.update({'db_user':'wp'}) %}
@@ -27,6 +36,8 @@ wp-initial-download:
 {% do site_args.update({'db_host':'127.0.0.1'}) %}
 {% endif %}
 
+# Setup the MySQL users, databases, and privileges required for
+# each site.
 wsuwp-indie-db-{{ site }}:
   mysql_user.present:
     - name: {{ site_args['db_user'] }}
@@ -52,12 +63,14 @@ wsuwp-indie-db-{{ site }}:
       - pkg: mysql
       - sls: dbserver
 
+# Make sure the root path exists for Nginx to point to.
 site-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
     - name: mkdir -p /var/www/{{ site_args['directory'] }}
     - require:
       - pkg: nginx
 
+# Configure Nginx with a jinja template.
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   file.managed:
     - template: jinja
@@ -71,6 +84,8 @@ site-dir-setup-{{ site_args['directory'] }}:
     - context:
       site_data: {{ site_args }}
 
+# Setup the directories required for a WordPress project inside the
+# site's root path.
 wp-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
     - name: mkdir -p wordpress && mkdir -p wp-content/plugins && mkdir -p wp-content/themes && mkdir -p wp-content/mu-plugins && mkdir -p wp-content/uploads
@@ -80,6 +95,8 @@ wp-dir-setup-{{ site_args['directory'] }}:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
 
+# If WordPress has not yet been setup, copy over the initial stable zip
+# and extract accordingly.
 wp-initial-wordpress-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /tmp/wordpress.zip ./wordpress.zip && chown www-data:www-data wordpress.zip && unzip wordpress.zip && rm wordpress.zip
@@ -90,6 +107,8 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
       - cmd: wp-initial-download
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
 
+# Setup a wp-config.php file for the site and temporarily store it
+# in /var/wsuwp-config with other configs.
 /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php:
   file.managed:
     - template: jinja
@@ -105,10 +124,14 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
     - context:
       site_data: {{ site_args }}
 
+# Copy over the stored wp-config.php to the site's root path. This
+# allows us to avoid some permissions issues in a local environment.
 wp-copy-config-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php /var/www/{{ site_args['directory'] }}/wp-config.php
 
+# If we're in a remote environment, change all files in each site
+# root to be owned by the www-data user.
 {% if pillar['network']['location'] == 'remote' %}
 wp-set-permissions-{{ site_args['name'] }}:
   cmd.run:
@@ -129,6 +152,7 @@ wp-cli:
     - require:
       - pkg: php-fpm
 
+# Flush the web services to ensure object and opcode cache are clear.
 wsuwp-indie-flush:
   cmd.run:
     - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
