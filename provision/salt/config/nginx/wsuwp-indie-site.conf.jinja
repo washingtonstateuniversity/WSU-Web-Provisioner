@@ -42,13 +42,6 @@ server {
         deny all;
     }
 
-    # Rewrite multisite in a subdirectory '.../wp-.*' and '.../*.php'.
-    if (!-e $request_filename) {
-        rewrite ^/[_0-9a-zA-Z-]+(/wp-.*) $1 last;
-        rewrite ^/[_0-9a-zA-Z-]+.*(/wp-admin/.*\.php)$ $1 last;
-        rewrite ^/[_0-9a-zA-Z-]+(/.*\.php)$ $1 last;
-    }
-
     location ~ \.php$ {
         client_max_body_size 50M;
         try_files      $uri =404;
