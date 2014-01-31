@@ -1,3 +1,12 @@
+wp-initial-download:
+  cmd.run:
+    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip
+    - cwd: /tmp/
+    - user: root
+    - unless: test -f /tmp/wordpress.zip
+    - require:
+      - pkg: nginx
+
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 {% if site_args['db_user'] %}
 wsuwp-indie-db-{{ site }}:
@@ -26,15 +35,6 @@ wsuwp-indie-db-{{ site }}:
       - sls: dbserver
 {% endif %}
 {% endfor %}
-
-wp-initial-download:
-  cmd.run:
-    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip
-    - cwd: /tmp/
-    - user: root
-    - unless: test -f /tmp/wordpress.zip
-    - require:
-      - pkg: nginx
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
