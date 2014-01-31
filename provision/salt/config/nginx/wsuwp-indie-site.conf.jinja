@@ -3,7 +3,7 @@
 server {
     listen       80;
     server_name  {{ site_data['server_name'] }};
-    root         /var/www/{{ site_data['directory'] }};
+    root         /var/www/{{ site_data['wp_directory'] }};
 
     location / {
         index index.php;
@@ -12,7 +12,7 @@ server {
 
     # The wp-content directory is one level up from our standard root directory
     location ~ ^/wp-content/(.*)$ {
-        alias /var/www/{{ site_data['server_name'] }}/wp-content/$1;
+        alias /var/www/{{ site_data['directory'] }}/wp-content/$1;
     }
 
     # Add trailing slash to */wp-admin requests.
