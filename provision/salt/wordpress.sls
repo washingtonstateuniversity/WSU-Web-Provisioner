@@ -38,21 +38,21 @@ wp-initial-download:
 
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
-site-dir-setup-{{ site_args['name'] }}:
+site-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
-    - name: mkdir -p /var/www/{{ site_args['name'] }}
+    - name: mkdir -p /var/www/{{ site_args['directory'] }}
     - require:
       - pkg: nginx
 
 {% if pillar['network']['location'] == 'remote' %}
-wp-set-site-permissions-{{ site_args['name'] }}:
+wp-set-site-permissions-{{ site_args['directory'] }}:
   cmd.run:
-    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }}
     - require:
-      - cmd: site-dir-setup-{{ site_args['name'] }}
+      - cmd: site-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 
-/etc/nginx/sites-enabled/{{ site_args['name'] }}.conf:
+/etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   file.managed:
     - template: jinja
     - source:   salt://config/nginx/wsuwp-indie-site.conf.jinja
@@ -61,31 +61,31 @@ wp-set-site-permissions-{{ site_args['name'] }}:
     - mode:     644
     - require:
       - pkg:    nginx
-      - cmd:    site-dir-setup-{{ site_args['name'] }}
+      - cmd:    site-dir-setup-{{ site_args['directory'] }}
     - context:
-      site_data: {{ site_args['nginx'] }}
+      site_data: {{ site_args }}
 
-wp-dir-setup-{{ site_args['name'] }}:
+wp-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
     - name: mkdir -p wordpress && mkdir -p wp-content/plugins && mkdir -p wp-content/themes && mkdir -p wp-content/mu-plugins && mkdir -p wp-content/uploads
-    - cwd: /var/www/{{ site_args['name'] }}
+    - cwd: /var/www/{{ site_args['directory'] }}
     - user: www-data
     - require:
       - pkg: nginx
-      - cmd: site-dir-setup-{{ site_args['name'] }}
+      - cmd: site-dir-setup-{{ site_args['directory'] }}
 
-wp-initial-wordpress-{{ site_args['name'] }}:
+wp-initial-wordpress-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /tmp/wordpress.zip ./wordpress.zip && chown www-data:www-data wordpress.zip && unzip wordpress.zip && rm wordpress.zip
-    - cwd: /var/www/{{ site_args['name'] }}/
+    - cwd: /var/www/{{ site_args['directory'] }}/
     - unless: test -f wordpress/index.php
     - user: root
     - require:
       - cmd: wp-initial-download
-      - cmd: wp-dir-setup-{{ site_args['name'] }}
+      - cmd: wp-dir-setup-{{ site_args['directory'] }}
 
 {% if site_args['db_user'] %}
-/var/wsuwp-config/{{ site_args['name'] }}-wp-config.php:
+/var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php:
   file.managed:
     - template: jinja
     - source:   salt://config/wordpress/wp-config.php.jinja
@@ -94,25 +94,25 @@ wp-initial-wordpress-{{ site_args['name'] }}:
     - mode:     644
     - require:
       - pkg: nginx
-      - cmd: site-dir-setup-{{ site_args['name'] }}
+      - cmd: site-dir-setup-{{ site_args['directory'] }}
     - require_in:
-      - cmd: wp-copy-config-{{ site_args['name'] }}
+      - cmd: wp-copy-config-{{ site_args['directory'] }}
     - context:
       site_data: {{ site_args }}
 
-wp-copy-config-{{ site_args['name'] }}:
+wp-copy-config-{{ site_args['directory'] }}:
   cmd.run:
-    - name: cp /var/wsuwp-config/{{ site_args['name'] }}-wp-config.php /var/www/{{ site_args['name'] }}/wp-config.php
+    - name: cp /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php /var/www/{{ site_args['directory'] }}/wp-config.php
 {% endif %}
 
 {% if pillar['network']['location'] == 'remote' %}
 wp-set-permissions-{{ site_args['name'] }}:
   cmd.run:
-    - name: chown -R www-data:www-data /var/www/{{ site_args['name'] }}
+    - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }}
     - require:
-      - cmd: site-dir-setup-{{ site_args['name'] }}
-      - cmd: wp-initial-wordpress-{{site_args['name'] }}
-      - cmd: wp-dir-setup-{{ site_args['name'] }}
+      - cmd: site-dir-setup-{{ site_args['directory'] }}
+      - cmd: wp-initial-wordpress-{{site_args['directory'] }}
+      - cmd: wp-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 {% endfor %}
 

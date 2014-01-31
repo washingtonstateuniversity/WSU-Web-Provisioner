@@ -1,9 +1,9 @@
 ################################################################
-# {{ site_data['server_name'] }} nginx configuration
+# {{ site_data['directory'] }} nginx configuration
 server {
     listen       80;
-    server_name  {{ site_data['server_name'] }};
-    root         /var/www/{{ site_data['root_path'] }}/wordpress;
+    server_name  {{ site_data['nginx']['server_name'] }};
+    root         /var/www/{{ site_data['directory'] }}/wordpress;
 
     location / {
         index index.php;
@@ -12,10 +12,10 @@ server {
 
     # The wp-content directory is one level up from our standard root directory
     location ~ ^/wp-content/(.*)$ {
-        alias /var/www/{{ site_data['root_path'] }}/wp-content/$1;
+        alias /var/www/{{ site_data['directory'] }}/wp-content/$1;
     }
 
-    # Handle all static assets by serving the file directly. Add directives 
+    # Handle all static assets by serving the file directly. Add directives
     # to send expires headers and turn off 404 error logging.
     location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
         expires 24h;
