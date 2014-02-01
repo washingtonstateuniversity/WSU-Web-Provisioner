@@ -97,9 +97,9 @@ site-dir-setup-{{ site_args['directory'] }}:
     {% else %}
     - name: cp /srv/www/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
     {% endif %}
-  - require:
-    - pkg: nginx
-    - cmd: site-dir-setup-{{ site_args['directory'] }}
+    - require:
+      - pkg: nginx
+      - cmd: site-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 
 # Setup the directories required for a WordPress project inside the
