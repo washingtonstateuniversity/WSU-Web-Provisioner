@@ -33,17 +33,14 @@ http {
     # Default log file
     access_log  /var/log/nginx/access.log;
 
-    # Turn sendfile off in a virtual machine because of issues
-    #
-    # The nginx default for sendfile is on, which appears to not jive with something
-    # about the VM for some things, causing weird encoding issues in Javascript
-    # that create syntax errors and weird encoding issues in CSS that make it seem
-    # like your file has been cached forever. Crazy stuff - so off it is.
-    #
-    # See - http://jeremyfelt.com/code/2013/01/08/clear-nginx-cache-in-vagrant/
-    #
-    # Note that this should most likely be turned on in a production environment
+    # Sendfile should be off in a VirtualBox (local) environment because
+    # of caching issues with the shared drive. In production, it should
+    # be turned on as it does improve performance.
+    {% if network['location'] == 'remote' %}
+    sendfile            on;
+    {% else %}
     sendfile            off;
+    {% endif %}
 
     # Don't send out partial TCP frames
     tcp_nopush          on;
