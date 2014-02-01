@@ -87,7 +87,7 @@ ImageMagick:
     - require:
       - pkg:    nginx
     - context:
-      network: pillar['network']
+      network: {{ pillar['network'] }}
 
 /etc/nginx/sites-enabled/default:
   file.managed:
