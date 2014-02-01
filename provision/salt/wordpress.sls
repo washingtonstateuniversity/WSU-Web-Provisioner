@@ -36,6 +36,11 @@ wp-initial-download:
 {% do site_args.update({'db_host':'127.0.0.1'}) %}
 {% endif %}
 
+{% if site_args['nginx']['config'] is defined %}
+{% else %}
+{% do site_args['nginx'].update({'config':'auto'}) %}
+{% endif %}
+
 # Setup the MySQL users, databases, and privileges required for
 # each site.
 wsuwp-indie-db-{{ site }}:
@@ -70,6 +75,7 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require:
       - pkg: nginx
 
+{% if site_args['nginx']['config'] == 'auto' %}
 # Configure Nginx with a jinja template.
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   file.managed:
@@ -83,6 +89,18 @@ site-dir-setup-{{ site_args['directory'] }}:
       - cmd:    site-dir-setup-{{ site_args['directory'] }}
     - context:
       site_data: {{ site_args }}
+{% else %}
+/etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
+  cmd.run:
+    {% if pillar['network']['location'] == 'local' %}
+    - name: cp /srv/www/config/dev.{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
+    {% else %}
+    - name: cp /srv/www/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
+    {% endif %}
+  - require:
+    - pkg: nginx
+    - cmd: site-dir-setup-{{ site_args['directory'] }}
+{% endif %}
 
 # Setup the directories required for a WordPress project inside the
 # site's root path.
