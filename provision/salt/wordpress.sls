@@ -93,9 +93,9 @@ site-dir-setup-{{ site_args['directory'] }}:
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   cmd.run:
     {% if pillar['network']['location'] == 'local' %}
-    - name: cp /srv/www/config/dev.{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
+    - name: cp /srv/www/{{ site_args['directory'] }}/config/dev.{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
     {% else %}
-    - name: cp /srv/www/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
+    - name: cp /srv/www/{{ site_args['directory'] }}/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
     {% endif %}
     - require:
       - pkg: nginx
