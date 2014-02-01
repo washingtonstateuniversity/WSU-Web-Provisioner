@@ -23,7 +23,6 @@ base:
     - wordpress
   'env:wsuwp-vagrant':
     - match: grain
-    - devserver
     - wsuwp-dev
   'env:wsuwp-production':
     - match: grain
