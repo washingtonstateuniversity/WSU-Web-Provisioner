@@ -76,14 +76,18 @@ ImageMagick:
       - php-pecl-imagick
       - ImageMagick
 
+# Configure Nginx with a jinja template.
 /etc/nginx/nginx.conf:
   file.managed:
-    - source: salt://config/nginx/nginx.conf
-    - user: root
-    - group: root
-    - mode: 644
+    - template: jinja
+    - source:   salt://config/nginx/nginx.conf.jinja
+    - user:     root
+    - group:    root
+    - mode:     644
     - require:
-      - pkg: nginx
+      - pkg:    nginx
+    - context:
+      network: pillar['network']
 
 /etc/nginx/sites-enabled/default:
   file.managed:
