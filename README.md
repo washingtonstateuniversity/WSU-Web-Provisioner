@@ -59,10 +59,15 @@ base:
 
 ```
 network:
+  location: local
+  gateway_ip: 10.10.40.1
   nameservers: |
     nameserver 8.8.8.8
     nameserver 8.8.4.4
 ```
+
+* `location` should be local or remote depending on where the environment exists.
+* `gateway_ip` should be defined if you want to use remote debug with xdebug.
 
 There are current projects that support `mysql.sls` and `sites.sls` pillar data. Over time these will be grouped into both common and specific areas. As this happens, documentation will be built out in this repository for support.
 

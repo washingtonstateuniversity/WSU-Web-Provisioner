@@ -1,0 +1,41 @@
+; Enable xdebug extension module
+zend_extension=/usr/lib64/php/modules/xdebug.so
+
+; see http://xdebug.org/docs/all_settings
+
+[XDebug]
+
+; Color var_dumps and stack traces in CLI mode.
+xdebug.cli_color = 1
+
+; Collects parameters passed to functions. May want to disable for very large scripts.
+xdebug.collect_params = 1
+
+; Max of array children and object properties. (Infinite)
+xdebug.var_display_max_children = -1
+
+; Max string length in var_dump(). (Infinite)
+xdebug.var_display_max_data = -1
+
+; Max nested levels in var_dump(). (Infinite)
+xdebug.var_display_max_depth = -1
+
+# Enable remote debug through xdebug by adding the virtual machine's
+# gateway IP to the network.sls file in your pillar data.
+{% if network['gateway_ip'] is defined %}
+; IP Address of the remote debugging host.
+xdebug.remote_host = "{{ network['gateway_ip'] }}"
+; The port to which Xdebug tries to connect on the remote host.
+xdebug.remote_port = 9000
+; IDE key used to make a remote debug connection.
+xdebug.idekey = "WSUWPINDIE"
+; Don't require GET/POST parameter to initiate a remote debug session.
+xdebug.remote_autostart = 1
+; Enable remote debugging.
+xdebug.remote_enable = 1
+; Log file for remote debugging connections.
+xdebug.remote_log = /tmp/xdebug-remote.log
+; Use XDEBUG_PROFILE in GET/POST to trigger profile data writing to /tmp.
+xdebug.profiler_enable_trigger = 1
+xdebug.profiler_output_name = "cachegrind.out.%t-%s"
+{% endif %}
