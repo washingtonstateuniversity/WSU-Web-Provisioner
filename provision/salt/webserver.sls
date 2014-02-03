@@ -13,6 +13,13 @@ user-www-data:
     - require:
       - group: www-data
 
+user-www-deploy:
+  user.present:
+    - name: www-deploy
+    - groups:
+      - www-data
+      - group: www-data
+
 nginx-repo:
   pkgrepo.managed:
     - humanname: Nginx Repo
