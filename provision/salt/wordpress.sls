@@ -153,7 +153,7 @@ wp-copy-config-{{ site_args['directory'] }}:
 {% if pillar['network']['location'] == 'remote' %}
 wp-set-permissions-{{ site_args['directory'] }}:
   cmd.run:
-    - name: chown -R www-deploy:www-data /var/www/{{ site_args['directory'] }} && chmod -R g+w /var/www/{{ site_args['directory'] }}
+    - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }} && chmod -R g+w /var/www/{{ site_args['directory'] }}
     - require:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
       - cmd: wp-initial-wordpress-{{site_args['directory'] }}
