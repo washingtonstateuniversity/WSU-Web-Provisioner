@@ -108,7 +108,7 @@ wp-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
     - name: mkdir -p wordpress && mkdir -p wp-content/plugins && mkdir -p wp-content/themes && mkdir -p wp-content/mu-plugins && mkdir -p wp-content/uploads
     - cwd: /var/www/{{ site_args['directory'] }}
-    - user: www-data
+    - user: root
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
