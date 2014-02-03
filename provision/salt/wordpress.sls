@@ -151,7 +151,7 @@ wp-copy-config-{{ site_args['directory'] }}:
 # If we're in a remote environment, change all files in each site
 # root to be owned by the www-data user.
 {% if pillar['network']['location'] == 'remote' %}
-wp-set-permissions-{{ site_args['name'] }}:
+wp-set-permissions-{{ site_args['directory'] }}:
   cmd.run:
     - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }}
     - require:
