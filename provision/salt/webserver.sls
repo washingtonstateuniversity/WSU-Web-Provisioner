@@ -18,6 +18,8 @@ user-www-deploy:
     - name: www-deploy
     - groups:
       - www-data
+    - require:
+      - group: www-data
 
 nginx-repo:
   pkgrepo.managed:
