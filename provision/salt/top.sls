@@ -23,7 +23,5 @@ base:
     - wordpress
   'wsuwp-dev':
     - wsuwp-dev
-  'wsuwp-prod-01':
-    - wsuwp-prod
   'wsuwp-indie-dev':
     - wsuwp-indie-dev
