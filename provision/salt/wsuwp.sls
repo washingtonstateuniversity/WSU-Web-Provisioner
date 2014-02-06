@@ -63,6 +63,27 @@ wsuwp-install-network:
     - require:
       - cmd: wp-cli
 
+# Setup a wp-config.php file for the site and temporarily store it
+# in /tmp/
+/tmp/wsuwp-wp-config.php:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/wordpress/wsuwp-wp-config.php.jinja
+    - user:     www-data
+    - group:    www-data
+    - mode:     644
+    - require:
+      - pkg: nginx
+      - cmd: wsuwp-install-network
+    - require_in:
+      - cmd: wsuwp-copy-config
+
+# Copy over the stored wp-config.php to the site's root path. This
+# allows us to avoid some permissions issues in a local environment.
+wsuwp-copy-config:
+  cmd.run:
+    - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php
+
 # Add a default set of users to the WordPress environment via wp-cli. These can be
 # configured in the users.sls pillar.
 {% for user, user_arg in pillar.get('wp-users',{}).items() %}

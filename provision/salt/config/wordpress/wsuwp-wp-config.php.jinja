@@ -9,10 +9,10 @@ if ( isset( $_SERVER['WP_CLI_PHP_USED'] ) && ! isset( $_SERVER['HTTP_HOST'] ) ) 
 }
 
 // The database name, username, password, and host for MySQL
-define( 'DB_NAME',     '{{ site_data['database'] }}' );
-define( 'DB_USER',     '{{ site_data['db_user']  }}' );
-define( 'DB_PASSWORD', '{{ site_data['db_pass']  }}' );
-define( 'DB_HOST',     '{{ site_data['db_host']  }}' );
+define( 'DB_NAME',     '{{ pillar['wsuwp-config']['database'] }}' );
+define( 'DB_USER',     '{{ pillar['wsuwp-config']['db_user']  }}' );
+define( 'DB_PASSWORD', '{{ pillar['wsuwp-config']['db_pass']  }}' );
+define( 'DB_HOST',     '{{ pillar['wsuwp-config']['db_host']  }}' );
 
 {% if pillar['network']['location'] == 'local' %}
 define( 'WP_DEBUG',         true  );
@@ -33,18 +33,7 @@ define( 'WSU_DISABLE_STRICT', true );
  *
  * Generated through https://api.wordpress.org/secret-key/1.1/salt/
  */
-{% if 'nonces' in site_data %}
-{{ site_data['nonces'] }}
-{% else %}
-define( 'AUTH_KEY',         'makethisuniqueonproduction' );
-define( 'SECURE_AUTH_KEY',  'makethisuniqueonproduction' );
-define( 'LOGGED_IN_KEY',    'makethisuniqueonproduction' );
-define( 'NONCE_KEY',        'makethisuniqueonproduction' );
-define( 'AUTH_SALT',        'makethisuniqueonproduction' );
-define( 'SECURE_AUTH_SALT', 'makethisuniqueonproduction' );
-define( 'LOGGED_IN_SALT',   'makethisuniqueonproduction' );
-define( 'NONCE_SALT',       'makethisuniqueonproduction' );
-{% endif %}
+{{ pillar['wsuwp-config']['nonces'] }}
 
 // URLs
 define( 'WP_HOME',        'http://wp.wsu.edu'            );
@@ -53,20 +42,20 @@ define( 'WP_CONTENT_URL', 'http://wp.wsu.edu/wp-content' );
 // Load wp-content from parent directory
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
-{% if 'cache_key' in site_data %}
+{% if 'cache_key' in pillar['wsuwp-config'] %}
 // Define a salt for cache keys to avoid collisions and errors.
-define( 'WP_CACHE_KEY_SALT', '{{ site_data['cache_key'] }}' );
+define( 'WP_CACHE_KEY_SALT', '{{ pillar['wsuwp-config']['cache_key'] }}' );
 {% endif %}
 
-{% if 'batcache' in site_data %}
+{% if 'batcache' in pillar['wsuwp-config'] %}
 // Enable page cache through batcache. wp-content/advanced-cache.php must exist.
 global $batcache;
-$batcache = {{ site_data['batcache'] }};
+$batcache = {{ pillar['wsuwp-config']['batcache'] }};
 define( 'WP_CACHE',          true     );
 {% endif %}
 
-{% if 'default_theme' in site_data %}
-define( 'WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
+{% if 'default_theme' in pillar['wsuwp-config'] %}
+define( 'WP_DEFAULT_THEME', '{{ pillar['wsuwp-config']['default_theme'] }}' );
 {% endif %}
 
 // Multisite / Multinetwork related config
