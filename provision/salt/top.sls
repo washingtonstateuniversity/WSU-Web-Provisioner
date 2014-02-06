@@ -21,9 +21,6 @@ base:
   'project:wordpress':
     - match: grain
     - wordpress
-  'env:wsuwp-vagrant':
+  'project:wsuwp':
     - match: grain
-    - wsuwp-dev
-  'env:wsuwp-production':
-    - match: grain
-    - wsuwp-prod
+    - wsuwp

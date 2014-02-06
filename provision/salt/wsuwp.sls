@@ -6,7 +6,7 @@
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.13.0/wp-cli.phar > wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.13.0/wp-cli-0.13.0.phar > wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
     - cwd: /home/vagrant/
     - unless: which wp
     - require:
@@ -35,7 +35,7 @@ wsuwp-db:
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
-    - grant: select, insert, update, delete
+    - grant: select, insert, update, delete, create
     - database: wsuwp.*
     - user: wp
     - require_in:
@@ -54,6 +54,13 @@ wsuwp-prep-install:
     - require_in:
       - cmd: wsuwp-install-network
 
+# Copy over a temporary wp-config.php to use during installation of WordPress.
+wsuwp-copy-temp:
+  cmd.run:
+    - name: cp /var/www/temp-config.php /var/www/wp-config.php
+    - unless: test -f /var/www/wp-config.php
+    - require_in: wsuwp-install-network
+
 # Install our primary WordPress network with a default admin and password for the
 # development environment.
 wsuwp-install-network:
@@ -62,6 +69,27 @@ wsuwp-install-network:
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
+
+# Setup a wp-config.php file for the site and temporarily store it
+# in /tmp/
+/tmp/wsuwp-wp-config.php:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/wordpress/wsuwp-wp-config.php.jinja
+    - user:     www-data
+    - group:    www-data
+    - mode:     644
+    - require:
+      - pkg: nginx
+      - cmd: wsuwp-install-network
+    - require_in:
+      - cmd: wsuwp-copy-config
+
+# Copy over the stored wp-config.php to the site's root path. This
+# allows us to avoid some permissions issues in a local environment.
+wsuwp-copy-config:
+  cmd.run:
+    - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php
 
 # Add a default set of users to the WordPress environment via wp-cli. These can be
 # configured in the users.sls pillar.
@@ -127,19 +155,22 @@ update-wsu-spine-theme:
       - pkg: git
       - cmd: wsuwp-install-network
 
-# Whenever provisioning runs, it doesn't hurt to flush our object cache.
-wsuwp-flush-cache:
+# Configure Nginx with a jinja template.
+wsuwp-nginx-conf:
   cmd.run:
-    - name: sudo service memcached restart
-    - cwd: /
+    {% if pillar['network']['location'] == 'local' %}
+    - name: cp /srv/pillar/config/nginx/dev.wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    {% else %}
+    - name: cp /srv/pillar/config/nginx/wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    {% endif %}
+    - require:
+      - pkg: nginx
+
+# Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
+wsuwp-indie-flush:
+  cmd.run:
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
     - require:
       - sls: cacheserver
-
-# Whenever provisioning runs, it doesn't hurt to restart php-fpm, flushing the opcode cache.
-wsuwp-flush-php-fpm:
-  cmd.run:
-    - name: sudo service php-fpm restart
-    - cwd: /
-    - require:
       - sls: webserver
-
+      - cmd: wsuwp-nginx-conf
