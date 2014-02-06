@@ -21,7 +21,6 @@ base:
   'project:wordpress':
     - match: grain
     - wordpress
-  'wsuwp-dev':
-    - wsuwp-dev
-  'wsuwp-indie-dev':
-    - wsuwp-indie-dev
+  'project:wsuwp':
+    - match: grain
+    - wsuwp
