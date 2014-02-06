@@ -36,14 +36,14 @@ define( 'WSU_DISABLE_STRICT', true );
 {% if 'nonces' in site_data %}
 {{ site_data['nonces'] }}
 {% else %}
-define('AUTH_KEY',         'makethisuniqueonproduction');
-define('SECURE_AUTH_KEY',  'makethisuniqueonproduction');
-define('LOGGED_IN_KEY',    'makethisuniqueonproduction');
-define('NONCE_KEY',        'makethisuniqueonproduction');
-define('AUTH_SALT',        'makethisuniqueonproduction');
-define('SECURE_AUTH_SALT', 'makethisuniqueonproduction');
-define('LOGGED_IN_SALT',   'makethisuniqueonproduction');
-define('NONCE_SALT',       'makethisuniqueonproduction');
+define( 'AUTH_KEY',         'makethisuniqueonproduction' );
+define( 'SECURE_AUTH_KEY',  'makethisuniqueonproduction' );
+define( 'LOGGED_IN_KEY',    'makethisuniqueonproduction' );
+define( 'NONCE_KEY',        'makethisuniqueonproduction' );
+define( 'AUTH_SALT',        'makethisuniqueonproduction' );
+define( 'SECURE_AUTH_SALT', 'makethisuniqueonproduction' );
+define( 'LOGGED_IN_SALT',   'makethisuniqueonproduction' );
+define( 'NONCE_SALT',       'makethisuniqueonproduction' );
 {% endif %}
 
 // URLs
@@ -66,7 +66,7 @@ define( 'WP_CACHE',          true     );
 {% endif %}
 
 {% if 'default_theme' in site_data %}
-define('WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
+define( 'WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
 {% endif %}
 
 // Multisite / Multinetwork related config
@@ -74,19 +74,19 @@ define('WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
 // @todo determine if needed
 $base = '/';
 
-define( 'MULTISITE',            true         );
-define( 'SUBDOMAIN_INSTALL',    true         );
-define( 'SUNRISE',              'on'         );
-define( 'WP_MULTI_NETWORK',     true         );
+define( 'MULTISITE',         true );
+define( 'SUBDOMAIN_INSTALL', true );
+define( 'SUNRISE',           'on' );
+define( 'WP_MULTI_NETWORK',  true );
 
 // Phase out.
-define('DOMAIN_CURRENT_SITE',  'wp.wsu.edu'  );
-define('PATH_CURRENT_SITE',    '/'           );
-define('SITE_ID_CURRENT_SITE', 1             );
-define('BLOG_ID_CURRENT_SITE', 1             );
+define( 'DOMAIN_CURRENT_SITE',  'wp.wsu.edu' );
+define( 'PATH_CURRENT_SITE',    '/'          );
+define( 'SITE_ID_CURRENT_SITE', 1            );
+define( 'BLOG_ID_CURRENT_SITE', 1            );
 
 // Disable theme and plugin editors in the dashboard.
-define( 'DISALLOW_FILE_EDIT', true );
+define( 'DISALLOW_FILE_EDIT', true  );
 define( 'DISALLOW_FILE_MODS', false );
 
 $table_prefix  = 'wp_';
