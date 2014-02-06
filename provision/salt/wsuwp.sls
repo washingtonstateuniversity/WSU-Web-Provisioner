@@ -35,7 +35,7 @@ wsuwp-db:
       - service: mysqld
       - pkg: mysql
   mysql_grants.present:
-    - grant: select, insert, update, delete
+    - grant: select, insert, update, delete, create
     - database: wsuwp.*
     - user: wp
     - require_in:
