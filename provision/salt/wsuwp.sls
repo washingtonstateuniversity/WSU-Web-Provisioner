@@ -54,6 +54,13 @@ wsuwp-prep-install:
     - require_in:
       - cmd: wsuwp-install-network
 
+# Copy over a temporary wp-config.php to use during installation of WordPress.
+wsuwp-copy-temp:
+  cmd.run:
+    - name: cp /var/www/temp-config.php /var/www/wp-config.php
+    - unless: test -f /var/www/wp-config.php
+    - require_in: wsuwp-install-network
+
 # Install our primary WordPress network with a default admin and password for the
 # development environment.
 wsuwp-install-network:
