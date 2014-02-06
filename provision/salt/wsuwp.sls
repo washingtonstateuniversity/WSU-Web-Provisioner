@@ -138,19 +138,11 @@ wsuwp-nginx-conf:
     - require:
       - pkg: nginx
 
-# Whenever provisioning runs, it doesn't hurt to flush our object cache.
-wsuwp-flush-cache:
+# Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
+wsuwp-indie-flush:
   cmd.run:
-    - name: sudo service memcached restart
-    - cwd: /
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
     - require:
       - sls: cacheserver
-
-# Whenever provisioning runs, it doesn't hurt to restart php-fpm, flushing the opcode cache.
-wsuwp-flush-php-fpm:
-  cmd.run:
-    - name: sudo service php-fpm restart
-    - cwd: /
-    - require:
       - sls: webserver
-
+      - cmd: wsuwp-nginx-conf
