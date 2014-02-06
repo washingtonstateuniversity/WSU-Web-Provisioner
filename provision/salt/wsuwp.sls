@@ -127,6 +127,17 @@ update-wsu-spine-theme:
       - pkg: git
       - cmd: wsuwp-install-network
 
+# Configure Nginx with a jinja template.
+/etc/nginx/sites-enabled/wp.wsu.edu.conf:
+  cmd.run:
+    {% if pillar['network']['location'] == 'local' %}
+    - name: cp /srv/pillar/config/nginx/dev.wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    {% else %}
+    - name: cp /srv/pillar/config/nginx/wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    {% endif %}
+    - require:
+      - pkg: nginx
+
 # Whenever provisioning runs, it doesn't hurt to flush our object cache.
 wsuwp-flush-cache:
   cmd.run:
