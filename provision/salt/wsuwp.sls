@@ -128,7 +128,7 @@ update-wsu-spine-theme:
       - cmd: wsuwp-install-network
 
 # Configure Nginx with a jinja template.
-/etc/nginx/sites-enabled/wp.wsu.edu.conf:
+wsuwp-nginx-conf:
   cmd.run:
     {% if pillar['network']['location'] == 'local' %}
     - name: cp /srv/pillar/config/nginx/dev.wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
