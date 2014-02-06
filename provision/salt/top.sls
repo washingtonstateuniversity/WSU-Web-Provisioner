@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # top.sls
 #
 # The current '*' state is intended to run for every server that
