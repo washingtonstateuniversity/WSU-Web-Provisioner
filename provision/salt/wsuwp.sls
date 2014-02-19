@@ -6,7 +6,7 @@
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.13.0/wp-cli-0.13.0.phar > wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.0/wp-cli-0.14.0.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /home/vagrant/
     - unless: which wp
     - require:
@@ -65,7 +65,7 @@ wsuwp-copy-temp:
 # development environment.
 wsuwp-install-network:
   cmd.run:
-    - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
+    - name: wp --allow-root core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
@@ -96,7 +96,7 @@ wsuwp-copy-config:
 {% for user, user_arg in pillar.get('wp-users',{}).items() %}
 wp-add-user-{{ user }}:
   cmd.run:
-    - name: wp user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
+    - name: wp --allow-root user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
     - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
@@ -107,7 +107,7 @@ wp-add-user-{{ user }}:
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
-    - name: wp plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
+    - name: wp --allow-root plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
     - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
@@ -154,6 +154,15 @@ update-wsu-spine-theme:
     - require:
       - pkg: git
       - cmd: wsuwp-install-network
+
+# Enable the parent theme on all network sites.
+enable-wsu-spine-theme:
+  cmd.run:
+    - name: wp --allow-root theme enable wsuwp-spine-parent --network
+    - cwd: /var/www/wordpress/
+    - require:
+      - cmd: install-wsu-spine-theme
+      - cmd: update-wsu-spine-theme
 
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
