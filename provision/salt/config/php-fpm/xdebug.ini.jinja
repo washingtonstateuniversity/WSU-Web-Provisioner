@@ -20,8 +20,8 @@ xdebug.var_display_max_data = -1
 ; Max nested levels in var_dump(). (Infinite)
 xdebug.var_display_max_depth = -1
 
-# Enable remote debug through xdebug by adding the virtual machine's
-# gateway IP to the network.sls file in your pillar data.
+; Enable remote debug through xdebug by adding the virtual machine's
+; gateway IP to the network.sls file in your pillar data.
 {% if network['gateway_ip'] is defined %}
 ; IP Address of the remote debugging host.
 xdebug.remote_host = "{{ network['gateway_ip'] }}"
