@@ -65,7 +65,7 @@ wsuwp-copy-temp:
 # development environment.
 wsuwp-install-network:
   cmd.run:
-    - name: wp core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
+    - name: wp --allow-root core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
@@ -96,7 +96,7 @@ wsuwp-copy-config:
 {% for user, user_arg in pillar.get('wp-users',{}).items() %}
 wp-add-user-{{ user }}:
   cmd.run:
-    - name: wp user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
+    - name: wp --allow-root user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
     - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
@@ -107,7 +107,7 @@ wp-add-user-{{ user }}:
 {% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
 install-dev-{{ plugin }}:
   cmd.run:
-    - name: wp plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
+    - name: wp --allow-root plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
     - cwd: /var/www/wordpress/
     - require:
       - cmd: wsuwp-install-network
