@@ -155,6 +155,15 @@ update-wsu-spine-theme:
       - pkg: git
       - cmd: wsuwp-install-network
 
+# Enable the parent theme on all network sites.
+enable-wsu-spine-theme:
+  cmd.run:
+    - name: wp --allow-root theme enable wsuwp-spine-parent --network
+    - cwd: /var/www/wordpress/
+    - require:
+      - cmd: install-wsu-spine-theme
+      - cmd: update-wsu-spine-theme
+
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
