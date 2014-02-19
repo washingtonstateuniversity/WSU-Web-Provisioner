@@ -158,7 +158,7 @@ update-wsu-spine-theme:
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
   cmd.run:
-    - name: wp --allow-root theme enable wsuwp-spine-parent --network
+    - name: wp --allow-root theme enable wsuwp-spine-parent --network --activate
     - cwd: /var/www/wordpress/
     - require:
       - cmd: install-wsu-spine-theme
