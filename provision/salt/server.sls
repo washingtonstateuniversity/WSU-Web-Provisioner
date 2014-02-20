@@ -43,6 +43,15 @@ git:
   pkg.installed:
     - name: git
 
+# npm gives us access to NodeJS and related build tools.
+npm:
+  pkg.installed:
+    - name: npm
+
+grunt:
+  cmd.run:
+    - name: npm install -g grunt-cli
+
 # htop is a useful server resource monitoring tool
 htop:
   pkg.installed:
