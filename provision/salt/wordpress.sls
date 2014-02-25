@@ -1,7 +1,7 @@
 # wordpress.sls
 #
 # States related to setting up WordPress environments for one or multiple
-# projects. This state file relies heavily on pillar data from sites.sls, 
+# projects. This state file relies heavily on pillar data from sites.sls,
 # though has some allowance with default database settings.
 
 # Download an initial installation of WordPress to be available to any
