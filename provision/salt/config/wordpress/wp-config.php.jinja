@@ -54,6 +54,11 @@ define( 'WP_CACHE',          true     );
 define('WP_DEFAULT_THEME', '{{ site_data['default_theme'] }}' );
 {% endif %}
 
+// Allow for a custom Multisite installation.
+if ( file_exists( dirname( __FILE__ ) . '/wp-multisite-config.php' ) ) {
+	include( dirname( __FILE__ ) . '/wp-multisite-config.php' );
+}
+
 /**
  * Disable the theme and plugin editors in the admin dashboard.
  */
