@@ -131,6 +131,8 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
     - require:
       - cmd: wp-initial-download
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
+    - require_in:
+      - cmd: wp-set-permissions-{{ site_args['directory'] }}
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /var/wsuwp-config with other configs.
@@ -164,7 +166,6 @@ wp-set-permissions-{{ site_args['directory'] }}:
     - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }} && chmod -R g+w /var/www/{{ site_args['directory'] }}
     - require:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
-      - cmd: wp-initial-wordpress-{{site_args['directory'] }}
 {% endif %}
 {% endfor %}
 
