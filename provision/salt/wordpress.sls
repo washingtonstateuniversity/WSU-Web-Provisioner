@@ -1,7 +1,7 @@
 # wordpress.sls
 #
 # States related to setting up WordPress environments for one or multiple
-# projects. This state file relies heavily on pillar data from sites.sls, 
+# projects. This state file relies heavily on pillar data from sites.sls,
 # though has some allowance with default database settings.
 
 # Download an initial installation of WordPress to be available to any
@@ -19,6 +19,7 @@ wp-initial-download:
 # and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
+{% if site_args['database'] is defined %}
 # Set defaults for database information so that it doesn't need to be set
 # in a local environment's sites.sls
 {% if site_args['db_user'] is defined %}
@@ -67,6 +68,8 @@ wsuwp-indie-db-{{ site }}:
       - service: mysqld
       - pkg: mysql
       - sls: dbserver
+# End of check for database setting
+{% endif %}
 
 # Make sure the root path exists for Nginx to point to.
 site-dir-setup-{{ site_args['directory'] }}:
@@ -74,6 +77,8 @@ site-dir-setup-{{ site_args['directory'] }}:
     - name: mkdir -p /var/www/{{ site_args['directory'] }}
     - require:
       - pkg: nginx
+    - require_in:
+      - cmd: wsuwp-indie-flush
 
 {% if site_args['nginx']['config'] == 'auto' %}
 # Configure Nginx with a jinja template.
@@ -102,6 +107,8 @@ site-dir-setup-{{ site_args['directory'] }}:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 
+{% if site_args['wordpress'] == 'disabled' %}
+{% else %}
 # Setup the directories required for a WordPress project inside the
 # site's root path.
 wp-dir-setup-{{ site_args['directory'] }}:
@@ -112,6 +119,9 @@ wp-dir-setup-{{ site_args['directory'] }}:
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
+    - require_in:
+      - cmd: wp-set-permissions-{{ site_args['directory'] }}
+      - cmd: wsuwp-indie-flush
 
 # If WordPress has not yet been setup, copy over the initial stable zip
 # and extract accordingly.
@@ -124,6 +134,9 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
     - require:
       - cmd: wp-initial-download
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
+    - require_in:
+      - cmd: wp-set-permissions-{{ site_args['directory'] }}
+      - cmd: wsuwp-indie-flush
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /var/wsuwp-config with other configs.
@@ -147,6 +160,7 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
 wp-copy-config-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php /var/www/{{ site_args['directory'] }}/wp-config.php
+{% endif %}
 
 # If we're in a remote environment, change all files in each site
 # root to be owned by the www-data user.
@@ -156,8 +170,6 @@ wp-set-permissions-{{ site_args['directory'] }}:
     - name: chown -R www-data:www-data /var/www/{{ site_args['directory'] }} && chmod -R g+w /var/www/{{ site_args['directory'] }}
     - require:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
-      - cmd: wp-initial-wordpress-{{site_args['directory'] }}
-      - cmd: wp-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 {% endfor %}
 
