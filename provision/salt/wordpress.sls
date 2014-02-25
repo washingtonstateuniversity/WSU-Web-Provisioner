@@ -59,7 +59,7 @@ wsuwp-indie-db-{{ site }}:
       - pkg: mysql
       - sls: dbserver
   mysql_grants.present:
-    - grant: select, insert, create, update, delete
+    - grant: select, insert, create, update, delete, alter
     - database: {{ site_args['database'] }}.*
     - user: {{ site_args['db_user'] }}
     - host: {{ site_args['db_host'] }}
