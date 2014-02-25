@@ -102,6 +102,8 @@ site-dir-setup-{{ site_args['directory'] }}:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 
+{% if site_args['wordpress'] == 'disabled' %}
+{% else %}
 # Setup the directories required for a WordPress project inside the
 # site's root path.
 wp-dir-setup-{{ site_args['directory'] }}:
@@ -147,6 +149,7 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
 wp-copy-config-{{ site_args['directory'] }}:
   cmd.run:
     - name: cp /var/wsuwp-config/{{ site_args['directory'] }}-wp-config.php /var/www/{{ site_args['directory'] }}/wp-config.php
+{% endif %}
 
 # If we're in a remote environment, change all files in each site
 # root to be owned by the www-data user.
