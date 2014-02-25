@@ -125,7 +125,6 @@ wp-dir-setup-{{ site_args['directory'] }}:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
     - require_in:
-      - cmd: wp-set-permissions-{{ site_args['directory'] }}
       - cmd: wsuwp-indie-flush
 
 # If WordPress has not yet been setup, copy over the initial stable zip
@@ -140,7 +139,6 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
       - cmd: wp-initial-download
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
     - require_in:
-      - cmd: wp-set-permissions-{{ site_args['directory'] }}
       - cmd: wsuwp-indie-flush
 
 # Setup a wp-config.php file for the site and temporarily store it
