@@ -42,6 +42,11 @@ wp-initial-download:
 {% do site_args['nginx'].update({'config':'auto'}) %}
 {% endif %}
 
+{% if site_args['wordpress'] is defined %}
+{% else %}
+{% do site_args.update({'wordpress':'enabled'}) %}
+{% endif %}
+
 # Setup the MySQL users, databases, and privileges required for
 # each site.
 wsuwp-indie-db-{{ site }}:
