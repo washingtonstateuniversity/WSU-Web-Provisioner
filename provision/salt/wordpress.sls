@@ -117,6 +117,8 @@ wp-dir-setup-{{ site_args['directory'] }}:
     - require:
       - pkg: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
+    - require_in:
+      - cmd: wp-set-permissions-{{ site_args['directory'] }}
 
 # If WordPress has not yet been setup, copy over the initial stable zip
 # and extract accordingly.
@@ -163,7 +165,6 @@ wp-set-permissions-{{ site_args['directory'] }}:
     - require:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
       - cmd: wp-initial-wordpress-{{site_args['directory'] }}
-      - cmd: wp-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 {% endfor %}
 
