@@ -77,6 +77,8 @@ site-dir-setup-{{ site_args['directory'] }}:
     - name: mkdir -p /var/www/{{ site_args['directory'] }}
     - require:
       - pkg: nginx
+    - require_in:
+      - cmd: wsuwp-indie-flush
 
 {% if site_args['nginx']['config'] == 'auto' %}
 # Configure Nginx with a jinja template.
@@ -119,6 +121,7 @@ wp-dir-setup-{{ site_args['directory'] }}:
       - cmd: site-dir-setup-{{ site_args['directory'] }}
     - require_in:
       - cmd: wp-set-permissions-{{ site_args['directory'] }}
+      - cmd: wsuwp-indie-flush
 
 # If WordPress has not yet been setup, copy over the initial stable zip
 # and extract accordingly.
@@ -133,6 +136,7 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
       - cmd: wp-dir-setup-{{ site_args['directory'] }}
     - require_in:
       - cmd: wp-set-permissions-{{ site_args['directory'] }}
+      - cmd: wsuwp-indie-flush
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /var/wsuwp-config with other configs.
