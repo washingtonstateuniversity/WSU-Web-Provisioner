@@ -19,6 +19,7 @@ wp-initial-download:
 # and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
 
+{% if site_args['database'] is defined %}
 # Set defaults for database information so that it doesn't need to be set
 # in a local environment's sites.sls
 {% if site_args['db_user'] is defined %}
@@ -67,6 +68,8 @@ wsuwp-indie-db-{{ site }}:
       - service: mysqld
       - pkg: mysql
       - sls: dbserver
+# End of check for database setting
+{% endif %}
 
 # Make sure the root path exists for Nginx to point to.
 site-dir-setup-{{ site_args['directory'] }}:
