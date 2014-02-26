@@ -31,8 +31,9 @@ define('NONCE_SALT',       'makethisuniqueonproduction');
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
 {% if pillar['network']['location'] == 'local' %}
-define( 'WP_DEBUG',    true  );
-define( 'SAVEQUERIES', true  );
+define( 'WP_DEBUG',     true  );
+define( 'SAVEQUERIES',  true  );
+define( 'SCRIPT_DEBUG', true  );
 {% else %}
 define( 'WP_DEBUG',    false );
 define( 'SAVEQUERIES', false );
