@@ -48,10 +48,10 @@ npm:
   pkg.installed:
     - name: npm
 
-# grunt is a task manager
+# Upgrade npm and install grunt-cli, a task manager.
 grunt:
   cmd.run:
-    - name: npm install -g grunt-cli
+    - name: npm install npm -g --ca="" && npm install -g grunt-cli
     - require:
       - pkg: npm
 
