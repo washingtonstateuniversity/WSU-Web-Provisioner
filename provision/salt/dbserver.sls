@@ -60,6 +60,6 @@ set_localhost_root_password:
         - host: localhost
         - password: {{ pillar['mysql.pass'] }}
         - connection_pass: ""
-        - watch:
-            - pkg: mysql
-            - service: mysqld
+        - connection_unix_socket: '/var/run/mysqld/mysqld.sock'
+        - require:
+          - service: mysqld
