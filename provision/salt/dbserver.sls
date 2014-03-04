@@ -62,3 +62,14 @@ set_localhost_root_password:
     - connection_pass: ""
     - require:
       - service: mysqld
+
+# Replicate the functionality of mysql_secure_installation.
+mysql-secure-installation:
+  mysql_database.absent:
+    - name: test
+    - require:
+      - service: mysqld
+  mysql_user.absent:
+    - name: ""
+    - require:
+      - service: mysqld
