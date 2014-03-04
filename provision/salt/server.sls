@@ -48,12 +48,20 @@ npm:
   pkg.installed:
     - name: npm
 
-# Upgrade npm and install grunt-cli, a task manager.
+# Remove self signing certs from npm.
+update-npm:
+  cmd.run:
+    - name: npm config set ca=""
+  require:
+    - pkg: npm
+
+# Install grunt-cli, a task manager.
 grunt:
   cmd.run:
-    - name: npm config set ca="" && npm install npm -g --ca="" && npm install -g grunt-cli
+    - name: npm install -g grunt-cli
     - require:
       - pkg: npm
+      - cmd: update-npm
 
 # htop is a useful server resource monitoring tool
 htop:
