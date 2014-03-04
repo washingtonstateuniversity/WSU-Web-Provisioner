@@ -55,7 +55,6 @@ php-fpm:
       - php-fpm
       - php-cli
       - php-common
-      - php-mysql
       - php-pear
       - php-pdo
       - php-mcrypt
