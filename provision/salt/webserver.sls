@@ -50,7 +50,7 @@ nginx-init:
       - pkg: nginx
 
 php-fpm:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - php-fpm
       - php-cli
