@@ -84,6 +84,8 @@ ImageMagick:
     - pkgs:
       - php-pecl-imagick
       - ImageMagick
+    - require:
+      - pkg: php-fpm
 
 # Configure Nginx with a jinja template.
 /etc/nginx/nginx.conf:
