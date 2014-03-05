@@ -62,6 +62,9 @@ set_localhost_root_password:
     - connection_pass: ""
     - require:
       - service: mysqld
+    - require_in:
+      - sls: wsuwp
+      - sls: wordpress
 
 # Replicate the functionality of mysql_secure_installation.
 mysql-secure-installation:
