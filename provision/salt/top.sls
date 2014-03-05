@@ -18,8 +18,7 @@ base:
     - webserver
     - cacheserver
     - dbserver
-  'project:wordpress':
-    - match: grain
+  'wsuwp-indie*':
     - wordpress
   'wsuwp':
     - wsuwp
