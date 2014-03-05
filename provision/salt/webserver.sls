@@ -30,7 +30,7 @@ nginx-repo:
       - pkg: nginx
 
 nginx:
-  pkg.installed:
+  pkg.latest:
     - name: nginx
   service.running:
     - require:
@@ -50,7 +50,7 @@ nginx-init:
       - pkg: nginx
 
 php-fpm:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - php-fpm
       - php-cli
@@ -72,7 +72,7 @@ php-fpm:
       - file: /etc/php.d/opcache.ini
 
 ImageMagick:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - php-pecl-imagick
       - ImageMagick

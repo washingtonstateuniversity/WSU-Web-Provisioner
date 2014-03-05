@@ -13,7 +13,7 @@ user-memcached:
       - pkg: memcached
 
 memcached:
-  pkg.installed:
+  pkg.latest:
     - name: memcached
   service.running:
     - require:

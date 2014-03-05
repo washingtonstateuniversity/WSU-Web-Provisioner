@@ -26,7 +26,7 @@ user-mysql:
       - pkg: mysql
 
 mysql:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - mysql
       - mysql-libs
