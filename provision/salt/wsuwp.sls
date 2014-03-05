@@ -75,6 +75,8 @@ wsuwp-install-network:
     - require:
       - cmd: wp-cli
       - service: mysqld
+      - service: php-fpm
+      - service: nginx
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /tmp/
@@ -189,6 +191,4 @@ wsuwp-indie-flush:
   cmd.run:
     - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
     - require:
-      - sls: cacheserver
-      - sls: webserver
       - cmd: wsuwp-nginx-conf
