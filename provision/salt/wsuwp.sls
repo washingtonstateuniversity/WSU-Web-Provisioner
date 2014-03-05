@@ -74,6 +74,7 @@ wsuwp-install-network:
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
+      - service: mysqld
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /tmp/
