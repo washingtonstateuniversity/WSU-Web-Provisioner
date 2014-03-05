@@ -182,6 +182,7 @@ wsuwp-nginx-conf:
     {% endif %}
     - require:
       - pkg: nginx
+      - cmd: wsuwp-install-network
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:
