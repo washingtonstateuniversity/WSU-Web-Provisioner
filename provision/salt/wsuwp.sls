@@ -88,6 +88,8 @@ wsuwp-install-network:
     - require:
       - pkg: nginx
       - cmd: wsuwp-install-network
+      - user: www-data
+      - group: www-data
     - require_in:
       - cmd: wsuwp-copy-config
 
