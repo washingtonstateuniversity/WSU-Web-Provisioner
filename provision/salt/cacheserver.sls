@@ -18,6 +18,7 @@ memcached:
   service.running:
     - require:
       - pkg: memcached
+      - user: memcached
 
 # Set memcached to run in levels 2345.
 memcached-init:
