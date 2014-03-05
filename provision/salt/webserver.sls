@@ -71,14 +71,6 @@ php-fpm:
       - file: /etc/php.ini
       - file: /etc/php.d/opcache.ini
 
-# Set php-fpm to run in levels 2345.
-php-fpm-init:
-  cmd.run:
-    - name: chkconfig --level 2345 php-fpm on
-    - cwd: /
-    - require:
-      - pkg: php-fpm
-
 ImageMagick:
   pkg.installed:
     - pkgs:
@@ -86,6 +78,15 @@ ImageMagick:
       - ImageMagick
     - require:
       - pkg: php-fpm
+
+# Set php-fpm to run in levels 2345.
+php-fpm-init:
+  cmd.run:
+    - name: chkconfig --level 2345 php-fpm on
+    - cwd: /
+    - require:
+      - pkg: php-fpm
+      - pkg: ImageMagick
 
 # Configure Nginx with a jinja template.
 /etc/nginx/nginx.conf:
