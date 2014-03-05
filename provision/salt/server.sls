@@ -41,6 +41,7 @@ remi-repo:
     - require_in:
       - pkg: mysql
       - pkg: memcached
+      - pkgrepo: remi-php55-repo
 
 # Remi has a repository specifically setup for PHP 5.5. This continues
 # to reply on the standard Remi repository for some packages.
