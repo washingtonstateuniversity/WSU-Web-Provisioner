@@ -22,6 +22,8 @@ user-mysql:
         - user
         - group
         - mode
+    - require_in:
+      - pkg: mysql
 
 mysql:
   pkg.installed:
