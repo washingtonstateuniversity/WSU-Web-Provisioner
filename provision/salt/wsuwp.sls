@@ -27,6 +27,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_database.present:
     - name: wsuwp
     - require_in:
@@ -34,6 +35,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_grants.present:
     - grant: select, insert, update, delete, create, alter
     - database: wsuwp.*
@@ -43,6 +45,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
 
 # As object cache will be available to WordPress throughout provisioning at the plugin
 # level, stop memcached before applying any related commands to avoid possible cache
