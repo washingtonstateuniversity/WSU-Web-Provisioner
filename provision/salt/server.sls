@@ -66,26 +66,6 @@ git:
   pkg.installed:
     - name: git
 
-# npm gives us access to NodeJS and related build tools.
-npm:
-  pkg.installed:
-    - name: npm
-
-# Remove self signing certs from npm.
-update-npm:
-  cmd.run:
-    - name: npm config set ca=""
-  require:
-    - pkg: npm
-
-# Install grunt-cli, a task manager.
-grunt:
-  cmd.run:
-    - name: npm install -g grunt-cli
-    - require:
-      - pkg: npm
-      - cmd: update-npm
-
 # htop is a useful server resource monitoring tool
 htop:
   pkg.installed:
