@@ -30,6 +30,7 @@
       - pkgrepo: remi-repo
       - pkgrepo: remi-php55-repo
       - pkgrepo: centos-plus-repo
+      - pkgrepo: nginx-repo
 
 # Use packages from the Remi Repository rather than some of the older
 # RPMs that are included in the default CentOS repository.
