@@ -13,6 +13,8 @@
     - user: root
     - group: root
     - mode: 755
+    - require_in:
+      - file: /etc/resolv.conf
 
 # Provide specific nameservers to use on the server. These can vary
 # depending on production or development. The primary nameservers
@@ -24,10 +26,14 @@
     - group: root
     - mode: 644
     - contents_pillar: network:nameservers
+    - require_in:
+      - pkgrepo: remi-repo
+      - pkgrepo: remi-php55-repo
+      - pkgrepo: centos-plus-repo
 
 # Use packages from the Remi Repository rather than some of the older
 # RPMs that are included in the default CentOS repository.
-remi-rep:
+remi-repo:
   pkgrepo.managed:
     - humanname: Remi Repository
     - baseurl: http://rpms.famillecollet.com/enterprise/6/remi/x86_64/
