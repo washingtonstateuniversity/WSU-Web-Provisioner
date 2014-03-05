@@ -54,6 +54,8 @@ wsuwp-prep-install:
   cmd.run:
     - name: service memcached stop
     - cwd: /
+    - require:
+      - service: memcached
     - require_in:
       - cmd: wsuwp-install-network
 
