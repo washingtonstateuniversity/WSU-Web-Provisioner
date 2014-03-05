@@ -7,6 +7,8 @@ user-memcached:
     - name: memcached
     - groups:
       - memcached
+    - require:
+      - group: memcached
     - require_in:
       - pkg: memcached
 
