@@ -58,6 +58,7 @@ php-fpm:
       - php-pear
       - php-pdo
       - php-mcrypt
+      - php-mysqlnd
       - php-imap
       - php-pecl-memcached
   service.running:
