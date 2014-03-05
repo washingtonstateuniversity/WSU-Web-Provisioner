@@ -64,6 +64,8 @@ php-fpm:
   service.running:
     - require:
       - pkg: php-fpm
+      - user: www-data
+      - group: www-data
     - watch:
       - file: /etc/php-fpm.d/www.conf
       - file: /etc/php.ini
