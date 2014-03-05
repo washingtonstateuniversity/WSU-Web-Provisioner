@@ -7,6 +7,8 @@ user-mysql:
     - name: mysql
     - groups:
       - mysql
+    - require:
+      - group: mysql
     - require_in:
       - pkg: mysql
 
