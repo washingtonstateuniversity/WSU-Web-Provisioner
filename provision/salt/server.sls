@@ -68,6 +68,20 @@ postfix:
   pkg.latest:
     - name: postfix
 
+# Use packages from the CentOS plus repository when applicable.
+centos-plus-repo:
+  pkgrepo.managed:
+    - humanname: CentOS Plus
+    - baseurl: http://mirror.centos.org/centos/6/centosplus/x86_64/
+    - gpgcheck: 0
+    - require_in:
+      - pkg: postfix
+
+# Ensure that postfix is at the latest revision.
+postfix:
+  pkg.latest:
+    - name: postfix
+
 # Git is useful to us in a few different places and should be one of the
 # first things installed if it is not yet available.
 git:
