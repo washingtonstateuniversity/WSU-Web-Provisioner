@@ -8,7 +8,7 @@ wp-cli:
   cmd.run:
     - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.1/wp-cli-0.14.1.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /home/vagrant/
-    - unless: wp --allow-root --version | grep "0.14.2"
+    - unless: wp --allow-root --version | grep "0.14.1"
     - require:
       - pkg: php-fpm
 
