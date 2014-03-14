@@ -70,6 +70,8 @@ src-build-prereq:
       - pcre-devel
       - zlib-devel
       - make
+    - require_in:
+      - cmd: nginx
 
 # Ensure that postfix is at the latest revision.
 postfix:

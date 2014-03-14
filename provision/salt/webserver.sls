@@ -37,6 +37,8 @@ nginx:
     - unless: nginx -v 2>&1 | grep "1.5.11"
     - require:
       - file: /root/nginx-compile.sh
+      - user: www-data
+      - group: www-data
   service.running:
     - require:
       - cmd: nginx
