@@ -67,7 +67,6 @@ src-build-prereq:
   pkg.installed:
     - pkgs:
       - gcc-c++
-      - pcre-dev
       - pcre-devel
       - zlib-devel
       - make
