@@ -29,6 +29,17 @@ user-www-deploy:
     - group: root
     - mode: 755
 
+# Manage the service init script for Nginx.
+/etc/init.d/nginx:
+  file.managed:
+    - name: /etc/init.d/nginx
+    - source: salt://config/nginx/init-nginx
+    - user: root
+    - group: root
+    - mode: 755
+    - require_in:
+      - cmd: nginx
+
 # Compile and install Nginx.
 nginx:
   cmd.run:
@@ -42,22 +53,12 @@ nginx:
   service.running:
     - require:
       - cmd: nginx
+      - file: /etc/init.d/nginx
       - user: www-data
       - group: www-data
     - watch:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/*
-
-# Manage the service init script for Nginx.
-/etc/init.d/nginx:
-  file.managed:
-    - name: /etc/init.d/nginx
-    - source: salt://config/nginx/init-nginx
-    - user: root
-    - group: root
-    - mode: 755
-    - require:
-      - cmd: nginx
 
 # Set Nginx to run in levels 2345.
 nginx-init:
