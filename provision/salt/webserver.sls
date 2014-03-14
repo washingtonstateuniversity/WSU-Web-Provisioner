@@ -39,7 +39,7 @@ nginx:
       - file: /root/nginx-compile.sh
   service.running:
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - user: www-data
       - group: www-data
     - watch:
