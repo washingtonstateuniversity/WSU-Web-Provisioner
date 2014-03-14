@@ -21,17 +21,22 @@ user-www-deploy:
     - require:
       - group: www-data
 
-nginx-repo:
-  pkgrepo.managed:
-    - humanname: Nginx Repo
-    - baseurl: http://nginx.org/packages/centos/6/x86_64/
-    - gpgcheck: 0
-    - require_in:
-      - pkg: nginx
+# Manage a custom compile script for Nginx.
+/root/nginx-compile.sh:
+  file.managed:
+    - source: salt://config/nginx/compile-nginx.sh
+    - owner: root
+    - group: root
+    - mode: 755
 
+# Compile and install Nginx.
 nginx:
-  pkg.latest:
-    - name: nginx
+  cmd.run:
+    - name: sh nginx-compile.sh
+    - cwd: /root/
+    - unless: nginx -v 2>&1 | grep "1.5.11"
+    - require:
+      - file: /root/nginx-compile.sh
   service.running:
     - require:
       - pkg: nginx
@@ -47,7 +52,7 @@ nginx-init:
     - name: chkconfig --level 2345 nginx on
     - cwd: /
     - require:
-      - pkg: nginx
+      - cmd: nginx
 
 php-fpm:
   pkg.latest:
