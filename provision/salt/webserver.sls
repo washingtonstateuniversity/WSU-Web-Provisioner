@@ -48,6 +48,17 @@ nginx:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/*
 
+# Manage the service init script for Nginx.
+/etc/init.d/nginx:
+  file.managed:
+    - name: /etc/init.d/nginx
+    - source: salt://config/nginx/init-nginx
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - cmd: nginx
+
 # Set Nginx to run in levels 2345.
 nginx-init:
   cmd.run:
@@ -55,6 +66,7 @@ nginx-init:
     - cwd: /
     - require:
       - cmd: nginx
+      - file: /etc/init.d/nginx
 
 php-fpm:
   pkg.latest:
