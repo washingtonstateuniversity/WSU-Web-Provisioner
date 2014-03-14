@@ -63,6 +63,16 @@ centos-plus-repo:
     - require_in:
       - pkg: postfix
 
+# Provide some packages that the Nginx build relies on.
+src-build-prereq:
+  pkg.installed:
+    - pkgs:
+      - gcc-c++
+      - pcre-dev
+      - pcre-devel
+      - zlib-devel
+      - make
+
 # Ensure that postfix is at the latest revision.
 postfix:
   pkg.latest:
