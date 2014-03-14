@@ -13,7 +13,7 @@ wp-initial-download:
     - user: root
     - unless: test -f /tmp/wordpress.zip
     - require:
-      - pkg: nginx
+      - cmd: nginx
 
 # Loop through all of the sites defined in the local sites.sls pillar data
 # and configure MySQL, our directory structure, and Nginx for each.
@@ -81,7 +81,7 @@ site-dir-setup-{{ site_args['directory'] }}:
   cmd.run:
     - name: mkdir -p /var/www/{{ site_args['directory'] }}
     - require:
-      - pkg: nginx
+      - cmd: nginx
     - require_in:
       - cmd: wsuwp-indie-flush
 
@@ -95,7 +95,7 @@ site-dir-setup-{{ site_args['directory'] }}:
     - group:    root
     - mode:     644
     - require:
-      - pkg:    nginx
+      - cmd:    nginx
       - cmd:    site-dir-setup-{{ site_args['directory'] }}
     - context:
       site_data: {{ site_args }}
@@ -108,7 +108,7 @@ site-dir-setup-{{ site_args['directory'] }}:
     - name: cp /var/www/{{ site_args['directory'] }}/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
     {% endif %}
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
 {% endif %}
 
@@ -122,7 +122,7 @@ wp-dir-setup-{{ site_args['directory'] }}:
     - cwd: /var/www/{{ site_args['directory'] }}
     - user: root
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
     - require_in:
       - cmd: wsuwp-indie-flush

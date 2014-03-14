@@ -88,7 +88,7 @@ wsuwp-install-network:
     - group:    www-data
     - mode:     644
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: wsuwp-install-network
       - user: www-data
       - group: www-data
@@ -183,7 +183,7 @@ wsuwp-nginx-conf:
     - name: cp /srv/pillar/config/nginx/wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
     {% endif %}
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: wsuwp-install-network
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.

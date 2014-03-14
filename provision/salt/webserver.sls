@@ -102,7 +102,7 @@ php-fpm-init:
     - group:    root
     - mode:     644
     - require:
-      - pkg:    nginx
+      - cmd:    nginx
     - context:
       network: {{ pillar['network'] }}
 
@@ -113,7 +113,7 @@ php-fpm-init:
     - group: root
     - mode: 644
     - require:
-      - pkg: nginx
+      - cmd: nginx
 
 /etc/php-fpm.d/www.conf:
   file.managed:
