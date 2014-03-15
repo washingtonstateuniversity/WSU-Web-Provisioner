@@ -21,6 +21,13 @@ user-www-deploy:
     - require:
       - group: www-data
 
+# Provide the cache directory for nginx
+/var/cache/nginx:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755
+
 # Manage a custom compile script for Nginx.
 /root/nginx-compile.sh:
   file.managed:
