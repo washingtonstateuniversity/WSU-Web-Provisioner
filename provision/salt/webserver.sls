@@ -55,6 +55,7 @@ nginx:
     - unless: nginx -v 2>&1 | grep "1.5.11"
     - require:
       - file: /root/nginx-compile.sh
+      - file: /var/cache/nginx
       - user: www-data
       - group: www-data
 
