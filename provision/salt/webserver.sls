@@ -172,6 +172,7 @@ nginx-service:
       - cmd: nginx
       - cmd: nginx-init
       - cmd: php-fpm-init
+      - service: php-fpm-service
       - file: /etc/init.d/nginx
       - user: www-data
       - group: www-data
