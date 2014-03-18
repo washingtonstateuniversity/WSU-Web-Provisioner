@@ -58,20 +58,6 @@ nginx:
       - user: www-data
       - group: www-data
 
-# Start the nginx service.
-nginx-service:
-  service.running:
-    - require:
-      - cmd: nginx
-      - cmd: nginx-init
-      - cmd: php-fpm-init
-      - file: /etc/init.d/nginx
-      - user: www-data
-      - group: www-data
-    - watch:
-      - file: /etc/nginx/nginx.conf
-      - file: /etc/nginx/sites-enabled/*
-
 # Set Nginx to run in levels 2345.
 nginx-init:
   cmd.run:
@@ -168,6 +154,21 @@ php-fpm-init:
     - mode: 644
     - require:
       - pkg: php-fpm
+
+# Start the nginx service.
+nginx-service:
+  service.running:
+    - name: nginx
+    - require:
+      - cmd: nginx
+      - cmd: nginx-init
+      - cmd: php-fpm-init
+      - file: /etc/init.d/nginx
+      - user: www-data
+      - group: www-data
+    - watch:
+      - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/sites-enabled/*
 
 {% if pillar['network']['location'] == 'local' %}
 php-pecl-xdebug:
