@@ -27,12 +27,14 @@ user-www-deploy:
     - user: root
     - group: root
     - mode: 755
+    - require_in:
+      - cmd: nginx
 
 # Manage a custom compile script for Nginx.
 /root/nginx-compile.sh:
   file.managed:
     - source: salt://config/nginx/compile-nginx.sh
-    - owner: root
+    - user: root
     - group: root
     - mode: 755
 
@@ -55,7 +57,6 @@ nginx:
     - unless: nginx -v 2>&1 | grep "1.5.11"
     - require:
       - file: /root/nginx-compile.sh
-      - file: /var/cache/nginx
       - user: www-data
       - group: www-data
 
