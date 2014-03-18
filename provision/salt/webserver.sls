@@ -161,7 +161,7 @@ php-fpm-service:
     - name: php-fpm
     - require:
       - file: /etc/php.ini
-      - file: /etc/php-fpm.d/www/conf
+      - file: /etc/php-fpm.d/www.conf
       - cmd: php-fpm-init
 
 # Start the nginx service.
