@@ -57,6 +57,8 @@ nginx:
       - file: /root/nginx-compile.sh
       - user: www-data
       - group: www-data
+
+nginx-service:
   service.running:
     - require:
       - cmd: nginx
