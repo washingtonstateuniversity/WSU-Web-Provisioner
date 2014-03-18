@@ -151,7 +151,7 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
     - group:    www-data
     - mode:     644
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
     - require_in:
       - cmd: wp-copy-config-{{ site_args['directory'] }}
