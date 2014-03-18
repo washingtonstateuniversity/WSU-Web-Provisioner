@@ -155,6 +155,15 @@ php-fpm-init:
     - require:
       - pkg: php-fpm
 
+# Start the php-fpm service
+php-fpm-service:
+  service.running:
+    - name: php-fpm
+    - require:
+      - file: /etc/php.ini
+      - file: /etc/php-fpm.d/www/conf
+      - cmd: php-fpm-init
+
 # Start the nginx service.
 nginx-service:
   service.running:
