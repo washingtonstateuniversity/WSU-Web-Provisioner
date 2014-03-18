@@ -58,10 +58,13 @@ nginx:
       - user: www-data
       - group: www-data
 
+# Start the nginx service.
 nginx-service:
   service.running:
     - require:
       - cmd: nginx
+      - cmd: nginx-init
+      - cmd: php-fpm-init
       - file: /etc/init.d/nginx
       - user: www-data
       - group: www-data
