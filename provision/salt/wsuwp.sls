@@ -154,6 +154,14 @@ enable-wsu-spine-theme:
     - require:
       - cmd: wsuwp-copy-config
 
+# Activate the spine parent theme on the primary site if a theme is not active.
+activate-wsu-spine-theme:
+  cmd.run:
+    - name: wp --allow-root theme activate spine --url={{ pillar['wsuwp-config']['primary_host'] }}
+    - unless: wp --allow-root theme status --url={{ pillar['wsuwp-config']['primary_host'] }} | grep " A "
+    - require:
+      - cmd: enable-wsu-spine-theme
+
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
