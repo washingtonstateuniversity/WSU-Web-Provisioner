@@ -150,9 +150,9 @@ enable-wsu-spine-theme:
   cmd.run:
     - name: wp --allow-root theme enable wsuwp-spine-parent --network --activate
     - cwd: /var/www/wordpress/
+    - onlyif: cd /var/www/wp-content/themes/spine
     - require:
-      - cmd: install-wsu-spine-theme
-      - cmd: update-wsu-spine-theme
+      - cmd: wsuwp-copy-config
 
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
