@@ -4,7 +4,7 @@
  */
 
 // If this is a wp-cli request, manually set the HTTP host
-if ( isset( $_SERVER['WP_CLI_PHP_USED'] ) && ! isset( $_SERVER['HTTP_HOST'] ) ) {
+if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
 	$_SERVER['HTTP_HOST'] = '{{ pillar['wsuwp-config']['primary_host'] }}';
 }
 
