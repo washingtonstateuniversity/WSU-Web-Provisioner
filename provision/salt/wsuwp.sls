@@ -148,7 +148,7 @@ update-dev-git-{{ plugin }}:
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
   cmd.run:
-    - name: wp --allow-root theme enable wsuwp-spine-parent --network --activate
+    - name: wp --allow-root theme enable spine --network --activate
     - cwd: /var/www/wordpress/
     - onlyif: cd /var/www/wp-content/themes/spine
     - require:
