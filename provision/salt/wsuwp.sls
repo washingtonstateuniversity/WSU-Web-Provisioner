@@ -159,6 +159,7 @@ activate-wsu-spine-theme:
   cmd.run:
     - name: wp --allow-root theme activate spine --url={{ pillar['wsuwp-config']['primary_host'] }}
     - unless: wp --allow-root theme status --url={{ pillar['wsuwp-config']['primary_host'] }} | grep " A "
+    - cwd: /var/www/wordpress/
     - require:
       - cmd: enable-wsu-spine-theme
 
