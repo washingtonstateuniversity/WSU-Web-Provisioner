@@ -145,26 +145,6 @@ update-dev-git-{{ plugin }}:
       - cmd: wsuwp-copy-config
 {% endfor %}
 
-# Install the WSU Spine Parent theme available on GitHub.
-install-wsu-spine-theme:
-  cmd.run:
-    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
-    - cwd: /var/www/wp-content/themes/
-    - unless: cd /var/www/wp-content/themes/wsuwp-spine-parent
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-
-# Update the WSU Spine Parent theme to the latest version.
-update-wsu-spine-theme:
-  cmd.run:
-    - name: git pull origin master
-    - cwd: /var/www/wp-content/themes/wsuwp-spine-parent/
-    - onlyif: cd /var/www/wp-content/themes/wsuwp-spine-parent
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
   cmd.run:
