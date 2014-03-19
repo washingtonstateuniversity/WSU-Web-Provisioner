@@ -70,7 +70,7 @@ wsuwp-copy-temp:
 # development environment.
 wsuwp-install-network:
   cmd.run:
-    - name: wp --allow-root core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
+    - name: wp --allow-root core multisite-install --path=wordpress/ --url={{ pillar['wsuwp-config']['primary_host'] }} --subdomains --title="WSUWP Platform" --admin_user={{ pillar['wsuwp-config']['primary_user'] }} --admin_password={{ pillar['wsuwp-config']['primary_pass'] }} --admin_email={{ pillar['wsuwp-config']['primary_email'] }}
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
@@ -157,11 +157,7 @@ enable-wsu-spine-theme:
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
-    {% if pillar['network']['location'] == 'local' %}
-    - name: cp /srv/pillar/config/nginx/dev.wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
-    {% else %}
-    - name: cp /srv/pillar/config/nginx/wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
-    {% endif %}
+    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
     - require:
       - cmd: nginx
       - cmd: wsuwp-install-network
