@@ -94,6 +94,7 @@ iotop:
   pkg.installed:
     - name: iotop
 
+# The telnet package can be used for various connection testing.
 telnet:
   pkg.installed:
     - name: telnet
