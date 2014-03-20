@@ -4,8 +4,8 @@
  */
 
 // If this is a wp-cli request, manually set the HTTP host
-if ( isset( $_SERVER['WP_CLI_PHP_USED'] ) && ! isset( $_SERVER['HTTP_HOST'] ) ) {
-	$_SERVER['HTTP_HOST'] = 'wp.wsu.edu';
+if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
+	$_SERVER['HTTP_HOST'] = '{{ pillar['wsuwp-config']['primary_host'] }}';
 }
 
 // The database name, username, password, and host for MySQL
@@ -36,9 +36,9 @@ define( 'WSU_DISABLE_STRICT', true );
 {{ pillar['wsuwp-config']['nonces'] }}
 
 // URLs
-define( 'WP_HOME',        'http://wp.wsu.edu'            );
-define( 'WP_SITEURL',     'http://wp.wsu.edu'            );
-define( 'WP_CONTENT_URL', 'http://wp.wsu.edu/wp-content' );
+define( 'WP_HOME',        'http://{{ pillar['wsuwp-config']['primary_host'] }}' );
+define( 'WP_SITEURL',     'http://{{ pillar['wsuwp-config']['primary_host'] }}' );
+define( 'WP_CONTENT_URL', 'http://{{ pillar['wsuwp-config']['primary_host'] }}/wp-content' );
 // Load wp-content from parent directory
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
@@ -59,20 +59,9 @@ define( 'WP_DEFAULT_THEME', '{{ pillar['wsuwp-config']['default_theme'] }}' );
 {% endif %}
 
 // Multisite / Multinetwork related config
-
-// @todo determine if needed
-$base = '/';
-
 define( 'MULTISITE',         true );
-define( 'SUBDOMAIN_INSTALL', true );
 define( 'SUNRISE',           'on' );
 define( 'WP_MULTI_NETWORK',  true );
-
-// Phase out.
-define( 'DOMAIN_CURRENT_SITE',  'wp.wsu.edu' );
-define( 'PATH_CURRENT_SITE',    '/'          );
-define( 'SITE_ID_CURRENT_SITE', 1            );
-define( 'BLOG_ID_CURRENT_SITE', 1            );
 
 // Disable theme and plugin editors in the dashboard.
 define( 'DISALLOW_FILE_EDIT', true  );

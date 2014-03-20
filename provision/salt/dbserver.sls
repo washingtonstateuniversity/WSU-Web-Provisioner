@@ -7,6 +7,8 @@ user-mysql:
     - name: mysql
     - groups:
       - mysql
+    - require:
+      - group: mysql
     - require_in:
       - pkg: mysql
 
@@ -20,9 +22,11 @@ user-mysql:
         - user
         - group
         - mode
+    - require_in:
+      - pkg: mysql
 
 mysql:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - mysql
       - mysql-libs
@@ -55,11 +59,21 @@ mysql-start:
       - file: /etc/my.cnf
 
 set_localhost_root_password:
-    mysql_user.present:
-        - name: root
-        - host: localhost
-        - password: {{ pillar['mysql.pass'] }}
-        - connection_pass: ""
-        - watch:
-            - pkg: mysql
-            - service: mysqld
+  mysql_user.present:
+    - name: root
+    - host: localhost
+    - password: {{ pillar['mysql.pass'] }}
+    - connection_pass: ""
+    - require:
+      - service: mysqld
+
+# Replicate the functionality of mysql_secure_installation.
+mysql-secure-installation:
+  mysql_database.absent:
+    - name: test
+    - require:
+      - service: mysqld
+  mysql_user.absent:
+    - name: ""
+    - require:
+      - service: mysqld

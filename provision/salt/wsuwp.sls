@@ -6,9 +6,9 @@
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.0/wp-cli-0.14.0.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.1/wp-cli-0.14.1.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /home/vagrant/
-    - unless: which wp
+    - unless: wp --allow-root --version | grep "0.14.1"
     - require:
       - pkg: php-fpm
 
@@ -27,6 +27,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_database.present:
     - name: wsuwp
     - require_in:
@@ -34,6 +35,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
   mysql_grants.present:
     - grant: select, insert, update, delete, create, alter
     - database: wsuwp.*
@@ -43,6 +45,7 @@ wsuwp-db:
     - require:
       - service: mysqld
       - pkg: mysql
+      - sls: dbserver
 
 # As object cache will be available to WordPress throughout provisioning at the plugin
 # level, stop memcached before applying any related commands to avoid possible cache
@@ -51,6 +54,8 @@ wsuwp-prep-install:
   cmd.run:
     - name: service memcached stop
     - cwd: /
+    - require:
+      - service: memcached
     - require_in:
       - cmd: wsuwp-install-network
 
@@ -65,10 +70,13 @@ wsuwp-copy-temp:
 # development environment.
 wsuwp-install-network:
   cmd.run:
-    - name: wp --allow-root core multisite-install --path=wordpress/ --url=wp.wsu.edu --subdomains --title="WSUWP Platform" --admin_user=admin --admin_password=password --admin_email=admin@wp.wsu.edu
+    - name: wp --allow-root core multisite-install --path=wordpress/ --url={{ pillar['wsuwp-config']['primary_host'] }} --title="WSUWP Platform" --admin_user={{ pillar['wsuwp-config']['primary_user'] }} --admin_password={{ pillar['wsuwp-config']['primary_pass'] }} --admin_email={{ pillar['wsuwp-config']['primary_email'] }}
     - cwd: /var/www/
     - require:
       - cmd: wp-cli
+      - service: mysqld
+      - service: php-fpm
+      - service: nginx
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /tmp/
@@ -80,8 +88,10 @@ wsuwp-install-network:
     - group:    www-data
     - mode:     644
     - require:
-      - pkg: nginx
+      - cmd: nginx
       - cmd: wsuwp-install-network
+      - user: www-data
+      - group: www-data
     - require_in:
       - cmd: wsuwp-copy-config
 
@@ -135,51 +145,35 @@ update-dev-git-{{ plugin }}:
       - cmd: wsuwp-copy-config
 {% endfor %}
 
-# Install the WSU Spine Parent theme available on GitHub.
-install-wsu-spine-theme:
-  cmd.run:
-    - name: git clone https://github.com/washingtonstateuniversity/WSUWP-spine-parent-theme.git wsuwp-spine-parent
-    - cwd: /var/www/wp-content/themes/
-    - unless: cd /var/www/wp-content/themes/wsuwp-spine-parent
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-
-# Update the WSU Spine Parent theme to the latest version.
-update-wsu-spine-theme:
-  cmd.run:
-    - name: git pull origin master
-    - cwd: /var/www/wp-content/themes/wsuwp-spine-parent/
-    - onlyif: cd /var/www/wp-content/themes/wsuwp-spine-parent
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
   cmd.run:
-    - name: wp --allow-root theme enable wsuwp-spine-parent --network --activate
+    - name: wp --allow-root theme enable spine --network --activate
+    - cwd: /var/www/wordpress/
+    - onlyif: cd /var/www/wp-content/themes/spine
+    - require:
+      - cmd: wsuwp-copy-config
+
+# Activate the spine parent theme on the primary site if a theme is not active.
+activate-wsu-spine-theme:
+  cmd.run:
+    - name: wp --allow-root theme activate spine --url={{ pillar['wsuwp-config']['primary_host'] }}
+    - unless: wp --allow-root theme status --url={{ pillar['wsuwp-config']['primary_host'] }} | grep " A "
     - cwd: /var/www/wordpress/
     - require:
-      - cmd: install-wsu-spine-theme
-      - cmd: update-wsu-spine-theme
+      - cmd: enable-wsu-spine-theme
 
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
-    {% if pillar['network']['location'] == 'local' %}
-    - name: cp /srv/pillar/config/nginx/dev.wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
-    {% else %}
-    - name: cp /srv/pillar/config/nginx/wp.wsu.edu.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
-    {% endif %}
+    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
     - require:
-      - pkg: nginx
+      - cmd: nginx
+      - cmd: wsuwp-install-network
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:
   cmd.run:
     - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
     - require:
-      - sls: cacheserver
-      - sls: webserver
       - cmd: wsuwp-nginx-conf

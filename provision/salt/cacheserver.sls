@@ -7,15 +7,18 @@ user-memcached:
     - name: memcached
     - groups:
       - memcached
+    - require:
+      - group: memcached
     - require_in:
       - pkg: memcached
 
 memcached:
-  pkg.installed:
+  pkg.latest:
     - name: memcached
   service.running:
     - require:
       - pkg: memcached
+      - user: memcached
 
 # Set memcached to run in levels 2345.
 memcached-init:

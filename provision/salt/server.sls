@@ -13,6 +13,8 @@
     - user: root
     - group: root
     - mode: 755
+    - require_in:
+      - file: /etc/resolv.conf
 
 # Provide specific nameservers to use on the server. These can vary
 # depending on production or development. The primary nameservers
@@ -24,18 +26,32 @@
     - group: root
     - mode: 644
     - contents_pillar: network:nameservers
+    - require_in:
+      - pkgrepo: remi-repo
+      - pkgrepo: remi-php55-repo
+      - pkgrepo: centos-plus-repo
 
 # Use packages from the Remi Repository rather than some of the older
 # RPMs that are included in the default CentOS repository.
-remi-rep:
+remi-repo:
   pkgrepo.managed:
     - humanname: Remi Repository
     - baseurl: http://rpms.famillecollet.com/enterprise/6/remi/x86_64/
     - gpgcheck: 0
     - require_in:
       - pkg: mysql
-      - pkg: php-fpm
       - pkg: memcached
+      - pkgrepo: remi-php55-repo
+
+# Remi has a repository specifically setup for PHP 5.5. This continues
+# to reply on the standard Remi repository for some packages.
+remi-php55-repo:
+  pkgrepo.managed:
+    - humanname: Remi PHP 5.5 Repository
+    - baseurl: http://rpms.famillecollet.com/enterprise/6/php55/x86_64/
+    - gpgcheck: 0
+    - require_in:
+      - pkg: php-fpm
 
 # Use packages from the CentOS plus repository when applicable.
 centos-plus-repo:
@@ -45,6 +61,17 @@ centos-plus-repo:
     - gpgcheck: 0
     - require_in:
       - pkg: postfix
+
+# Provide some packages that the Nginx build relies on.
+src-build-prereq:
+  pkg.installed:
+    - pkgs:
+      - gcc-c++
+      - pcre-devel
+      - zlib-devel
+      - make
+    - require_in:
+      - cmd: nginx
 
 # Ensure that postfix is at the latest revision.
 postfix:
@@ -57,26 +84,6 @@ git:
   pkg.installed:
     - name: git
 
-# npm gives us access to NodeJS and related build tools.
-npm:
-  pkg.installed:
-    - name: npm
-
-# Remove self signing certs from npm.
-update-npm:
-  cmd.run:
-    - name: npm config set ca=""
-  require:
-    - pkg: npm
-
-# Install grunt-cli, a task manager.
-grunt:
-  cmd.run:
-    - name: npm install -g grunt-cli
-    - require:
-      - pkg: npm
-      - cmd: update-npm
-
 # htop is a useful server resource monitoring tool
 htop:
   pkg.installed:
@@ -87,6 +94,7 @@ iotop:
   pkg.installed:
     - name: iotop
 
+# The telnet package can be used for various connection testing.
 telnet:
   pkg.installed:
     - name: telnet

@@ -21,25 +21,44 @@ user-www-deploy:
     - require:
       - group: www-data
 
-nginx-repo:
-  pkgrepo.managed:
-    - humanname: Nginx Repo
-    - baseurl: http://nginx.org/packages/centos/6/x86_64/
-    - gpgcheck: 0
+# Provide the cache directory for nginx
+/var/cache/nginx:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755
     - require_in:
-      - pkg: nginx
+      - cmd: nginx
 
+# Manage a custom compile script for Nginx.
+/root/nginx-compile.sh:
+  file.managed:
+    - source: salt://config/nginx/compile-nginx.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+# Manage the service init script for Nginx.
+/etc/init.d/nginx:
+  file.managed:
+    - name: /etc/init.d/nginx
+    - source: salt://config/nginx/init-nginx
+    - user: root
+    - group: root
+    - mode: 755
+    - require_in:
+      - cmd: nginx
+
+# Compile and install Nginx.
 nginx:
-  pkg.installed:
-    - name: nginx
-  service.running:
+  cmd.run:
+    - name: sh nginx-compile.sh
+    - cwd: /root/
+    - unless: nginx -v 2>&1 | grep "1.5.12"
     - require:
-      - pkg: nginx
+      - file: /root/nginx-compile.sh
       - user: www-data
       - group: www-data
-    - watch:
-      - file: /etc/nginx/nginx.conf
-      - file: /etc/nginx/sites-enabled/*
 
 # Set Nginx to run in levels 2345.
 nginx-init:
@@ -47,28 +66,38 @@ nginx-init:
     - name: chkconfig --level 2345 nginx on
     - cwd: /
     - require:
-      - pkg: nginx
+      - cmd: nginx
+      - file: /etc/init.d/nginx
 
 php-fpm:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - php-fpm
       - php-cli
       - php-common
-      - php-mysql
       - php-pear
       - php-pdo
       - php-mcrypt
+      - php-mysqlnd
       - php-imap
-      - php-pecl-zendopcache
       - php-pecl-memcached
   service.running:
     - require:
       - pkg: php-fpm
+      - user: www-data
+      - group: www-data
     - watch:
       - file: /etc/php-fpm.d/www.conf
       - file: /etc/php.ini
       - file: /etc/php.d/opcache.ini
+
+ImageMagick:
+  pkg.latest:
+    - pkgs:
+      - php-pecl-imagick
+      - ImageMagick
+    - require:
+      - pkg: php-fpm
 
 # Set php-fpm to run in levels 2345.
 php-fpm-init:
@@ -77,12 +106,7 @@ php-fpm-init:
     - cwd: /
     - require:
       - pkg: php-fpm
-
-ImageMagick:
-  pkg.installed:
-    - pkgs:
-      - php-pecl-imagick
-      - ImageMagick
+      - pkg: ImageMagick
 
 # Configure Nginx with a jinja template.
 /etc/nginx/nginx.conf:
@@ -93,7 +117,7 @@ ImageMagick:
     - group:    root
     - mode:     644
     - require:
-      - pkg:    nginx
+      - cmd:    nginx
     - context:
       network: {{ pillar['network'] }}
 
@@ -104,7 +128,7 @@ ImageMagick:
     - group: root
     - mode: 644
     - require:
-      - pkg: nginx
+      - cmd: nginx
 
 /etc/php-fpm.d/www.conf:
   file.managed:
@@ -132,6 +156,31 @@ ImageMagick:
     - mode: 644
     - require:
       - pkg: php-fpm
+
+# Start the php-fpm service
+php-fpm-service:
+  service.running:
+    - name: php-fpm
+    - require:
+      - file: /etc/php.ini
+      - file: /etc/php-fpm.d/www.conf
+      - cmd: php-fpm-init
+
+# Start the nginx service.
+nginx-service:
+  service.running:
+    - name: nginx
+    - require:
+      - cmd: nginx
+      - cmd: nginx-init
+      - cmd: php-fpm-init
+      - service: php-fpm-service
+      - file: /etc/init.d/nginx
+      - user: www-data
+      - group: www-data
+    - watch:
+      - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/sites-enabled/*
 
 {% if pillar['network']['location'] == 'local' %}
 php-pecl-xdebug:
