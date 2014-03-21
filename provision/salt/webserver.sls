@@ -31,7 +31,7 @@ user-www-deploy:
       - cmd: nginx
 
 # Provide a cache directory for pagespeed
-/var/ngx_pagespeed_cache
+/var/ngx_pagespeed_cache:
   file.directory:
     - user: www-data
     - group: www-data
