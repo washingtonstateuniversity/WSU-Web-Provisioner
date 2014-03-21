@@ -30,6 +30,15 @@ user-www-deploy:
     - require_in:
       - cmd: nginx
 
+# Provide a cache directory for pagespeed
+/var/ngx_pagespeed_cache
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - mode: 755
+    - require_in:
+      - cmd: nginx
+
 # Manage a custom compile script for Nginx.
 /root/nginx-compile.sh:
   file.managed:
