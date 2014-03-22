@@ -85,21 +85,6 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require_in:
       - cmd: wsuwp-indie-flush
 
-{% if site_args['nginx']['config'] == 'auto' %}
-# Configure Nginx with a jinja template.
-/etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
-  file.managed:
-    - template: jinja
-    - source:   salt://config/nginx/wsuwp-indie-site.conf.jinja
-    - user:     root
-    - group:    root
-    - mode:     644
-    - require:
-      - cmd:    nginx
-      - cmd:    site-dir-setup-{{ site_args['directory'] }}
-    - context:
-      site_data: {{ site_args }}
-{% else %}
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   cmd.run:
     {% if pillar['network']['location'] == 'local' %}
@@ -110,7 +95,6 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require:
       - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
-{% endif %}
 
 {% if site_args['wordpress'] == 'disabled' %}
 {% else %}
@@ -179,31 +163,11 @@ wp-set-permissions-{{ site_args['directory'] }}:
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.0/wp-cli-0.14.0.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
-    - cwd: /tmp
-    - unless: which wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.14.1/wp-cli-0.14.1.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - cwd: /home/vagrant/
+    - unless: wp --allow-root --version | grep "0.14.1"
     - require:
       - pkg: php-fpm
-
-# npm gives us access to NodeJS and related build tools.
-npm:
-  pkg.installed:
-    - name: npm
-
-# Remove self signing certs from npm.
-update-npm:
-  cmd.run:
-    - name: npm config set ca=""
-  require:
-    - pkg: npm
-
-# Install grunt-cli, a task manager.
-grunt:
-  cmd.run:
-    - name: npm install -g grunt-cli
-    - require:
-      - pkg: npm
-      - cmd: update-npm
 
 # Flush the web services to ensure object and opcode cache are clear.
 wsuwp-indie-flush:
