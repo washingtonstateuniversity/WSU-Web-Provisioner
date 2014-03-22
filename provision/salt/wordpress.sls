@@ -85,21 +85,6 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require_in:
       - cmd: wsuwp-indie-flush
 
-{% if site_args['nginx']['config'] == 'auto' %}
-# Configure Nginx with a jinja template.
-/etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
-  file.managed:
-    - template: jinja
-    - source:   salt://config/nginx/wsuwp-indie-site.conf.jinja
-    - user:     root
-    - group:    root
-    - mode:     644
-    - require:
-      - cmd:    nginx
-      - cmd:    site-dir-setup-{{ site_args['directory'] }}
-    - context:
-      site_data: {{ site_args }}
-{% else %}
 /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
   cmd.run:
     {% if pillar['network']['location'] == 'local' %}
@@ -110,7 +95,6 @@ site-dir-setup-{{ site_args['directory'] }}:
     - require:
       - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
-{% endif %}
 
 {% if site_args['wordpress'] == 'disabled' %}
 {% else %}
