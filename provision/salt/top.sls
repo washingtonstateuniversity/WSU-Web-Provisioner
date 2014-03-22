@@ -11,4 +11,7 @@ base:
     - webserver
     - cacheserver
     - dbserver
+  'wsuwp-indie*':
     - wordpress
+  'wsuwp':
+    - wsuwp
