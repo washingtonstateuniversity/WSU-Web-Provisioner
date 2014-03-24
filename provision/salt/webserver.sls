@@ -139,6 +139,14 @@ php-fpm-init:
     - require:
       - cmd: nginx
 
+/etc/nginx/ssl:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 600
+    - require:
+      - cmd: nginx
+
 /etc/php-fpm.d/www.conf:
   file.managed:
     - source: salt://config/php-fpm/www.conf
