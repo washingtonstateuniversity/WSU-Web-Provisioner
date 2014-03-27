@@ -15,3 +15,5 @@ base:
     - wordpress
   'wsuwp':
     - wsuwp
+  'wsuwp-prod*':
+    - wsuwp
