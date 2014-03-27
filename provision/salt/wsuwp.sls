@@ -98,50 +98,6 @@ wsuwp-copy-config:
   cmd.run:
     - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php
 
-# Add a default set of users to the WordPress environment via wp-cli. These can be
-# configured in the users.sls pillar.
-{% for user, user_arg in pillar.get('wp-users',{}).items() %}
-wp-add-user-{{ user }}:
-  cmd.run:
-    - name: wp --allow-root user get {{ user_arg['login'] }} --field=ID || wp user create {{ user_arg['login'] }} {{ user_arg['email'] }} --role={{ user_arg['role'] }} --user_pass={{ user_arg['pass'] }} --display_name="{{ user_arg['name'] }}" --porcelain
-    - cwd: /var/www/wordpress/
-    - require:
-      - cmd: wsuwp-copy-config
-{% endfor %}
-
-# Add a default set of development plugins from the WordPress.org repository via wp-cli.
-# These can be configured through the plugins.sls pillar data.
-{% for plugin, install_arg in pillar.get('wp-plugins',{}).items() %}
-install-dev-{{ plugin }}:
-  cmd.run:
-    - name: wp --allow-root plugin install {{ install_arg['name'] }}; wp plugin activate {{ install_arg['name'] }} --network;
-    - cwd: /var/www/wordpress/
-    - require:
-      - cmd: wsuwp-copy-config
-{% endfor %}
-
-# Add a default set of development plugins from GitHub and update them when necessary.
-# These can be configured through the plugins.sls pillar data.
-{% for plugin, install_arg in pillar.get('git-wp-plugins',{}).items() %}
-install-dev-git-initial-{{ plugin }}:
-  cmd.run:
-    - name: git clone {{ install_arg['git'] }} {{ install_arg['name'] }}
-    - cwd: /var/www/wp-content/plugins
-    - unless: cd /var/www/wp-content/plugins/{{install_arg['name'] }}
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-
-update-dev-git-{{ plugin }}:
-  cmd.run:
-    - name: git pull origin master
-    - cwd: /var/www/wp-content/plugins/{{ install_arg['name'] }}
-    - onlyif: cd /var/www/wp-content/plugins/{{ install_arg['name'] }}
-    - require:
-      - pkg: git
-      - cmd: wsuwp-copy-config
-{% endfor %}
-
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
   cmd.run:
