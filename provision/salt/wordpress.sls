@@ -181,7 +181,7 @@ wp-cli:
   cmd.run:
     - name: curl -L https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /tmp
-    - unless: which wp
+    - unless: wp --allow-root --version | grep "0.14.1"
     - require:
       - pkg: php-fpm
 
