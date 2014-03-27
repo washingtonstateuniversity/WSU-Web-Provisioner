@@ -12,16 +12,13 @@ wp-cli:
     - require:
       - pkg: php-fpm
 
-# Setup the MySQL requirements for WSUWP Platform
-#
-# user: wp
-# pass: wp
-# db:   wsuwp
+# Setup the MySQL requirements for WSUWP Platform by pulling from
+# pillar data located in network.sls.
 wsuwp-db:
   mysql_user.present:
-    - name: wp
-    - password: wp
-    - host: localhost
+    - name: {{ pillar['wsuwp-config']['db_user'] }}
+    - password: {{ pillar['wsuwp-config']['db_pass'] }}
+    - host: {{ pillar['wsuwp-config']['db_host'] }}
     - require_in:
       - cmd: wsuwp-install-network
     - require:
@@ -29,7 +26,7 @@ wsuwp-db:
       - pkg: mysql
       - sls: dbserver
   mysql_database.present:
-    - name: wsuwp
+    - name: {{ pillar['wsuwp-config']['database'] }}
     - require_in:
       - cmd: wsuwp-install-network
     - require:
@@ -38,8 +35,8 @@ wsuwp-db:
       - sls: dbserver
   mysql_grants.present:
     - grant: select, insert, update, delete, create, alter
-    - database: wsuwp.*
-    - user: wp
+    - database: {{ pillar['wsuwp-config']['database'] }}.*
+    - user: {{ pillar['wsuwp-config']['db_user'] }}
     - require_in:
       - cmd: wsuwp-install-network
     - require:
