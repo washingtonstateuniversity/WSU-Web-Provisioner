@@ -4,8 +4,8 @@
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
-wget http://www.openssl.org/source/openssl-1.0.1e.tar.gz
-tar -xzvf openssl-1.0.1e.tar.gz
+wget http://www.openssl.org/source/openssl-1.0.1g.tar.gz
+tar -xzvf openssl-1.0.1g.tar.gz
 
 # Provide the PageSpeed module for Nginx.
 cd /tmp/
@@ -56,7 +56,7 @@ cd /tmp/nginx-1.5.12
 --with-ipv6 \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
---with-openssl=/tmp/openssl-1.0.1e \
+--with-openssl=/tmp/openssl-1.0.1g \
 --add-module=/tmp/ngx_pagespeed-1.7.30.4-beta
 
 cd /tmp/nginx-1.5.12
