@@ -20,9 +20,9 @@ tar -xzvf 1.7.30.4.tar.gz # expands to psol/
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.5.13.tar.gz
-tar zxf nginx-1.5.13.tar.gz
-cd /tmp/nginx-1.5.13
+wget http://nginx.org/download/nginx-1.7.0.tar.gz
+tar zxf nginx-1.7.0.tar.gz
+cd /tmp/nginx-1.7.0
 
 ./configure \
 --user=www-data \
@@ -59,6 +59,6 @@ cd /tmp/nginx-1.5.13
 --with-openssl=/tmp/openssl-1.0.1g \
 --add-module=/tmp/ngx_pagespeed-1.7.30.4-beta
 
-cd /tmp/nginx-1.5.13
+cd /tmp/nginx-1.7.0
 make
 make install
