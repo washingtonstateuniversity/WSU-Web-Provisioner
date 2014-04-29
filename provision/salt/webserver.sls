@@ -63,7 +63,7 @@ nginx:
   cmd.run:
     - name: sh nginx-compile.sh
     - cwd: /root/
-    - unless: nginx -v 2>&1 | grep "1.5.13"
+    - unless: nginx -v 2>&1 | grep "1.7.0"
     - require:
       - file: /root/nginx-compile.sh
       - user: www-data
