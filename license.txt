@@ -1,6 +1,6 @@
-WSUWP Environment
+WSU Web Provisioner
 
-Copyright 2013 by the contributors
+Copyright 2013-2014 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -367,6 +367,6 @@ Public License instead of this License.
 WRITTEN OFFER
 
 The source code for any program binaries or compressed scripts that are
-included with WSUWP Environment can be freely obtained at the following URL:
+included with WSU Web Provisioner can be freely obtained at the following URL:
 
-	http://github.com/washingtonstateuniversity/WSUWP-Environment
+	http://github.com/washingtonstateuniversity/WSU-Web-Provisioner
