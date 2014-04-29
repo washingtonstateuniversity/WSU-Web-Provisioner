@@ -17,3 +17,5 @@ base:
     - wsuwp
   'wsuwp-prod*':
     - wsuwp
+  'wsu-search*':
+    - search.sls
