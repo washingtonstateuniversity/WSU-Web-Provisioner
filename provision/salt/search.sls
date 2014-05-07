@@ -15,16 +15,9 @@ java-sdk:
     - require:
       - file: /root/java-compile.sh
 
-# Provide the search server directory
-/var/search:
-  file.directory:
-    - user: root
-    - group: root
-    - mode: 755
-    - require_in:
-      - cmd: elasticsearch-download
-
 elasticsearch:
   pkg.installed:
     - pkgs:
       - elasticsearch-1.1
+    - require:
+      - cmd: java-sdk
