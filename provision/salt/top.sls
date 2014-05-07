@@ -23,5 +23,5 @@ base:
     - cacheserver
     - dbserver
     - wsuwp
-  'wsu-search*':
+  'wsusearch*':
     - search.sls
