@@ -39,8 +39,6 @@ remi-repo:
     - baseurl: http://rpms.famillecollet.com/enterprise/6/remi/x86_64/
     - gpgcheck: 0
     - require_in:
-      - pkg: mysql
-      - pkg: memcached
       - pkgrepo: remi-php55-repo
 
 # Remi has a repository specifically setup for PHP 5.5. This continues
@@ -50,8 +48,6 @@ remi-php55-repo:
     - humanname: Remi PHP 5.5 Repository
     - baseurl: http://rpms.famillecollet.com/enterprise/6/php55/x86_64/
     - gpgcheck: 0
-    - require_in:
-      - pkg: php-fpm
 
 # Use packages from the CentOS plus repository when applicable.
 centos-plus-repo:
@@ -70,8 +66,6 @@ src-build-prereq:
       - pcre-devel
       - zlib-devel
       - make
-    - require_in:
-      - cmd: nginx
 
 # Ensure the system's openssl package is at the latest version.
 openssl:
