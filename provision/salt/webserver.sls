@@ -65,6 +65,7 @@ nginx:
     - cwd: /root/
     - unless: nginx -v 2>&1 | grep "1.5.13"
     - require:
+      - pkg: src-build-prereq
       - file: /root/nginx-compile.sh
       - user: www-data
       - group: www-data
@@ -90,6 +91,8 @@ php-fpm:
       - php-mysqlnd
       - php-imap
       - php-pecl-memcached
+    - require:
+      - pkgrepo: remi-php55-repo
   service.running:
     - require:
       - pkg: php-fpm
