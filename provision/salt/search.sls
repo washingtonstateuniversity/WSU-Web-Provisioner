@@ -27,7 +27,7 @@ java-sdk:
 # Download and prep Elasticsearch
 elasticsearch-download:
   cmd.run:
-    - name: curl -L -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz && tar -xvf elsaticsearch-1.1.1.tar.gz
+    - name: curl -L -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz && tar -xvf elasticsearch-1.1.1.tar.gz
     - cwd: /var/search/
     - require:
       - cmd: java-sdk
