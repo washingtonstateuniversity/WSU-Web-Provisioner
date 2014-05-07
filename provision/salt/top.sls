@@ -8,14 +8,20 @@ base:
   '*':
     - server
     - security
+  'wsuwp-indie*':
     - webserver
     - cacheserver
     - dbserver
-  'wsuwp-indie*':
     - wordpress
   'wsuwp':
+    - webserver
+    - cacheserver
+    - dbserver
     - wsuwp
   'wsuwp-prod*':
+    - webserver
+    - cacheserver
+    - dbserver
     - wsuwp
   'wsu-search*':
     - search.sls
