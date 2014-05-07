@@ -24,4 +24,4 @@ base:
     - dbserver
     - wsuwp
   'wsusearch*':
-    - search.sls
+    - search
