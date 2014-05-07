@@ -35,7 +35,7 @@ elasticsearch-download:
 # Start Elasticsearch
 elasticsearch-init:
   cmd.run:
-    - name: ./elasticsearch
+    - name: ./elasticsearch -d
     - cwd: /var/search/elasticsearch-1.1.1/bin/
     - require:
       - cmd: elasticsearch-download
