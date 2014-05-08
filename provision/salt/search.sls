@@ -33,4 +33,3 @@ elasticsearch-init:
     - cwd: /
     - require:
       - pkg: elasticsearch
-      - file: /etc/init.d/elasticsearch
