@@ -25,11 +25,23 @@ elasticsearch:
   service.running:
     - require:
       - pkg: elasticsearch
+    - watch:
+      - file: /etc/elasticsearch/elasticsearch.yml
 
 # Elasticsearch should always be on.
 elasticsearch-init:
   cmd.run:
     - name: chkconfig --level 2345 elasticsearch on
     - cwd: /
+    - require:
+      - pkg: elasticsearch
+
+# Provide a config file for Elasticsearch.
+/etc/elasticsearch/elasticsearch.yml:
+  file.managed:
+    - source:   salt://config/elasticsearch/elasticsearch.yml
+    - user:     root
+    - group:    root
+    - mode:     644
     - require:
       - pkg: elasticsearch
