@@ -18,6 +18,6 @@ java-sdk:
 elasticsearch:
   pkg.installed:
     - pkgs:
-      - elasticsearch-1.1
+      - elasticsearch
     - require:
       - cmd: java-sdk
