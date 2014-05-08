@@ -15,9 +15,22 @@ java-sdk:
     - require:
       - file: /root/java-compile.sh
 
+# Install the Elasticsearch package and make it run.
 elasticsearch:
   pkg.installed:
     - pkgs:
       - elasticsearch
     - require:
       - cmd: java-sdk
+  service.running:
+    - require:
+      - pkg: elasticsearch
+
+# Elasticsearch should always be on.
+elasticsearch-init:
+  cmd.run:
+    - name: chkconfig --level 2345 elasticsearch on
+    - cwd: /
+    - require:
+      - pkg: elasticsearch
+      - file: /etc/init.d/elasticsearch
