@@ -6,9 +6,9 @@
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.15.0/wp-cli-0.15.0.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.15.1/wp-cli-0.15.1.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /tmp
-    - unless: wp --allow-root --version | grep "0.15.0"
+    - unless: wp --allow-root --version | grep "0.15.1"
     - require:
       - pkg: php-fpm
 
@@ -144,7 +144,7 @@ activate-wsu-spine-theme:
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
-    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/02_wp.wsu.edu.conf
     - require:
       - cmd: nginx
       - cmd: wsuwp-install-network
