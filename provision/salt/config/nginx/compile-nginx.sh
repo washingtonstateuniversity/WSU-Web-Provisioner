@@ -20,9 +20,9 @@ tar -xzvf 1.8.31.3.tar.gz # expands to psol/
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.7.0.tar.gz
-tar zxf nginx-1.7.0.tar.gz
-cd /tmp/nginx-1.7.0
+wget http://nginx.org/download/nginx-1.7.1.tar.gz
+tar zxf nginx-1.7.1.tar.gz
+cd /tmp/nginx-1.7.1
 
 ./configure \
 --user=www-data \
@@ -57,8 +57,8 @@ cd /tmp/nginx-1.7.0
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-1.0.1g \
---add-module=/tmp/ngx_pagespeed-1.7.30.4-beta
+--add-module=/tmp/ngx_pagespeed-1.8.31.3-beta
 
-cd /tmp/nginx-1.7.0
+cd /tmp/nginx-1.7.1
 make
 make install
