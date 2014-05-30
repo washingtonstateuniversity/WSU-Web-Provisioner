@@ -144,7 +144,7 @@ activate-wsu-spine-theme:
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
-    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/wp.wsu.edu.conf
+    - name: cp /srv/pillar/config/nginx/{{ pillar['wsuwp-config']['primary_host'] }}.conf /etc/nginx/sites-enabled/02_wp.wsu.edu.conf
     - require:
       - cmd: nginx
       - cmd: wsuwp-install-network
