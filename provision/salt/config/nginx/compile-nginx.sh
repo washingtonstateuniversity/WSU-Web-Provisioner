@@ -9,11 +9,11 @@ tar -xzvf openssl-1.0.1g.tar.gz
 
 # Provide the PageSpeed module for Nginx.
 cd /tmp/
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.7.30.4-beta.zip
-unzip v1.7.30.4-beta
-cd /tmp/ngx_pagespeed-1.7.30.4-beta/
-wget https://dl.google.com/dl/page-speed/psol/1.7.30.4.tar.gz
-tar -xzvf 1.7.30.4.tar.gz # expands to psol/
+wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.8.31.3-beta.zip
+unzip v1.8.31.3-beta
+cd /tmp/ngx_pagespeed-1.8.31.3-beta/
+wget https://dl.google.com/dl/page-speed/psol/1.8.31.3.tar.gz
+tar -xzvf 1.8.31.3.tar.gz # expands to psol/
 
 # Get the Nginx source.
 #
