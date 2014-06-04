@@ -92,6 +92,26 @@ wsuwp-install-network:
     - require_in:
       - cmd: wsuwp-copy-config
 
+# Manage a script to checkout the Spine.
+/root/clone-spine.sh:
+  file.managed:
+    - source: salt://config/wordpress/clone-spine.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+# Ensure Spine parent theme is available
+spine:
+  cmd.run:
+    - name: sh clone-spine.sh
+    - cwd: /root/
+    - unless: -d /var/www/wp-content/themes/spine
+    - require:
+      - file: /root/clone-spine.sh
+      - cmd: wsuwp-install-network
+      - user: www-data
+      - group: www-data
+
 # Copy over the stored wp-config.php to the site's root path. This
 # allows us to avoid some permissions issues in a local environment.
 wsuwp-copy-config:
