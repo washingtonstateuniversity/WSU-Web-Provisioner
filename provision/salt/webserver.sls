@@ -130,6 +130,16 @@ php-fpm-init:
     - context:
       network: {{ pillar['network'] }}
 
+/etc/nginx/sites-enabled/:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+    - require_in:
+      - file: /etc/nginx/sites-enabled/default
+
 /etc/nginx/sites-enabled/default:
   file.managed:
     - source: salt://config/nginx/default
