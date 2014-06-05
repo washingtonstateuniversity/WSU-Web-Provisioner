@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 # Compile Nginx with SPDY and Pagespeed support.
+rm -fr /tmp/nginx-1.7.1
+rm -fr /tmp/openssl-1.0.1h
+rm -fr /tmp/ngx_pagespeed-1.8.31.3-beta
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
