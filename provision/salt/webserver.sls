@@ -90,6 +90,7 @@ php-fpm:
       - php-mysqlnd
       - php-imap
       - php-pecl-memcached
+      - php-opcache
   service.running:
     - require:
       - pkg: php-fpm
