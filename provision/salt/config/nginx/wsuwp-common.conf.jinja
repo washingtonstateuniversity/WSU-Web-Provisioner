@@ -33,7 +33,7 @@ location ~ /\. {
 #
 # Prevent a variety of file extensions associated with backups and configs
 # from being served.
-location ~* (?:\.(?:bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~)$ {
+location ~* (?:\.(?:bak|config|sql|fla|ini|log|sh|inc|swp|dist)|~)$ {
     access_log off;
     log_not_found off;
     deny all;
