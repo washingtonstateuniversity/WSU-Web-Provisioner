@@ -12,7 +12,7 @@ location ~ ^/wp-content/(.*)$ {
 
 # Handle all static assets by serving the file directly. Add directives
 # to send expires headers and turn off 404 error logging.
-location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|mp3|mp4|pdf|ai|psd|eps|ppt|exe|dmg)$ {
+location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|mp3|mp4|pdf|ai|psd|eps|ppt|dmg)$ {
     {% if network['location'] == 'remote' %}
     expires 24h;
     {% else %}
@@ -33,7 +33,7 @@ location ~ /\. {
 #
 # Prevent a variety of file extensions associated with backups and configs
 # from being served.
-location ~* (?:\.(?:bak|config|sql|fla|ini|log|sh|inc|swp|dist)|~)$ {
+location ~* (?:\.(?:bak|config|sql|fla|ini|log|sh|inc|exe|swp|dist)|~)$ {
     access_log off;
     log_not_found off;
     deny all;
