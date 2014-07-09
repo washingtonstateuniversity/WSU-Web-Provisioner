@@ -103,3 +103,13 @@ iotop:
 telnet:
   pkg.installed:
     - name: telnet
+
+# The samba-client package helps to connect to shared drives.
+samba-client:
+  pkg.installed:
+    - name: samba-client
+
+# The cifs-utils package works in combination with Samba.
+cifs-utils:
+  pkg.installed:
+    - name: cifs-utils
