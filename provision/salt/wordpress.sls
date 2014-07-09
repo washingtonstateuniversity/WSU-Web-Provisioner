@@ -8,7 +8,7 @@
 # new sites that we configure.
 wp-initial-download:
   cmd.run:
-    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.8.1.zip
+    - name: curl -o wordpress.zip -L http://wordpress.org/wordpress-3.9.1.zip
     - cwd: /tmp/
     - user: root
     - unless: test -f /tmp/wordpress.zip
@@ -179,9 +179,9 @@ wp-set-permissions-{{ site_args['directory'] }}:
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.15.0/wp-cli-0.15.0.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.16.0/wp-cli.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /tmp
-    - unless: wp --allow-root --version | grep "0.15.0"
+    - unless: wp --allow-root --version | grep "0.16.0"
     - require:
       - pkg: php-fpm
 
