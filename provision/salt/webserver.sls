@@ -91,6 +91,7 @@ php-fpm:
       - php-imap
       - php-pecl-memcached
       - php-opcache
+      - php-ldap
   service.running:
     - require:
       - pkg: php-fpm
