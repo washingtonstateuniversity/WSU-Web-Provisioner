@@ -15,6 +15,8 @@ user-memcached:
 memcached:
   pkg.latest:
     - name: memcached
+    - require:
+      - pkgrepo: remi-repo
   service.running:
     - require:
       - pkg: memcached

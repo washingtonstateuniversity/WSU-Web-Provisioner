@@ -11,6 +11,7 @@ These projects are currently using WSU Web Provisioner for provisioning.
 
 * [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
 * [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
+* [WSU Search](https://github.com/washingtonstateuniversity/wsu-search)
 
 ## Organization
 
@@ -81,6 +82,7 @@ Current minions include:
 
 * `wsuwp.conf` for both the production and development environments providing the WSUWP Platform.
 * `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
+* `wsu-search.conf` for both the production and development environments for WSU Search.
 
 ## Provisioning
 
@@ -103,7 +105,7 @@ $script =<<SCRIPT
   cd /srv && unzip wsu-web.zip
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
-  sh /srv/wsu-web/provision/bootstrap_salt.sh
+  sh /srv/wsu-web/provision/bootstrap_salt.sh -k stable
   cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
   salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
 SCRIPT

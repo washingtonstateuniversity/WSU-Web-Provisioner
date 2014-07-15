@@ -65,6 +65,7 @@ nginx:
     - cwd: /root/
     - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.7.3" | grep "openssl-1.0.1h" | grep "ngx_pagespeed-1.8.31.4-beta"
     - require:
+      - pkg: src-build-prereq
       - file: /root/nginx-compile.sh
       - user: www-data
       - group: www-data
@@ -92,6 +93,8 @@ php-fpm:
       - php-pecl-memcached
       - php-opcache
       - php-ldap
+    - require:
+      - pkgrepo: remi-php55-repo
   service.running:
     - require:
       - pkg: php-fpm
