@@ -26,6 +26,7 @@ types {
     application/java-archive              jar war ear;
     application/mac-binhex40              hqx;
     application/msword                    doc;
+    application/ogg                       ogg;
     application/pdf                       pdf;
     application/postscript                ps eps ai;
     application/rtf                       rtf;
@@ -65,7 +66,7 @@ types {
 
     audio/midi                            mid midi kar;
     audio/mpeg                            mp3;
-    audio/ogg                             ogg;
+    audio/ogg                             oga;
     audio/x-m4a                           m4a;
     audio/x-realaudio                     ra;
 
@@ -73,6 +74,7 @@ types {
     video/mp4                             mp4;
     video/mpeg                            mpeg mpg;
     video/quicktime                       mov;
+    video/ogg                             ogv;
     video/webm                            webm;
     video/x-flv                           flv;
     video/x-m4v                           m4v;
