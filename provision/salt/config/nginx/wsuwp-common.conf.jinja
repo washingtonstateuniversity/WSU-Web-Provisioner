@@ -47,7 +47,7 @@ if (!-e $request_filename) {
 }
 
 location ~ \.php$ {
-    client_max_body_size 50M;
+    client_max_body_size 150M;
     try_files      $uri =404;
 
     # Include the fastcgi_params defaults provided by nginx
