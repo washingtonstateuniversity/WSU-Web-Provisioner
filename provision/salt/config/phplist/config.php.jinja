@@ -1,12 +1,12 @@
 <?php
 
-$database_host     = '{{ site_data['db_host']  }}';
-$database_name     = '{{ site_data['database']  }}';
-$database_user     = '{{ site_data['db_user']  }}';
-$database_password = '{{ site_data['db_pass']  }}';
+$database_host     = '{{ pillar['wsu-lists-config']['db_host']  }}';
+$database_name     = '{{ pillar['wsu-lists-config']['database']  }}';
+$database_user     = '{{ pillar['wsu-lists-config']['db_user']  }}';
+$database_password = '{{ pillar['wsu-lists-config']['db_pass']  }}';
 
-define( 'PHPMAILERHOST', '{{ site_data['mailer_host'] }}' );
-define( 'TEST', '{{ site_data['test_mode'] }}' );
+define( 'PHPMAILERHOST', '{{ pillar['wsu-lists-config']['mailer_host'] }}' );
+define( 'TEST', '{{ pillar['wsu-lists-config']['test_mode'] }}' );
 
 /*
 ==============================================================================================================
