@@ -12,6 +12,7 @@ These projects are currently using WSU Web Provisioner for provisioning.
 * [WSUWP Platform](https://github.com/washingtonstateuniversity/WSUWP-Platform)
 * [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
 * [WSU Search](https://github.com/washingtonstateuniversity/wsu-search)
+* [WSU Lists](https://github.com/washingtonstateuniversity/wsu-lists)
 
 ## Organization
 
