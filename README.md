@@ -84,6 +84,7 @@ Current minions include:
 * `wsuwp.conf` for both the production and development environments providing the WSUWP Platform.
 * `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
 * `wsu-search.conf` for both the production and development environments for WSU Search.
+* `wsu-list.conf` for both the production and development environments for WSU Lists.
 
 ## Provisioning
 
@@ -107,8 +108,9 @@ $script =<<SCRIPT
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
   sh /srv/wsu-web/provision/bootstrap_salt.sh -k stable
+  rm /etc/salt/minion.d/*.conf
   cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
-  salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
+  salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
 
 config.vm.provision "shell", inline: $script
@@ -146,3 +148,11 @@ The files contained in the WSU Web Provisioner repository will need to be deploy
 Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
 
 From here, things get pretty automatic. Salt will process all of the various state files and ensure that pieces of the server are configured to match.
+
+#### Scripts
+
+Three scripts are included with this repository for use in production:
+
+* `scripts/bootstrap.sh` will run the current bootstrap for Salt and then copy over the latest minion file.
+* `scripts/prep.sh` will retrieve the latest WSU Web Provisioner archive and extract to the proper location.
+* `scripts/salt.sh` will run the `salt-call` command necessary for provisioning the server.
