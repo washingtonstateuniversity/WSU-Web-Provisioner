@@ -84,6 +84,7 @@ Current minions include:
 * `wsuwp.conf` for both the production and development environments providing the WSUWP Platform.
 * `wsuwp-indie.conf` for both the production and development environment for the server containing individual WordPress sites.
 * `wsu-search.conf` for both the production and development environments for WSU Search.
+* `wsu-list.conf` for both the production and development environments for WSU Lists.
 
 ## Provisioning
 
@@ -107,8 +108,9 @@ $script =<<SCRIPT
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
   sh /srv/wsu-web/provision/bootstrap_salt.sh -k stable
+  rm /etc/salt/minion.d/*.conf
   cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
-  salt-call --local --log-level=debug --config-dir=/etc/salt state.highstate
+  salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
 
 config.vm.provision "shell", inline: $script
