@@ -49,6 +49,13 @@ wsu-lists-copy-config:
   cmd.run:
     - name: cp /tmp/wsu-lists-config.php /var/www/config/config.php
 
+# Use a domain specific Nginx config file from the wsu-lists project.
+wsu-lists-nginx-conf:
+  cmd.run:
+    - name: cp /srv/pillar/config/nginx/{{ pillar['wsu-lists-config']['server_name'] }}.conf /etc/nginx/sites-enabled/01_primary_server.conf
+    - require:
+      - cmd: nginx
+
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsu-lists-flush:
   cmd.run:
