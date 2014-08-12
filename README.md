@@ -148,3 +148,11 @@ The files contained in the WSU Web Provisioner repository will need to be deploy
 Salt will need to be bootstrapped on the first attempt to make sure that utilities like `salt-call` are available to us. We'll then need to issue a `salt-call` command to apply `salt.highstate` to the server.
 
 From here, things get pretty automatic. Salt will process all of the various state files and ensure that pieces of the server are configured to match.
+
+#### Scripts
+
+Three scripts are included with this repository for use in production:
+
+* `scripts/bootstrap.sh` will run the current bootstrap for Salt and then copy over the latest minion file.
+* `scripts/prep.sh` will retrieve the latest WSU Web Provisioner archive and extract to the proper location.
+* `scripts/salt.sh` will run the `salt-call` command necessary for provisioning the server.
