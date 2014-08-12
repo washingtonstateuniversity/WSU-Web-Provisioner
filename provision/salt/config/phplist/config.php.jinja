@@ -10,7 +10,7 @@ $database_password = '{{ site_data['db_pass']  }}';
 ##
 ##     define("PHPMAILERHOST",'smtp.mydomain.com');
 
-define("PHPMAILERHOST",'smtp.wsu.edu');
+define( 'PHPMAILERHOST', '{{ site_data['mailer_host'] }}' );
 
 # if test is true (not 0) it will not actually send ANY messages, but display what it would have sent
 # this is here, to make sure you edited the config file and mails are not sent "accidentally"
