@@ -5,23 +5,10 @@ $database_name     = '{{ site_data['database']  }}';
 $database_user     = '{{ site_data['db_user']  }}';
 $database_password = '{{ site_data['db_pass']  }}';
 
-# if you have an SMTP server, set it here. Otherwise it will use the normal php mail() function
-## if your SMTP server is called "smtp.mydomain.com" you enter this below like this:
-##
-##     define("PHPMAILERHOST",'smtp.mydomain.com');
-
 define( 'PHPMAILERHOST', '{{ site_data['mailer_host'] }}' );
-
-# if test is true (not 0) it will not actually send ANY messages, but display what it would have sent
-# this is here, to make sure you edited the config file and mails are not sent "accidentally"
-# on unmanaged systems
-
-define ("TEST",1);
-
-
+define( 'TEST', '{{ site_data['test_mode'] }}' );
 
 /*
-
 ==============================================================================================================
 *
 * Settings for handling bounces
@@ -31,7 +18,6 @@ define ("TEST",1);
 * unnecessary messages, which overloads your own server, the receiving servers and internet traffic as a whole
 *
 ==============================================================================================================
-
 */
 
 # Message envelope.
