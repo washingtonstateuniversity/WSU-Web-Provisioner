@@ -28,3 +28,4 @@ base:
   'wsu-lists*':
     - webserver
     - dbserver
+    - phplist
