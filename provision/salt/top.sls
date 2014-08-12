@@ -25,3 +25,6 @@ base:
     - wsuwp
   'wsusearch*':
     - search
+  'wsu-lists*':
+    - webserver
+    - dbserver
