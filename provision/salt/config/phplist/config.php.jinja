@@ -8,6 +8,9 @@ $database_password = '{{ pillar['wsu-lists-config']['db_pass']  }}';
 define( 'PHPMAILERHOST', '{{ pillar['wsu-lists-config']['mailer_host'] }}' );
 define( 'TEST', '{{ pillar['wsu-lists-config']['test_mode'] }}' );
 
+// We run phplist in the root directory of www/
+$pageroot = '/';
+
 /*
 ==============================================================================================================
 *
