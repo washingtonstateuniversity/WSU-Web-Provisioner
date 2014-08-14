@@ -13,6 +13,7 @@ These projects are currently using WSU Web Provisioner for provisioning.
 * [WSUWP Indie Development](https://github.com/washingtonstateuniversity/WSUWP-Indie-Development)
 * [WSU Search](https://github.com/washingtonstateuniversity/wsu-search)
 * [WSU Lists](https://github.com/washingtonstateuniversity/wsu-lists)
+* [WSU Proxy](https://github.com/washingtonstateuniversity/wsu-proxy)
 
 ## Organization
 
