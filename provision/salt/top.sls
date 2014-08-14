@@ -29,3 +29,5 @@ base:
     - webserver
     - dbserver
     - phplist
+  'uc-proxy*':
+    - webserver
