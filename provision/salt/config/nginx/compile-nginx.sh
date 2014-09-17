@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 # Compile Nginx with SPDY and Pagespeed support.
-rm -fr /tmp/nginx-1.7.4
+rm -fr /tmp/nginx-1.7.5
 rm -fr /tmp/openssl-1.0.1i
-rm -fr /tmp/ngx_pagespeed-1.8.31.4-beta
+rm -fr /tmp/ngx_pagespeed-1.9.32.1-beta
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
@@ -12,20 +12,20 @@ tar -xzvf openssl-1.0.1i.tar.gz
 
 # Provide the PageSpeed module for Nginx.
 cd /tmp/
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.8.31.4-beta.zip
-unzip v1.8.31.4-beta
-cd /tmp/ngx_pagespeed-1.8.31.4-beta/
-wget https://dl.google.com/dl/page-speed/psol/1.8.31.4.tar.gz
-tar -xzvf 1.8.31.4.tar.gz # expands to psol/
+wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.9.32.1-beta.zip
+unzip v1.9.32.1-beta
+cd /tmp/ngx_pagespeed-1.9.32.1-beta/
+wget https://dl.google.com/dl/page-speed/psol/1.9.32.1.tar.gz
+tar -xzvf 1.9.32.1.tar.gz # expands to psol/
 
 # Get the Nginx source.
 #
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.7.4.tar.gz
-tar zxf nginx-1.7.4.tar.gz
-cd /tmp/nginx-1.7.4
+wget http://nginx.org/download/nginx-1.7.5.tar.gz
+tar zxf nginx-1.7.5.tar.gz
+cd /tmp/nginx-1.7.5
 
 ./configure \
 --user=www-data \
@@ -60,8 +60,8 @@ cd /tmp/nginx-1.7.4
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-1.0.1i \
---add-module=/tmp/ngx_pagespeed-1.8.31.4-beta
+--add-module=/tmp/ngx_pagespeed-1.9.32.1-beta
 
-cd /tmp/nginx-1.7.4
+cd /tmp/nginx-1.7.5
 make
 make install

@@ -63,7 +63,7 @@ nginx:
   cmd.run:
     - name: sh nginx-compile.sh
     - cwd: /root/
-    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.7.4" | grep "openssl-1.0.1i" | grep "ngx_pagespeed-1.8.31.4-beta"
+    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.7.5" | grep "openssl-1.0.1i" | grep "ngx_pagespeed-1.9.32.1-beta"
     - require:
       - pkg: src-build-prereq
       - file: /root/nginx-compile.sh
