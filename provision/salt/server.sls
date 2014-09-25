@@ -67,6 +67,11 @@ src-build-prereq:
       - zlib-devel
       - make
 
+# Ensure that bash is at the latest version.
+bash:
+  pkg.latest:
+    - name: bash
+
 # Ensure the system's openssl package is at the latest version.
 openssl:
   pkg.latest:
