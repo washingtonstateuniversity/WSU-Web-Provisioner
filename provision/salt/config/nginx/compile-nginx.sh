@@ -7,7 +7,7 @@ rm -fr /tmp/ngx_pagespeed-1.8.31.4-beta
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
-wget http://www.openssl.org/source/openssl-1.0.1j.tar.gz
+wget https://www.openssl.org/source/openssl-1.0.1j.tar.gz
 tar -xzvf openssl-1.0.1j.tar.gz
 
 # Provide the PageSpeed module for Nginx.
