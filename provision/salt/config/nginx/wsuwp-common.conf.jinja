@@ -6,8 +6,19 @@ location / {
     try_files $uri $uri/ /index.php$is_args$args;
 }
 
+# Requests to WordPress are made in /wordpress/, which is at the same
+# level as /wp-content/. To properly handle these, we provide an alias
+# to move up a directory and find static files.
 location ~ ^/wp-content/(.*)$ {
     alias /var/www/wp-content/$1;
+}
+
+# Match any requests created by the WP Document Revisions plugin, which
+# masks a full download URL with a URL processed by WordPress behind
+# existing authentication.
+location ~ ^/([_0-9a-zA-Z-]+/)?documents/(.*)$ {
+    index index.php;
+    try_files $uri /index.php$is_args$args;
 }
 
 # Handle all static assets by serving the file directly. Add directives
