@@ -6,6 +6,9 @@ location / {
     try_files $uri $uri/ /index.php$is_args$args;
 }
 
+# Requests to WordPress are made in /wordpress/, which is at the same
+# level as /wp-content/. To properly handle these, we provide an alias
+# to move up a directory and find static files.
 location ~ ^/wp-content/(.*)$ {
     alias /var/www/wp-content/$1;
 }
