@@ -37,6 +37,7 @@ wsuwp-db:
     - grant: select, insert, update, delete, create, alter
     - database: {{ pillar['wsuwp-config']['database'] }}.*
     - user: {{ pillar['wsuwp-config']['db_user'] }}
+    - host: {{ pillar['wsuwp-config']['db_host'] }}
     - require_in:
       - cmd: wsuwp-install-network
     - require:
