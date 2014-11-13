@@ -112,6 +112,8 @@ $script =<<SCRIPT
   sed -i 's/mirrorlist=https/mirrorlist=http/' /etc/yum.repos.d/epel.repo
   sh /srv/wsu-web/provision/bootstrap_salt.sh -k stable
   rm /etc/salt/minion.d/*.conf
+  rm /etc/salt/minion_id
+  echo "wsuwp-dev" > /etc/salt/minion_id
   cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
   salt-call --local --log-level=info --config-dir=/etc/salt state.highstate
 SCRIPT
