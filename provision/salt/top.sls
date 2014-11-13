@@ -13,7 +13,7 @@ base:
     - cacheserver
     - dbserver
     - wordpress
-  'wsuwp':
+  'wsuwp-dev*':
     - webserver
     - cacheserver
     - dbserver
