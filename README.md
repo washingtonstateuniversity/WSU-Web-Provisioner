@@ -108,6 +108,8 @@ $script =<<SCRIPT
   cd /srv && unzip wsu-web.zip
   cd /srv && mv WSU-Web-Provisioner-master wsu-web
   cp /srv/wsu-web/provision/salt/config/yum.conf /etc/yum.conf
+  rpm -Uvh --force http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+  sed -i 's/mirrorlist=https/mirrorlist=http/' /etc/yum.repos.d/epel.repo
   sh /srv/wsu-web/provision/bootstrap_salt.sh -k stable
   rm /etc/salt/minion.d/*.conf
   cp /srv/wsu-web/provision/salt/minions/wsuwp-vagrant.conf /etc/salt/minion.d/
@@ -120,6 +122,8 @@ config.vm.provision "shell", inline: $script
 This starts by using [cURL](http://curl.haxx.se/) to download the most recent version of the WSU Web Provisioner. Over time we'll likely specify a specific version in this URL. After staging things in a `wsu-web` directory, we copy over a custom configuration for [yum](http://yum.baseurl.org/). This allows us to specify a few things about our use of yum, primarily that we don't try to do any automatic Linux kernel upgrades. Once this is set, we check for the Salt installation on the virtual machine through `bootstrap_salt.sh`, copy over the specific minion configuration included with the WSU Web Provisioner package, and then use `salt-call` to process the provisioning configuration.
 
 This very much mimics a workflow that may exist on a production server and will be useful in ensuring that things are working as expected before going live.
+
+Note: The EPEL repositories for the CentOS 6.4 image we are using are served with SSL 3.0. For this reason, `yum` has issues when updating the available packages. Two lines have been added to the script example above to replace `https` with `http` in the repository config file.
 
 #### Managed by Vagrant
 
