@@ -42,8 +42,9 @@ http {
     sendfile            off;
     {% endif %}
 
-    # We run many domain names on a single server and need a hash
-    # bucket that is big enough.
+    # When a server serves many domain names, the hash table needs to grow
+    # so that Nginx can handle lookups quickly. Our default is 256 and a
+    # server needing more can specify a value in pillar data.
     server_names_hash_max_size {{ salt['pillar.get']('nginx-config:server_names_hash_max_size', '256') }};
 
     # Don't send out partial TCP frames
