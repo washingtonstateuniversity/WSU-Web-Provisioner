@@ -135,6 +135,7 @@ php-fpm-init:
       - cmd:    nginx
     - context:
       network: {{ pillar['network'] }}
+      nginx: {{ pillar['nginx-config'] }}
 
 /etc/nginx/sites-enabled/:
   file.directory:

@@ -44,7 +44,11 @@ http {
 
     # We run many domain names on a single server and need a hash
     # bucket that is big enough.
-    server_names_hash_max_size 4096;
+    {% if 'server_names_hash_max_size' in nginx %}
+    server_names_hash_max_size {{ nginx['server_names_hash_max_size'] }};
+    {% else %}
+    server_names_hash_max_size 256;
+    {% endif %}
 
     # Don't send out partial TCP frames
     tcp_nopush          on;
