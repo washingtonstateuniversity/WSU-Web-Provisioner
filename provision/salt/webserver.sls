@@ -188,9 +188,11 @@ php-fpm-init:
     - require:
       - pkg: php-fpm
 
+# Configure PHP with a jinja template.
 /etc/php.ini:
   file.managed:
-    - source: salt://config/php-fpm/php.ini
+    - template: jinja
+    - source: salt://config/php-fpm/php.ini.jinja
     - user: root
     - group: root
     - mode: 644
