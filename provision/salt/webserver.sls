@@ -222,7 +222,7 @@ nginx-service:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/*
 
-{% if pillar['network']['location'] == 'local' %}
+{% if 'local' == salt['pillar.get']('network:location', 'local') %}
 php-pecl-xdebug:
   pkg.installed:
     - pkgs:
@@ -240,6 +240,4 @@ php-pecl-xdebug:
     - mode: 644
     - require:
       - pkg: php-pecl-xdebug
-    - context:
-      network: {{ pillar['network'] }}
 {% endif %}
