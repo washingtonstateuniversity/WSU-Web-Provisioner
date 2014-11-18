@@ -44,10 +44,10 @@ thread_cache_size  = {{ salt['pillar.get']('mysql-config:thread_cache_size', '8'
 
 tmp_table_size      = {{ salt['pillar.get']('mysql-config:tmp_table_size', '16M') }}
 max_heap_table_size = {{ salt['pillar.get']('mysql-config:max_heap_table_size', '16M') }}
-table_open_cache    = {{ salt['pillar.get']('mysql-config:table_open_cache'), '400') }}
+table_open_cache    = {{ salt['pillar.get']('mysql-config:table_open_cache', '400') }}
 
 # The InnoDB buffer pool size should be larger than the amount of data if possible.
-innodb_buffer_pool_size = {{ salt['pillar.get']('mysql-config:innodb_buffer_pool_size'), '128M') }}
+innodb_buffer_pool_size = {{ salt['pillar.get']('mysql-config:innodb_buffer_pool_size', '128M') }}
 
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
