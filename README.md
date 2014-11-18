@@ -91,11 +91,7 @@ Current minions include:
 
 ### In Vagrant
 
-There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
-
-#### Managed through Scripting
-
-As you'll see below, Vagrant has direct support for using Salt as a provisioner. While this could be extremely useful, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
+While Vagrant has direct support for using Salt as a provisioner, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
 
 Shell scripting can be used during the provisioning of a virtual machine to setup a few environment basics before downloading the most recent provisioning setup (this repository) and calling Salt to process it.
 
