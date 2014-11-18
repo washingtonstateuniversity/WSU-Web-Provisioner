@@ -133,8 +133,6 @@ php-fpm-init:
     - mode:     644
     - require:
       - cmd:    nginx
-    - context:
-      network: {{ pillar['network'] }}
 
 /etc/nginx/sites-enabled/:
   file.directory:
