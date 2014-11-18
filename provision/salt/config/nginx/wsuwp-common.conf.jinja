@@ -24,7 +24,7 @@ location ~ ^/([_0-9a-zA-Z-]+/)?documents/(.*)$ {
 # Handle all static assets by serving the file directly. Add directives
 # to send expires headers and turn off 404 error logging.
 location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|exe|mp3|mp4|pdf|ai|psd|eps|ppt|dmg|csv|key|numbers|pages)$ {
-    {% if network['location'] == 'remote' %}
+    {% if 'remote' == salt['pillar.get']('network:location', 'local') %}
     expires 24h;
     {% else %}
     expires off;
@@ -64,7 +64,7 @@ location ~ \.php$ {
     # Include the fastcgi_params defaults provided by nginx
     include        /etc/nginx/fastcgi_params;
 
-    {% if network['location'] == 'remote' %}
+    {% if 'remote' == salt['pillar.get']('network:location', 'local') %}
     fastcgi_read_timeout 60s;
     {% else %}
     fastcgi_read_timeout 3600s;

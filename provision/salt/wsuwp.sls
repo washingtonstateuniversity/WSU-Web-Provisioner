@@ -159,8 +159,6 @@ activate-wsu-spine-theme:
     - mode:     644
     - require:
       - cmd:    nginx
-    - context:
-      network: {{ pillar['network'] }}
 
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
