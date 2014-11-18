@@ -91,11 +91,7 @@ Current minions include:
 
 ### In Vagrant
 
-There are two different ways that Salt can be used to provision a virtual machine in Vagrant.
-
-#### Managed through Scripting
-
-As you'll see below, Vagrant has direct support for using Salt as a provisioner. While this could be extremely useful, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
+While Vagrant has direct support for using Salt as a provisioner, there are a few manual steps that we take with an initial server setup that make an alternative method more approachable.
 
 Shell scripting can be used during the provisioning of a virtual machine to setup a few environment basics before downloading the most recent provisioning setup (this repository) and calling Salt to process it.
 
@@ -126,25 +122,6 @@ This starts by using [cURL](http://curl.haxx.se/) to download the most recent ve
 This very much mimics a workflow that may exist on a production server and will be useful in ensuring that things are working as expected before going live.
 
 Note: The EPEL repositories for the CentOS 6.4 image we are using are served with SSL 3.0. For this reason, `yum` has issues when updating the available packages. Two lines have been added to the script example above to replace `https` with `http` in the repository config file.
-
-#### Managed by Vagrant
-
-Vagrant has [support for Salt as a provisioner](http://docs.vagrantup.com/v2/provisioning/salt.html) by default. This allows you to specify a portion of `Vagrantfile` that grabs the proper minion and passes proper highstate information to Salt inside the virtual machine.
-
-Example:
-
-```
-config.vm.provision :salt do |salt|
-  salt.install_type = 'testing'
-  salt.verbose = true
-  salt.minion_config = 'provision/salt/minions/vagrant.conf'
-  salt.run_highstate = true
-end
-```
-
-This requires that at least the minion config is available to the virtual machine ahead of time. In the example above, a local directory `provision/salt/minions/` would exist containing the minion file `vagrant.conf`. An example of how we used to do this in the WSUWP Platform project can be found [in this version](https://github.com/washingtonstateuniversity/WSUWP-Platform/blob/1ece16674191a4692b30240a11dae754efa775fc/Vagrantfile#L91).
-
-When Vagrant boots the virtual machine with this configuration, Salt will be bootstrapped automatically, and the provisioning settings included in the mapped minion will be followed. This also requires that the provisioning be made available to the virtual machine by mapped directory ahead of time.
 
 ### In Production
 

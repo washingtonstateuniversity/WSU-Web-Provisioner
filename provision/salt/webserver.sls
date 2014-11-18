@@ -133,8 +133,6 @@ php-fpm-init:
     - mode:     644
     - require:
       - cmd:    nginx
-    - context:
-      network: {{ pillar['network'] }}
 
 /etc/nginx/sites-enabled/:
   file.directory:
@@ -190,9 +188,11 @@ php-fpm-init:
     - require:
       - pkg: php-fpm
 
+# Configure PHP with a jinja template.
 /etc/php.ini:
   file.managed:
-    - source: salt://config/php-fpm/php.ini
+    - template: jinja
+    - source: salt://config/php-fpm/php.ini.jinja
     - user: root
     - group: root
     - mode: 644
@@ -224,7 +224,7 @@ nginx-service:
       - file: /etc/nginx/nginx.conf
       - file: /etc/nginx/sites-enabled/*
 
-{% if pillar['network']['location'] == 'local' %}
+{% if 'local' == salt['pillar.get']('network:location', 'local') %}
 php-pecl-xdebug:
   pkg.installed:
     - pkgs:
@@ -242,6 +242,4 @@ php-pecl-xdebug:
     - mode: 644
     - require:
       - pkg: php-pecl-xdebug
-    - context:
-      network: {{ pillar['network'] }}
 {% endif %}

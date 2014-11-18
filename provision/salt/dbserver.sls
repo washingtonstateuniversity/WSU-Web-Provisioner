@@ -43,9 +43,11 @@ mysqld-init:
     - require:
       - pkg: mysql
 
+# Configure MySQL with a jinja template.
 /etc/my.cnf:
   file.managed:
-    - source: salt://config/mysql/my.cnf
+    - template: jinja
+    - source: salt://config/mysql/my.cnf.jinja
     - user: root
     - group: root
     - mode: 664
