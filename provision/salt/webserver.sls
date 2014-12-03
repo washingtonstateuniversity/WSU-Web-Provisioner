@@ -94,6 +94,7 @@ php-fpm:
       - php-opcache
       - php-ldap
       - php-mbstring
+      - php-soap
     - require:
       - pkgrepo: remi-php55-repo
   service.running:
