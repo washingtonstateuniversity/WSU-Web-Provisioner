@@ -17,7 +17,7 @@ java-sdk:
 
 # Install the Elasticsearch package and make it run.
 elasticsearch:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - elasticsearch
     - require:
