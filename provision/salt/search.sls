@@ -6,7 +6,7 @@
     - group: root
     - mode: 755
 
-# Compile and install Nginx.
+# Compile and install the Java SDK.
 java-sdk:
   cmd.run:
     - name: sh java-compile.sh
