@@ -6,7 +6,7 @@
     - group: root
     - mode: 755
 
-# Compile and install Nginx.
+# Compile and install the Java SDK.
 java-sdk:
   cmd.run:
     - name: sh java-compile.sh
@@ -17,7 +17,7 @@ java-sdk:
 
 # Install the Elasticsearch package and make it run.
 elasticsearch:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - elasticsearch
     - require:
