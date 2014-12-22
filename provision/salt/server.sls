@@ -85,7 +85,7 @@ postfix:
 # Git is useful to us in a few different places and should be one of the
 # first things installed if it is not yet available.
 git:
-  pkg.installed:
+  pkg.latest:
     - name: git
 
 # htop is a useful server resource monitoring tool
