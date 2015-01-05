@@ -15,6 +15,11 @@ wp-initial-download:
     - require:
       - cmd: nginx
 
+# A directory should exist for temporary wp-config file placement.
+wp-config-tmp-directory:
+  cmd.run:
+    - name: mkdir -p /var/wsuwp-config
+
 # Loop through all of the sites defined in the local sites.sls pillar data
 # and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
@@ -153,6 +158,7 @@ wp-initial-wordpress-{{ site_args['directory'] }}:
     - require:
       - cmd: nginx
       - cmd: site-dir-setup-{{ site_args['directory'] }}
+      - cmd: wp-config-tmp-directory
     - require_in:
       - cmd: wp-copy-config-{{ site_args['directory'] }}
     - context:
