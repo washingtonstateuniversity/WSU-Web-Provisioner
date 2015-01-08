@@ -25,6 +25,8 @@ base:
     - wsuwp
   'wsusearch*':
     - search
+    - dbserver
+    - jira
   'wsu-lists*':
     - webserver
     - dbserver
