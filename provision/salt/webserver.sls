@@ -173,7 +173,8 @@ php-fpm-init:
 
 /etc/php-fpm.d/www.conf:
   file.managed:
-    - source: salt://config/php-fpm/www.conf
+    - template: jinja
+    - source: salt://config/php-fpm/www.conf.jinja
     - user: root
     - group: root
     - mode: 644
