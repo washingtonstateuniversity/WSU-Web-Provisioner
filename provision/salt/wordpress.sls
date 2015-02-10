@@ -185,9 +185,9 @@ wp-set-permissions-{{ site_args['directory'] }}:
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.17.1/wp-cli.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.18.0/wp-cli-0.18.0.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /tmp
-    - unless: wp --allow-root --version | grep "0.17.1"
+    - unless: wp --allow-root --version | grep "0.18.0"
     - require:
       - pkg: php-fpm
 
