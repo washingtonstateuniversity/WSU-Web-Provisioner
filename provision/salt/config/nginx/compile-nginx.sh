@@ -3,7 +3,7 @@
 # Compile Nginx with SPDY and Pagespeed support.
 rm -fr /tmp/nginx-1.7.10
 rm -fr /tmp/openssl-1.0.2
-rm -fr /tmp/ngx_pagespeed-1.9.32.2-beta
+rm -fr /tmp/ngx_pagespeed-1.9.32.3-beta
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
@@ -12,11 +12,11 @@ tar -xzvf openssl-1.0.2.tar.gz
 
 # Provide the PageSpeed module for Nginx.
 cd /tmp/
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.9.32.2-beta.zip
-unzip v1.9.32.2-beta
-cd /tmp/ngx_pagespeed-1.9.32.2-beta/
-wget https://dl.google.com/dl/page-speed/psol/1.9.32.2.tar.gz
-tar -xzvf 1.9.32.2.tar.gz # expands to psol/
+wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.9.32.3-beta.zip
+unzip v1.9.32.3-beta
+cd /tmp/ngx_pagespeed-1.9.32.3-beta/
+wget https://dl.google.com/dl/page-speed/psol/1.9.32.3.tar.gz
+tar -xzvf 1.9.32.3.tar.gz # expands to psol/
 
 # Get the Nginx source.
 #
@@ -60,7 +60,7 @@ cd /tmp/nginx-1.7.10
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-1.0.2 \
---add-module=/tmp/ngx_pagespeed-1.9.32.2-beta
+--add-module=/tmp/ngx_pagespeed-1.9.32.3-beta
 
 cd /tmp/nginx-1.7.10
 make
