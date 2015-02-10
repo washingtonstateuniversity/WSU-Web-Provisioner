@@ -67,6 +67,11 @@ src-build-prereq:
       - zlib-devel
       - make
 
+# Ensure that glibc is at the latest version.
+glibc:
+  pkg.latest:
+    - name: glibc
+
 # Ensure that bash is at the latest version.
 bash:
   pkg.latest:
