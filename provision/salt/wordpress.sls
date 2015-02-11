@@ -5,11 +5,11 @@
 # though has some allowance with default database settings.
 
 # The GD library is available on WSUWP Indie
-php-fpm:
+php-fpm-gd:
   pkg.latest:
     - pkgs:
       - php-gd
-  - require:
+    - require:
       - pkg: php-fpm
       - user: www-data
       - group: www-data
