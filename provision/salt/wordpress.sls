@@ -4,6 +4,16 @@
 # projects. This state file relies heavily on pillar data from sites.sls,
 # though has some allowance with default database settings.
 
+# The GD library is available on WSUWP Indie
+php-fpm-gd:
+  pkg.latest:
+    - pkgs:
+      - php-gd
+    - require:
+      - pkg: php-fpm
+      - user: www-data
+      - group: www-data
+
 # Download an initial installation of WordPress to be available to any
 # new sites that we configure.
 wp-initial-download:
