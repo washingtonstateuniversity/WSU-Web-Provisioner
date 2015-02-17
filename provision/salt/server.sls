@@ -108,6 +108,13 @@ vnstat:
   pkg.latest:
     - name: vnstat
 
+# Ensure the vnstat service is started.
+vnstat-service:
+  service.running:
+    - name: vnstat
+    - require:
+      - pkg: vnstat
+
 # The telnet package can be used for various connection testing.
 telnet:
   pkg.installed:
