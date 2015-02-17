@@ -25,30 +25,8 @@ listen.owner = www-data
 listen.group = www-data
 listen.mode = 0666
 
-; Choose how the process manager will control the number of child processes.
-; Possible Values:
-;   static  - a fixed number (pm.max_children) of child processes;
-;   dynamic - the number of child processes are set dynamically based on the
-;             following directives. With this process management, there will be
-;             always at least 1 children.
-;             pm.max_children      - the maximum number of children that can
-;                                    be alive at the same time.
-;             pm.start_servers     - the number of children created on startup.
-;             pm.min_spare_servers - the minimum number of children in 'idle'
-;                                    state (waiting to process). If the number
-;                                    of 'idle' processes is less than this
-;                                    number then some children will be created.
-;             pm.max_spare_servers - the maximum number of children in 'idle'
-;                                    state (waiting to process). If the number
-;                                    of 'idle' processes is greater than this
-;                                    number then some children will be killed.
-;  ondemand - no children are created at startup. Children will be forked when
-;             new requests will connect. The following parameter are used:
-;             pm.max_children           - the maximum number of children that
-;                                         can be alive at the same time.
-;             pm.process_idle_timeout   - The number of seconds after which
-;                                         an idle process will be killed.
-; Note: This value is mandatory.
+; Control number of child processes dynamically based on the settings below
+; for pm.max_children, pm.start_servers, pm.min_spare_servers, pm_max_spare_servers
 pm = dynamic
 
 ; The number of child processes to be created when pm is set to 'static' and the
