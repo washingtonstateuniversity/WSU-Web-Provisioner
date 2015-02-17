@@ -531,28 +531,17 @@ mssql.min_message_severity = 10
 mssql.compatability_mode = Off
 
 [Tidy]
-; The path to a default tidy configuration file to use when using tidy
-; http://php.net/tidy.default-config
-;tidy.default_config = /usr/local/lib/php/default.tcfg
-
 ; Should tidy clean and repair output automatically?
-; WARNING: Do not use this option if you are generating non-html content
-; such as dynamic images
-; http://php.net/tidy.clean-output
 tidy.clean_output = Off
 
 [soap]
 ; Enables or disables WSDL caching feature.
-; http://php.net/soap.wsdl-cache-enabled
 soap.wsdl_cache_enabled=1
 
 ; Sets the directory name where SOAP extension will put cache files.
-; http://php.net/soap.wsdl-cache-dir
 soap.wsdl_cache_dir="/tmp"
 
-; (time to live) Sets the number of second while cached file will be used
-; instead of original one.
-; http://php.net/soap.wsdl-cache-ttl
+; Sets the number of seconds while cached file will be used.
 soap.wsdl_cache_ttl=86400
 
 ; Sets the size of the cache limit. (Max. number of WSDL files to cache)
