@@ -103,6 +103,18 @@ iotop:
   pkg.installed:
     - name: iotop
 
+# vnStat is a console-based network traffic monitor
+vnstat:
+  pkg.latest:
+    - name: vnstat
+
+# Ensure the vnstat service is started.
+vnstat-service:
+  service.running:
+    - name: vnstat
+    - require:
+      - pkg: vnstat
+
 # The telnet package can be used for various connection testing.
 telnet:
   pkg.installed:
