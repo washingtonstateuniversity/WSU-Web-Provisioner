@@ -116,6 +116,9 @@ pm.max_spare_servers = {{ salt['pillar.get']('php-config:pm_max_spare_servers', 
 ; Default Value: 0
 pm.max_requests = {{ salt['pillar.get']('php-config:pm_max_requests', '500') }}
 
+; Provide php-fpm status information at a local URL.
+pm.status_path = /php_status
+
 ; The access log file
 ; Default: not set
 access.log = /var/log/php-fpm/$pool.access.log
