@@ -56,6 +56,7 @@ myisam-recover = BACKUP
 # * Query Cache Configuration
 query_cache_limit = {{ salt['pillar.get']('mysql-config:query_cache_limit', '1M') }}
 query_cache_size  = {{ salt['pillar.get']('mysql-config:query_cache_size', '16M') }}
+query_cache_type  = {{ salt['pillar.get']('mysql-config:query_cache_type', '1' ) }}
 
 # Error log - should be very few entries.
 log_error = /var/log/mysql/mysql-error.log
