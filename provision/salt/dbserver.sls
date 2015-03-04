@@ -45,7 +45,7 @@ mysqld-init:
 
 # Percona XtraBackup utility for hot backups.
 xtrabackup:
-  pkg.latest:
+  pkg.installed:
     - name: xtrabackup
 
 # Configure MySQL with a jinja template.
