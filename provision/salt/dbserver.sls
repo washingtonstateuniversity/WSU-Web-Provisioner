@@ -76,6 +76,15 @@ set_localhost_root_password:
     - require:
       - service: mysqld
 
+mysql-backup-user:
+  mysql_user.present:
+    - name: {{ pillar['mysql.backup_user'] }}
+    - host: localhost
+    - password: {{ pillar['mysql.backup_pass'] }}
+    - connection_pass: ""
+    - require:
+      - service: mysqld
+
 # Replicate the functionality of mysql_secure_installation.
 mysql-secure-installation:
   mysql_database.absent:
