@@ -84,6 +84,13 @@ mysql-backup-user:
     - connection_pass: ""
     - require:
       - service: mysqld
+  mysql_grants.present:
+    - grant: RELOAD, LOCK TABLES, REPLICATION CLIENT
+    - database: *.*
+    - user: {{ pillar['mysql.backup_user'] }}
+    - host: {{ pillar['mysql.backup_user'] }}
+    - require:
+      - service: mysqld
 
 # Replicate the functionality of mysql_secure_installation.
 mysql-secure-installation:
