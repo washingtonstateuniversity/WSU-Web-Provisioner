@@ -43,6 +43,11 @@ mysqld-init:
     - require:
       - pkg: mysql
 
+# Percona XtraBackup utility for hot backups.
+xtrabackup:
+  pkg.latest:
+    - name: xtrabackup
+
 # Configure MySQL with a jinja template.
 /etc/my.cnf:
   file.managed:
