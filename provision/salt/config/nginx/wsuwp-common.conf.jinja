@@ -10,7 +10,7 @@ location / {
 # level as /wp-content/. To properly handle these, we provide an alias
 # to move up a directory and find static files.
 location ~ ^/wp-content/(.*)$ {
-    expires 24h;
+    expires 48h;
     alias /var/www/wp-content/$1;
 }
 
