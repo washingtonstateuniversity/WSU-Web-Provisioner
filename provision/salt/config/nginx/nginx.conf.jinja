@@ -17,10 +17,16 @@ error_log   /var/log/nginx/error.log;
 # Nginx process identifier
 pid     /var/run/nginx.pid;
 
-# The EventsModule controls how Nginx deals with connections
+# The EventsModule controls how nginx deals with connections.
 events {
     # max clients = worker_processes (CPUs) * worker_connections
     worker_connections  2000;
+
+    # Allow a worker to accept all current incoming connections at once.
+    multi_accept on;
+
+    # The technique through which multiple connections are handled.
+    use epoll;
 }
 
 # The HttpCoreModule controls core features of Nginx's HTTP processing
