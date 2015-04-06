@@ -19,6 +19,16 @@ fail2ban:
     - watch:
       - file: /etc/fail2ban/filter.d/wordpress.conf
 
+/etc/fail2ban/jail.d/:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: fail2ban
+    - require_in:
+      - file: /etc/fail2ban/jail.d/wordpress.conf
+
 /etc/fail2ban/filter.d/:
   file.directory:
     - user: root
@@ -32,3 +42,7 @@ fail2ban:
 /etc/fail2ban/filter.d/wordpress.conf:
   file.managed:
     - source: salt://config/fail2ban/wordpress.conf
+
+/etc/fail2ban/jail.d/wordpress.conf:
+  file.managed:
+    - source: salt://config/fail2ban/jail.wordpress.conf
