@@ -1,20 +1,18 @@
 # nginx.conf
 #
-# This is *the* config file for nginx in the virtual machine, and it
-# should probably not be altered often as most things are already
-# setup. If you do find yourself altering something here, you may want
-# to consider discussing it at the repo so we can share in your findings
+# This is the primary configuration for nginx and is processed before
+# any other individual configuration files.
 
-# User to run nginx as
+# Run nginx as this user.
 user    www-data;
 
-# Default to number of CPU cores available
+# Default to number of CPU cores available.
 worker_processes  auto;
 
-# Default error log file
+# Set a default error log.
 error_log   /var/log/nginx/error.log;
 
-# Nginx process identifier
+# Set the nginx process identifier.
 pid     /var/run/nginx.pid;
 
 # The EventsModule controls how nginx deals with connections.
@@ -31,7 +29,6 @@ events {
 
 # The HttpCoreModule controls core features of Nginx's HTTP processing
 http {
-
     # Define MIME types for files
     include      /etc/nginx/mime.types;
     default_type application/octet-stream;
