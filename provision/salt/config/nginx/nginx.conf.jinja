@@ -42,7 +42,7 @@ http {
     access_log  /var/log/nginx/access.log;
 
     # Track TLS information.
-    access_log /var/log/nginx/tls-access.log;
+    access_log /var/log/nginx/tls-access.log custom_ssl;
 
     # Sendfile should be off in a VirtualBox (local) environment because
     # of caching issues with the shared drive. In production, it should
