@@ -33,8 +33,16 @@ http {
     include      /etc/nginx/mime.types;
     default_type application/octet-stream;
 
+    # Define a custom log format for tracking TLS information.
+    log_format custom_ssl '$remote_addr [$time_local] '
+                          '$scheme $ssl_session_reused $ssl_protocol $ssl_cipher $ssl_server_name '
+                          '"$http_user_agent"';
+
     # Default log file
     access_log  /var/log/nginx/access.log;
+
+    # Track TLS information.
+    access_log /var/log/nginx/tls-access.log;
 
     # Sendfile should be off in a VirtualBox (local) environment because
     # of caching issues with the shared drive. In production, it should
