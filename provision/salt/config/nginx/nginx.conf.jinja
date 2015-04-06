@@ -56,8 +56,11 @@ http {
     # Don't send out partial TCP frames
     tcp_nopush          on;
 
-    # How long each connection should stay idle
-    keepalive_timeout   5;
+    # How long each connection should stay idle.
+    keepalive_timeout   30s;
+
+    # The number of requests that can be served through a connection.
+    keepalive_requests 1000;
 
     # Hide nginx version information
     server_tokens       off;
