@@ -43,10 +43,10 @@ pm.max_requests = {{ salt['pillar.get']('php-config:pm_max_requests', '500') }}
 pm.status_path = /php_status
 
 ; The access log file
-access.log = /var/log/php-fpm/$pool.access.log
+;access.log = /var/log/php-fpm/$pool.access.log
 
 ; The access log format.
-access.format = %t %m %r%Q%q %s %f %{mili}d %{kilo}M %C%%
+;access.format = %t %m %r%Q%q %s %f %{mili}d %{kilo}M %C%%
 
 ; The log file for slow requests
 slowlog = /var/log/php-fpm/$pool.log.slow

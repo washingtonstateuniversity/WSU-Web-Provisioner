@@ -1,31 +1,34 @@
 # nginx.conf
 #
-# This is *the* config file for nginx in the virtual machine, and it
-# should probably not be altered often as most things are already
-# setup. If you do find yourself altering something here, you may want
-# to consider discussing it at the repo so we can share in your findings
+# This is the primary configuration for nginx and is processed before
+# any other individual configuration files.
 
-# User to run nginx as
+# Run nginx as this user.
 user    www-data;
 
-# Default to number of CPU cores available
+# Default to number of CPU cores available.
 worker_processes  auto;
 
-# Default error log file
+# Set a default error log.
 error_log   /var/log/nginx/error.log;
 
-# Nginx process identifier
+# Set the nginx process identifier.
 pid     /var/run/nginx.pid;
 
-# The EventsModule controls how Nginx deals with connections
+# The EventsModule controls how nginx deals with connections.
 events {
     # max clients = worker_processes (CPUs) * worker_connections
     worker_connections  2000;
+
+    # Allow a worker to accept all current incoming connections at once.
+    multi_accept on;
+
+    # The technique through which multiple connections are handled.
+    use epoll;
 }
 
 # The HttpCoreModule controls core features of Nginx's HTTP processing
 http {
-
     # Define MIME types for files
     include      /etc/nginx/mime.types;
     default_type application/octet-stream;
@@ -50,8 +53,11 @@ http {
     # Don't send out partial TCP frames
     tcp_nopush          on;
 
-    # How long each connection should stay idle
-    keepalive_timeout   5;
+    # How long each connection should stay idle.
+    keepalive_timeout   30s;
+
+    # The number of requests that can be served through a connection.
+    keepalive_requests 1000;
 
     # Hide nginx version information
     server_tokens       off;
