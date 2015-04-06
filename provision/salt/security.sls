@@ -11,3 +11,7 @@ iptables:
     - user: root
     - group: root
     - mode: 600
+
+fail2ban:
+  pkg.latest:
+    - name: fail2ban
