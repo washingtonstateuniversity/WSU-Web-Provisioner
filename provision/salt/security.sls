@@ -41,7 +41,7 @@ fail2ban:
 
 /etc/fail2ban/filter.d/wordpress.conf:
   file.managed:
-    - source: salt://config/fail2ban/wordpress.conf
+    - source: salt://config/fail2ban/filter.wordpress.conf
 
 /etc/fail2ban/jail.d/wordpress.conf:
   file.managed:
