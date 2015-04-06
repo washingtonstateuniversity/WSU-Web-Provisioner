@@ -17,8 +17,18 @@ fail2ban:
     - name: fail2ban
   service.running:
     - watch:
-      - file: /etc/fail2ban/filters.d/wordpress.conf
+      - file: /etc/fail2ban/filter.d/wordpress.conf
 
-/etc/fail2ban/filters.d/wordpress.conf:
+/etc/fail2ban/filter.d/:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: fail2ban
+    - require_in:
+      - file: /etc/fail2ban/filter.d/wordpress.conf
+
+/etc/fail2ban/filter.d/wordpress.conf:
   file.managed:
     - source: salt://config/fail2ban/wordpress.conf
