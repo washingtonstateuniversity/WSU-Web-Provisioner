@@ -171,6 +171,6 @@ wsuwp-nginx-conf:
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:
   cmd.run:
-    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart
+    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart && fail2ban-client reload
     - require:
       - cmd: wsuwp-nginx-conf
