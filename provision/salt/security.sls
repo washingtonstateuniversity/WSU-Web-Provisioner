@@ -12,13 +12,14 @@ iptables:
     - group: root
     - mode: 600
 
+# Fail2ban scans log files for IPs showing signs of malicious
+# behavior and bans them from further access.
 fail2ban:
   pkg.latest:
     - name: fail2ban
-  service.running:
-    - watch:
-      - file: /etc/fail2ban/filter.d/wordpress.conf
 
+# When an IP is banned by Fail2ban, it is put in "jail". The jailing
+# of an IP can be configured with files in this directory.
 /etc/fail2ban/jail.d/:
   file.directory:
     - user: root
@@ -29,6 +30,15 @@ fail2ban:
     - require_in:
       - file: /etc/fail2ban/jail.d/wordpress.conf
 
+# We manage a jail configuration specific to handling failed WordPress
+# authentication attempts.
+/etc/fail2ban/jail.d/wordpress.conf:
+  file.managed:
+    - source: salt://config/fail2ban/jail.wordpress.conf
+
+# To determine which IPs should be bailed, Fail2ban runs logs through
+# filters. The filtering of a log file can be configured with files
+# in this directory.
 /etc/fail2ban/filter.d/:
   file.directory:
     - user: root
@@ -39,10 +49,16 @@ fail2ban:
     - require_in:
       - file: /etc/fail2ban/filter.d/wordpress.conf
 
+# We manage a filter configuration specific to handling logs created by
+# authentication in WordPRess.
 /etc/fail2ban/filter.d/wordpress.conf:
   file.managed:
     - source: salt://config/fail2ban/filter.wordpress.conf
 
-/etc/fail2ban/jail.d/wordpress.conf:
-  file.managed:
-    - source: salt://config/fail2ban/jail.wordpress.conf
+# Use fail2ban-client to start fail2ban-server as a proper user.
+fail2ban-init:
+  cmd.run:
+    - name: fail2ban-client start
+    - cwd: /
+    - require:
+      - pkg: fail2ban
