@@ -18,7 +18,7 @@ php-fpm-gd:
 # new sites that we configure.
 wp-initial-download:
   cmd.run:
-    - name: curl -o wordpress.zip -L http://wordpress.org/latest.zip
+    - name: curl -o wordpress.zip -L https://wordpress.org/latest.zip
     - cwd: /tmp/
     - user: root
     - unless: test -f /tmp/wordpress.zip
@@ -115,16 +115,7 @@ site-dir-setup-{{ site_args['directory'] }}:
     - context:
       site_data: {{ site_args }}
 {% else %}
-/etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf:
-  cmd.run:
-    {% if pillar['network']['location'] == 'local' %}
-    - name: cp /var/www/{{ site_args['directory'] }}/config/dev.{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
-    {% else %}
-    - name: cp /var/www/{{ site_args['directory'] }}/config/{{ site_args['directory'] }}.conf /etc/nginx/sites-enabled/{{ site_args['directory'] }}.conf
-    {% endif %}
-    - require:
-      - cmd: nginx
-      - cmd: site-dir-setup-{{ site_args['directory'] }}
+# nginx config is provided manually for this site.
 {% endif %}
 
 {% if site_args['wordpress'] == 'disabled' %}
