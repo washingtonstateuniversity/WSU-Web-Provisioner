@@ -7,6 +7,7 @@
 [client]
 port    = 3306
 socket  = /var/lib/mysql/mysql.sock
+default-character-set = utf8mb4
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
@@ -27,6 +28,8 @@ datadir         = /var/lib/mysql
 tmpdir          = /tmp
 lc-messages-dir	= /usr/share/mysql
 skip-external-locking
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
@@ -74,6 +77,7 @@ quote-names
 max_allowed_packet = 16M
 
 [mysql]
+default-character-set = utf8mb4
 
 [isamchk]
 key_buffer = 16M
