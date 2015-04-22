@@ -72,9 +72,9 @@ define( 'DISALLOW_FILE_MODS', true );
 
 $table_prefix  = 'wp_';
 
-define( 'DB_CHARSET', 'utf8' );
-define( 'DB_COLLATE', ''     );
-define( 'WPLANG',     ''     );
+define( 'DB_CHARSET', 'utf8mb4' );
+define( 'DB_COLLATE', 'utf8mb4_unicode_ci' );
+define( 'WPLANG', '' );
 
 /** Sets up WordPress vars and included files. */
 require_once( ABSPATH . 'wp-settings.php' );
