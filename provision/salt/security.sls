@@ -60,5 +60,6 @@ fail2ban-init:
   cmd.run:
     - name: fail2ban-client start
     - cwd: /
+    - unless: fail2ban-client status | grep "Status"
     - require:
       - pkg: fail2ban
