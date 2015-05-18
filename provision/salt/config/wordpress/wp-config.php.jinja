@@ -48,7 +48,7 @@ define( 'WP_CACHE_KEY_SALT', '{{ site_data['cache_key'] }}' );
 // Enable page cache through batcache. wp-content/advanced-cache.php must exist.
 global $batcache;
 $batcache = {{ site_data['batcache'] }};
-define( 'WP_CACHE',          true     );
+define( 'WP_CACHE', true );
 {% endif %}
 
 {% if 'default_theme' in site_data %}
@@ -60,8 +60,13 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-multisite-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/wp-multisite-config.php' );
 }
 
+{% if 'secure' in site_data %}
+define( 'FORCE_SSL_ADMIN', true );
+define( 'FORCE_SSL_LOGIN', true );
+{% endif %}
+
 /**
- * Disable the theme and plugin editors in the admin dashboard.
+ * Disable the theme and plugin editors in the dashboard.
  */
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'DISALLOW_FILE_MODS', false );
