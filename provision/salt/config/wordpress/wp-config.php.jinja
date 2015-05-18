@@ -60,6 +60,11 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-multisite-config.php' ) ) {
 	include( dirname( __FILE__ ) . '/wp-multisite-config.php' );
 }
 
+{% if 'secure' in site_data %}
+define( 'FORCE_SSL_ADMIN', true );
+define( 'FORCE_SSL_LOGIN', true );
+{% endif %}
+
 /**
  * Disable the theme and plugin editors in the admin dashboard.
  */
