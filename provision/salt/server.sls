@@ -128,6 +128,14 @@ munin:
     - require:
       - pkg: munin
 
+/var/www-munin:
+  file.directory:
+    - user: munin
+    - group: munin
+    - mode: 755
+    - require:
+      - pkg: munin
+
 munin-node:
   service.running:
     - name: munin-node
