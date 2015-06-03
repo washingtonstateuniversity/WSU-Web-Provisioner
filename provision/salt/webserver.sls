@@ -154,6 +154,15 @@ php-fpm-init:
     - require:
       - cmd: nginx
 
+/etc/nginx/sites-enabled/status.conf:
+  file.managed:
+    - source: salt://config/nginx/status.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 /etc/nginx/mime.types:
   file.managed:
     - source: salt://config/nginx/mime.types

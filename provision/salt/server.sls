@@ -93,6 +93,59 @@ git:
   pkg.latest:
     - name: git
 
+# munin is a utility used to track server resources.
+munin:
+  pkg.latest:
+    - name: munin
+
+/etc/munin/munin.conf:
+  file.managed:
+    - source: salt://config/munin/munin.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: munin
+
+/etc/munin/plugin-conf.d/munin-node:
+  file.managed:
+    - source: salt://config/munin/munin-node
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: munin
+
+/etc/munin/plugins/nginx_status:
+  file.symlink:
+    - target: /usr/share/munin/plugins/nginx_status
+    - require:
+      - pkg: munin
+
+/etc/munin/plugins/nginx_request:
+  file.symlink:
+    - target: /usr/share/munin/plugins/nginx_request
+    - require:
+      - pkg: munin
+
+/var/www-munin:
+  file.directory:
+    - user: munin
+    - group: munin
+    - mode: 755
+    - require:
+      - pkg: munin
+
+munin-node:
+  service.running:
+    - name: munin-node
+    - require:
+      - pkg: munin
+      - file: /etc/munin/munin.conf
+    - watch:
+      - file: /etc/munin/munin.conf
+      - file: /etc/munin/plugin-conf.d/munin-node
+
 # htop is a useful server resource monitoring tool
 htop:
   pkg.installed:

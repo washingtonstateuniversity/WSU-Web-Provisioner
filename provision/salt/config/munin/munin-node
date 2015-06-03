@@ -1,0 +1,8 @@
+[diskstats]
+user munin
+
+[iostat_ios]
+user munin
+
+[nginx*]
+env.url http://localhost/status
