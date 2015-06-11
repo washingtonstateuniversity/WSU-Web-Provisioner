@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Compile Nginx with SPDY and Pagespeed support.
-rm -fr /tmp/nginx-1.7.12
+rm -fr /tmp/nginx-1.9.1
 rm -fr /tmp/openssl-1.0.2b
 rm -fr /tmp/ngx_pagespeed-1.9.32.3-beta
 
@@ -23,9 +23,9 @@ tar -xzvf 1.9.32.3.tar.gz # expands to psol/
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.7.12.tar.gz
-tar zxf nginx-1.7.12.tar.gz
-cd /tmp/nginx-1.7.12
+wget http://nginx.org/download/nginx-1.9.1.tar.gz
+tar zxf nginx-1.9.1.tar.gz
+cd /tmp/nginx-1.9.1
 
 ./configure \
 --user=www-data \
@@ -62,6 +62,6 @@ cd /tmp/nginx-1.7.12
 --with-openssl=/tmp/openssl-1.0.2b \
 --add-module=/tmp/ngx_pagespeed-1.9.32.3-beta
 
-cd /tmp/nginx-1.7.12
+cd /tmp/nginx-1.9.1
 make
 make install
