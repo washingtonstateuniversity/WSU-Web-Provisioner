@@ -40,9 +40,8 @@ http {
 
     # Define a custom log format to track the request response times.
     log_format timed_combined '$remote_addr [$time_local] '
-                              '$scheme "$request" $status $body_bytes_sent '
-                              '"$http_referer" "$http_user_agent" '
-                              '$request_time $upstream_response_time $pipe';
+                              '$request_time $upstream_response_time $pipe '
+                              '$status $body_bytes_sent $scheme $http_host "$request"';
 
     # Default log file
     access_log  /var/log/nginx/access.log;
