@@ -38,11 +38,20 @@ http {
                           '$scheme $ssl_session_reused $ssl_protocol $ssl_cipher $ssl_server_name '
                           '"$http_user_agent"';
 
+    # Define a custom log format to track the request response times.
+    log_format timed_combined '$remote_addr [$time_local] '
+                              '$scheme "$request" $status $body_bytes_sent '
+                              '"$http_referer" "$http_user_agent" '
+                              '$request_time $upstream_response_time $pipe';
+
     # Default log file
     access_log  /var/log/nginx/access.log;
 
     # Track TLS information.
     access_log /var/log/nginx/tls-access.log custom_ssl;
+
+    # Track Timing information.
+    access_log /var/log/nginx/timing-access.log timed_combined;
 
     # Sendfile should be off in a VirtualBox (local) environment because
     # of caching issues with the shared drive. In production, it should
