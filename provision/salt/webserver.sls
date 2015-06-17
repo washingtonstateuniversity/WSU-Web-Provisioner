@@ -96,7 +96,7 @@ php-fpm:
       - php-mbstring
       - php-soap
     - require:
-      - pkgrepo: remi-php56-repo
+      - pkgrepo: remi-php55-repo
   service.running:
     - require:
       - pkg: php-fpm

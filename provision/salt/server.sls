@@ -28,7 +28,7 @@
     - contents_pillar: network:nameservers
     - require_in:
       - pkgrepo: remi-repo
-      - pkgrepo: remi-php56-repo
+      - pkgrepo: remi-php55-repo
       - pkgrepo: centos-plus-repo
 
 # Use packages from the Remi Repository rather than some of the older
@@ -39,14 +39,14 @@ remi-repo:
     - baseurl: http://rpms.famillecollet.com/enterprise/6/remi/x86_64/
     - gpgcheck: 0
     - require_in:
-      - pkgrepo: remi-php56-repo
+      - pkgrepo: remi-php55-repo
 
-# Remi has a repository specifically setup for PHP 5.6. This continues
+# Remi has a repository specifically setup for PHP 5.5. This continues
 # to reply on the standard Remi repository for some packages.
-remi-php56-repo:
+remi-php55-repo:
   pkgrepo.managed:
-    - humanname: Remi PHP 5.6 Repository
-    - baseurl: http://rpms.famillecollet.com/enterprise/6/php56/x86_64/
+    - humanname: Remi PHP 5.5 Repository
+    - baseurl: http://rpms.famillecollet.com/enterprise/6/php55/x86_64/
     - gpgcheck: 0
 
 # Use packages from the CentOS plus repository when applicable.
