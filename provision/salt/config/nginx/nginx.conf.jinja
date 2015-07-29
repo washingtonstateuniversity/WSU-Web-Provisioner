@@ -135,9 +135,6 @@ http {
     # content-type.
     add_header X-Content-Type-Options nosniff;
 
-    # Use the highest mode available to a version of IE and support chrome frame.
-    add_header X-UA-Compatible IE=Edge,chrome=1;
-
     # Enable the XSS filter built into modern web browsers. This will re-enable
     # the XSS filter if a user has disabled it.
     add_header X-XSS-Protection "1; mode=block";
