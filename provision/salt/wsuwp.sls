@@ -106,7 +106,7 @@ spine:
   cmd.run:
     - name: sh clone-spine.sh
     - cwd: /root/
-    - unless: -d /var/www/wp-content/themes/spine
+    - unless: test -d /var/www/wp-content/themes/spine
     - require:
       - file: /root/clone-spine.sh
       - cmd: wsuwp-install-network
