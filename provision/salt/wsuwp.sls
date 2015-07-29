@@ -106,7 +106,7 @@ spine:
   cmd.run:
     - name: sh clone-spine.sh
     - cwd: /root/
-    - unless: -d /var/www/wp-content/themes/spine
+    - unless: test -d /var/www/wp-content/themes/spine
     - require:
       - file: /root/clone-spine.sh
       - cmd: wsuwp-install-network
@@ -171,6 +171,6 @@ wsuwp-nginx-conf:
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:
   cmd.run:
-    - name: sudo service memcached restart && sudo service nginx restart && sudo service php-fpm restart && fail2ban-client reload
+    - name: sudo service memcached start && sudo service nginx restart && sudo service php-fpm restart && fail2ban-client reload
     - require:
       - cmd: wsuwp-nginx-conf
