@@ -10,7 +10,7 @@ location / {
 # level as /wp-content/. To properly handle these, we provide an alias
 # to move up a directory and find static files.
 location ~ ^/wp-content/(.*)$ {
-    expires 48h;
+    expires 7d;
     alias /var/www/wp-content/$1;
 }
 
@@ -26,7 +26,7 @@ location ~ ^/([_0-9a-zA-Z-]+/)?documents/(.*)$ {
 # to send expires headers and turn off 404 error logging.
 location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|exe|mp3|mp4|pdf|ai|psd|eps|ppt|dmg|csv|key|numbers|pages)$ {
     {% if 'remote' == salt['pillar.get']('network:location', 'local') %}
-    expires 24h;
+    expires 7d;
     {% else %}
     expires off;
     {% endif %}
