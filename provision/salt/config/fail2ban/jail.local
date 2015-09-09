@@ -1,0 +1,4 @@
+[DEFAULT]
+
+# Ignore several WSU specific IP ranges.
+ignoreip = 127.0.0.1/8 134.121.0.0/16 192.94.21.0/24 192.94.22.0/24 69.166.32.0/19
