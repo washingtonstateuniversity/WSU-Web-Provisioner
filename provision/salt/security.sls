@@ -55,6 +55,12 @@ fail2ban:
   file.managed:
     - source: salt://config/fail2ban/filter.wordpress.conf
 
+# A jail.local file is used for custom configuration to extend the default
+# jail.conf file, which may be overwritten by an update to fail2ban.
+/etc/fail2ban/jail.local:
+  file.managed:
+    - source: salt://config/fail2ban/jail.local
+
 # Use fail2ban-client to start fail2ban-server as a proper user.
 fail2ban-init:
   cmd.run:
