@@ -49,6 +49,14 @@ remi-php56-repo:
     - baseurl: http://rpms.famillecollet.com/enterprise/6/php56/x86_64/
     - gpgcheck: 0
 
+# MySQL maintains a repository for MySQL 5.6. The default CentOS and Remi
+# repositories only provide 5.5.
+mysql-community-repo:
+  pkgrepo.managed:
+    - humanname: MySQL 5.6 Community Server
+    - baseurl: http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/
+    - gpgcheck: 0
+
 # Use packages from the CentOS plus repository when applicable.
 centos-plus-repo:
   pkgrepo.managed:

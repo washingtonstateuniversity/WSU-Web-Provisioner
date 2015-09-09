@@ -33,7 +33,7 @@ mysql:
       - mysql-server
       - MySQL-python
     - require:
-      - pkgrepo: remi-repo
+      - pkgrepo: mysql-community-repo
 
 # Set MySQL to run in levels 2345.
 mysqld-init:
