@@ -87,7 +87,7 @@ php-fpm:
       - php-mbstring
       - php-soap
     - require:
-      - pkgrepo: remi-php55-repo
+      - pkgrepo: remi-php56-repo
   service.running:
     - require:
       - pkg: php-fpm

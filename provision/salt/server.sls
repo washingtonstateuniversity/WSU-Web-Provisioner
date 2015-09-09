@@ -28,7 +28,7 @@
     - contents_pillar: network:nameservers
     - require_in:
       - pkgrepo: remi-repo
-      - pkgrepo: remi-php55-repo
+      - pkgrepo: remi-php56-repo
       - pkgrepo: centos-plus-repo
 
 # Use packages from the Remi Repository rather than some of the older
