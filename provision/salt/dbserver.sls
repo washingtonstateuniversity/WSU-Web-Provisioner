@@ -28,9 +28,8 @@ user-mysql:
 mysql:
   pkg.latest:
     - pkgs:
-      - mysql
-      - mysql-libs
-      - mysql-server
+      - mysql-community-libs
+      - mysql-community-server
       - MySQL-python
     - require:
       - pkgrepo: mysql-community-repo
