@@ -42,9 +42,6 @@ pm.max_requests = {{ salt['pillar.get']('php-config:pm_max_requests', '500') }}
 ; Provide php-fpm status information at a local URL.
 pm.status_path = /php_status
 
-; Set the log level to warning to avoid standard pool notices.
-log_level = warning
-
 ; The access log file
 ;access.log = /var/log/php-fpm/$pool.access.log
 
