@@ -171,6 +171,15 @@ php-fpm-init:
     - require:
       - cmd: nginx
 
+/etc/php-fpm.conf:
+  file.managed:
+    - source: salt://config/php-fpm/php-fpm.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: php-fpm
+
 /etc/php-fpm.d/www.conf:
   file.managed:
     - template: jinja
