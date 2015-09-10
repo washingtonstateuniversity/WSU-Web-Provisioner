@@ -65,7 +65,7 @@ query_cache_type  = {{ salt['pillar.get']('mysql-config:query_cache_type', '1' )
 log_error = /var/log/mysql/mysql-error.log
 
 # Here you can see queries with especially long duration
-log_slow_queries = /var/log/mysql/mysql-slow.log
+slow_query_log = /var/log/mysql/mysql-slow.log
 long_query_time  = 3
 
 expire_logs_days = 10
