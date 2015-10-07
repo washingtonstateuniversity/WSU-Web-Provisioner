@@ -160,6 +160,18 @@ activate-wsu-spine-theme:
     - require:
       - cmd:    nginx
 
+# Add a common header for nginx to be used in all generated nginx
+# configurations that load common HTTPS directives. This header
+# allows us to change the listen and root directives for many sites
+# at a time.
+/etc/nginx/wsuwp-common-header.conf:
+    - source: salt://config/nginx/wsuwp-common-header.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
