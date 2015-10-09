@@ -165,6 +165,7 @@ activate-wsu-spine-theme:
 # allows us to change the listen and root directives for many sites
 # at a time.
 /etc/nginx/wsuwp-common-header.conf:
+  file.managed:
     - source: salt://config/nginx/wsuwp-common-header.conf
     - user: root
     - group: root
