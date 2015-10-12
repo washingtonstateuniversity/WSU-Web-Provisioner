@@ -118,6 +118,19 @@ site-dir-setup-{{ site_args['directory'] }}:
 # nginx config is provided manually for this site.
 {% endif %}
 
+# Add a common listen directive for nginx to be used in indie
+# configurations that have different root directories. This header
+# allows us to change the listen and root directives for many sites
+# at a time.
+/etc/nginx/wsuwp-common-listen.conf:
+  file.managed:
+    - source: salt://config/nginx/wsuwp-common-listen.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 {% if site_args['wordpress'] == 'disabled' %}
 {% else %}
 # Setup the directories required for a WordPress project inside the

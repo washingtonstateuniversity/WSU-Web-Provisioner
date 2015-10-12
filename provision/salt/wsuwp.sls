@@ -137,29 +137,6 @@ activate-wsu-spine-theme:
     - require:
       - cmd: enable-wsu-spine-theme
 
-# Add a common SSL configuration for nginx
-/etc/nginx/wsuwp-ssl-common.conf:
-  file.managed:
-    - template: jinja
-    - source:   salt://config/nginx/wsuwp-ssl-common.conf
-    - user:     root
-    - group:    root
-    - mode:     644
-    - require:
-      - cmd:    nginx
-
-# Add a common standard configuration for nginx via Jinja template
-# to be used in combination with SSL when necessary.
-/etc/nginx/wsuwp-common.conf:
-  file.managed:
-    - template: jinja
-    - source:   salt://config/nginx/wsuwp-common.conf.jinja
-    - user:     root
-    - group:    root
-    - mode:     644
-    - require:
-      - cmd:    nginx
-
 # Add a common header for nginx to be used in all generated nginx
 # configurations that load common HTTPS directives. This header
 # allows us to change the listen and root directives for many sites
