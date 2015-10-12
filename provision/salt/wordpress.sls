@@ -30,6 +30,19 @@ wp-config-tmp-directory:
   cmd.run:
     - name: mkdir -p /var/wsuwp-config
 
+# Add a common listen directive for nginx to be used in indie
+# configurations that have different root directories. This header
+# allows us to change the listen and root directives for many sites
+# at a time.
+/etc/nginx/wsuwp-common-listen.conf:
+  file.managed:
+    - source: salt://config/nginx/wsuwp-common-listen.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 # Loop through all of the sites defined in the local sites.sls pillar data
 # and configure MySQL, our directory structure, and Nginx for each.
 {% for site, site_args in pillar.get('wsuwp-indie-sites',{}).items() %}
@@ -117,19 +130,6 @@ site-dir-setup-{{ site_args['directory'] }}:
 {% else %}
 # nginx config is provided manually for this site.
 {% endif %}
-
-# Add a common listen directive for nginx to be used in indie
-# configurations that have different root directories. This header
-# allows us to change the listen and root directives for many sites
-# at a time.
-/etc/nginx/wsuwp-common-listen.conf:
-  file.managed:
-    - source: salt://config/nginx/wsuwp-common-listen.conf
-    - user: root
-    - group: root
-    - mode: 644
-    - require:
-      - cmd: nginx
 
 {% if site_args['wordpress'] == 'disabled' %}
 {% else %}
