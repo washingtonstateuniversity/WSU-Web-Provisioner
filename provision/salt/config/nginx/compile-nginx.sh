@@ -2,12 +2,12 @@
 #
 # Compile Nginx with SPDY and Pagespeed support.
 rm -fr /tmp/nginx-1.9.9
-rm -fr /tmp/openssl-1.0.2d
+rm -fr /tmp/openssl-1.0.2e
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
-wget https://www.openssl.org/source/openssl-1.0.2d.tar.gz
-tar -xzvf openssl-1.0.2d.tar.gz
+wget https://openssl.org/source/openssl-1.0.2e.tar.gz
+tar -xzvf openssl-1.0.2e.tar.gz
 
 # Get the Nginx source.
 #
@@ -50,7 +50,7 @@ cd /tmp/nginx-1.9.9
 --with-ipv6 \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
---with-openssl=/tmp/openssl-1.0.2d
+--with-openssl=/tmp/openssl-1.0.2e
 
 cd /tmp/nginx-1.9.9
 make
