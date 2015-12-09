@@ -6,7 +6,7 @@ rm -fr /tmp/openssl-1.0.2e
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
-wget https://openssl.org/source/openssl-1.0.2e.tar.gz
+wget https://github.com/openssl/openssl/archive/OpenSSL_1_0_2e.tar.gz -O openssl-1.0.2e.tar.gz
 tar -xzvf openssl-1.0.2e.tar.gz
 
 # Get the Nginx source.
