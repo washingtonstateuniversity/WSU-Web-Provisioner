@@ -85,6 +85,19 @@ bash:
   pkg.latest:
     - name: bash
 
+# Ensure that wget is at the latest version.
+wget:
+  pkg.latest:
+    - name: wget
+
+# Ensure that curl is at the latest version.
+  pkg.latest:
+    - name: curl
+
+# Ensure that yum is at the latest version.
+  pkg.latest:
+    - name: yum
+
 # Ensure the system's openssl package is at the latest version.
 openssl:
   pkg.latest:
