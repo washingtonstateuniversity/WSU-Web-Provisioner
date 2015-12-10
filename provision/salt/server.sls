@@ -91,10 +91,12 @@ wget:
     - name: wget
 
 # Ensure that curl is at the latest version.
+curl:
   pkg.latest:
     - name: curl
 
 # Ensure that yum is at the latest version.
+yum:
   pkg.latest:
     - name: yum
 
