@@ -63,9 +63,23 @@ if (!-e $request_filename) {
     rewrite ^/[_0-9a-zA-Z-]+(/.*\.php)$ $1 last;
 }
 
+# We'll want to set a different X-Frame-Option header on posts which
+# are embedded in other sites.
+location ~ /embed/ {
+    set $embed_request 1;
+    try_files $uri $uri/ /index.php$is_args$args;
+}
+
 location ~ \.php$ {
     client_max_body_size 150M;
     try_files      $uri =404;
+
+    # Set slightly different headers for oEmbed requests
+    if ( $embed_request = 1 ) {
+            add_header X-Frame-Option ALLOWALL;
+            add_header X-Content-Type-Options nosniff;
+            add_header X-XSS-Protection "1; mode=block";
+    }
 
     # Include the fastcgi_params defaults provided by nginx
     include        /etc/nginx/fastcgi_params;
