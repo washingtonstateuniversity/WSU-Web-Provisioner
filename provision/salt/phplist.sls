@@ -47,14 +47,17 @@ wsuwp-db:
 # allows us to avoid some permissions issues in a local environment.
 wsu-lists-copy-config:
   cmd.run:
-    - name: cp /tmp/wsu-lists-config.php /var/www/config/config.php
+    - name: cp /tmp/wsu-lists-config.php {{ pillar['wsu-lists-config']['web_dir'] }}config/config.php
 
-# Use a domain specific Nginx config file from the wsu-lists project.
+{% if 'local' == salt['pillar.get']('network:location', 'local') %}
+# Use the included Nginx config if this is a local development environment.
+# In production, we manage the nginx configuration manually.
 wsu-lists-nginx-conf:
   cmd.run:
     - name: cp /srv/pillar/config/nginx/{{ pillar['wsu-lists-config']['server_name'] }}.conf /etc/nginx/sites-enabled/01_primary_server.conf
     - require:
       - cmd: nginx
+{% endif %}
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsu-lists-flush:
