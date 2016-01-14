@@ -47,7 +47,7 @@ wsuwp-db:
 # allows us to avoid some permissions issues in a local environment.
 wsu-lists-copy-config:
   cmd.run:
-    - name: cp /tmp/wsu-lists-config.php /var/www/config/config.php
+    - name: cp /tmp/wsu-lists-config.php {{ pillar['wsu-lists-config']['web_dir'] }}config/config.php
 
 # Use a domain specific Nginx config file from the wsu-lists project.
 wsu-lists-nginx-conf:
