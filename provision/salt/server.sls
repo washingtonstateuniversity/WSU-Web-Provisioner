@@ -66,6 +66,12 @@ centos-plus-repo:
     - require_in:
       - pkg: postfix
 
+# Update the server's CA Certificates
+ca-certificates:
+  pkg.latest:
+    - name: ca-certificates
+    - disablerepo: epel
+
 # Provide some packages that the Nginx build relies on.
 src-build-prereq:
   pkg.installed:
