@@ -75,7 +75,7 @@ location ~ \.php$ {
     try_files      $uri =404;
 
     # Set slightly different headers for oEmbed requests
-    if ( $embed_request = 1 ) {
+    if ( $embed_request ) {
             add_header X-Frame-Option ALLOWALL;
             add_header X-Content-Type-Options nosniff;
             add_header X-XSS-Protection "1; mode=block";
