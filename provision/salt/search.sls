@@ -11,7 +11,7 @@ java-sdk:
   cmd.run:
     - name: sh java-compile.sh
     - cwd: /root/
-    - unless: java -version 2>&1 | grep "1.7.0_55"
+    - unless: java -version 2>&1 | grep "1.8.0_72"
     - require:
       - file: /root/java-compile.sh
 
