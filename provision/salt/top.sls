@@ -10,24 +10,29 @@ base:
     - security
   'wsuwp-indie*':
     - webserver
+    - application-php
     - cacheserver
     - dbserver
     - wordpress
   'wsuwp-dev*':
     - webserver
+    - application-php
     - cacheserver
     - dbserver
     - wsuwp
   'wsuwp-prod*':
     - webserver
+    - application-php
     - cacheserver
     - dbserver
     - wsuwp
   'wsusearch*':
     - search
     - dbserver
+    - webserver
   'wsu-lists*':
     - webserver
+    - application-php
     - dbserver
     - phplist
   'uc-proxy*':
