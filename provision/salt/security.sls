@@ -81,7 +81,7 @@ fail2ban-init:
     - source:   salt://config/notify.sh.jinja
     - user:     root
     - group:    root
-    - mode:     666
+    - mode:     777
 
 # Our PAM sshd configuration is managed so that Slack notifications
 # can be added through the above notify.sh script.
