@@ -74,7 +74,7 @@ fail2ban-init:
     - require:
       - pkg: fail2ban
 
-# Configure Nginx with a jinja template.
+# Provide a notification script to ping Slack with successful SSH authentications.
 /etc/ssh/notify.sh:
   file.managed:
     - template: jinja
@@ -82,3 +82,12 @@ fail2ban-init:
     - user:     root
     - group:    root
     - mode:     666
+
+# Our PAM sshd configuration is managed so that Slack notifications
+# can be added through the above notify.sh script.
+/etc/pam.d/sshd:
+  file.managed:
+    - source: salt://config/sshd/pam-sshd.conf
+    - user:   root
+    - group:  root
+    - mode:   644
