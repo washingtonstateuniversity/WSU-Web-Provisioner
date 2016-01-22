@@ -41,7 +41,7 @@ php-fpm-init:
     - cwd: /
     - require:
       - pkg: php-fpm
-      - pkg: ImageMagickphp-fpm:
+      - pkg: ImageMagickphp-fpm
   pkg.latest:
     - pkgs:
       - php-fpm
@@ -85,7 +85,6 @@ php-fpm-init:
     - require:
       - pkg: php-fpm
       - pkg: ImageMagick
-
 
 /etc/php-fpm.conf:
   file.managed:
