@@ -73,3 +73,12 @@ fail2ban-init:
     - unless: fail2ban-client status | grep "Status"
     - require:
       - pkg: fail2ban
+
+# Configure Nginx with a jinja template.
+/etc/ssh/notify.sh:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/notify.sh.jinja
+    - user:     root
+    - group:    root
+    - mode:     666
