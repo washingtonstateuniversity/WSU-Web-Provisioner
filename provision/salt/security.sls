@@ -1,3 +1,7 @@
+policycoreutils-python:
+  pkg.latest:
+    - name: policycoreutils-python
+
 iptables:
   pkg.installed:
     - name: iptables
