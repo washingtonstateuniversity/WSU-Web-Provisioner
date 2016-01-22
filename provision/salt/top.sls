@@ -8,20 +8,18 @@ base:
   '*':
     - server
     - security
-  'wsuwp-indie*':
     - webserver
+  'wsuwp-indie*':
     - application-php
     - cacheserver
     - dbserver
     - wordpress
   'wsuwp-dev*':
-    - webserver
     - application-php
     - cacheserver
     - dbserver
     - wsuwp
   'wsuwp-prod*':
-    - webserver
     - application-php
     - cacheserver
     - dbserver
@@ -29,11 +27,9 @@ base:
   'wsusearch*':
     - search
     - dbserver
-    - webserver
   'wsu-lists*':
-    - webserver
     - application-php
     - dbserver
     - phplist
-  'uc-proxy*':
-    - webserver
+# Below servers only run base state files.
+#  'uc-proxy*':
