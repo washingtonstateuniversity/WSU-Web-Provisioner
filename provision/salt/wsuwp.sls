@@ -150,6 +150,18 @@ activate-wsu-spine-theme:
     - require:
       - cmd: nginx
 
+# Add a common cache configuration for nginx to be used in specific
+# cases. In the future this may be a common configuration for use as
+# a microcache that avoids firing up PHP processes.
+/etc/nginx/wsuwp-common-cache-server.conf:
+  file.managed:
+    - source: salt://config/nginx/wsuwp-common-cache-server.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:
