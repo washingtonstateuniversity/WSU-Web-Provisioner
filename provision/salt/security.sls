@@ -2,6 +2,10 @@ policycoreutils-python:
   pkg.latest:
     - name: policycoreutils-python
 
+yum-plugin-security:
+  pkg.latest:
+    - name: yum-plugin-security
+
 iptables:
   pkg.installed:
     - name: iptables

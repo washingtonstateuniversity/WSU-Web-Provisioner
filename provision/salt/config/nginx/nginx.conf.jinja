@@ -148,6 +148,11 @@ http {
     # The maximum number and size of large headers to accept from a client
     large_client_header_buffers 4 16k;
 
+    map $embed_request $x_frame_option {
+        default SAMEORIGIN;
+        1       ALLOWALL;
+    }
+
     # Per https://www.owasp.org/index.php/List_of_useful_HTTP_headers
     #
     # Prevents IE and Google Chrome from MIME-sniffing a response away from the declared
@@ -161,6 +166,26 @@ http {
     # Ensure that content served from this server is not embedded in other pages
     # unless they are of the same origin.
     add_header X-Frame-Options SAMEORIGIN;
+
+    map $request_method $test_cache_header {
+        POST skip;
+    }
+
+    map $query_string $test_cache_header {
+        .+ skip;
+    }
+
+    map $request_uri $test_cache_header {
+        ~*/wp-admin/ skip;
+    }
+
+    map $http_cookie $test_cache_header {
+        ~*wp skip;
+        ~*wordpress skiip;
+    }
+
+    fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=WSUWP:100m inactive=20m;
+    fastcgi_cache_key "$server_protocol$scheme$request_method$host$request_uri";
 
     include /etc/nginx/sites-enabled/*;
 }
