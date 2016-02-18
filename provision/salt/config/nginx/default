@@ -1,5 +1,6 @@
 server {
     listen       80;
     root         /var/www/html;
+    set $embed_request 0;
     return 301 https://wsu.edu;
 }

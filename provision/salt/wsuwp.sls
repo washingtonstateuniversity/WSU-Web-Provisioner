@@ -74,7 +74,6 @@ wsuwp-install-network:
       - cmd: wp-cli
       - service: mysqld
       - service: php-fpm
-      - service: nginx
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /tmp/
@@ -86,7 +85,6 @@ wsuwp-install-network:
     - group:    www-data
     - mode:     644
     - require:
-      - cmd: nginx
       - cmd: wsuwp-install-network
       - user: www-data
       - group: www-data
