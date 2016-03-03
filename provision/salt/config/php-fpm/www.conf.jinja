@@ -49,11 +49,11 @@ pm.status_path = /php_status
 ;access.format = %t %m %r%Q%q %s %f %{mili}d %{kilo}M %C%%
 
 ; The log file for slow requests
-slowlog = /var/log/php-fpm/$pool.log.slow
+slowlog = /var/log/php-fpm/$pool.slow.log
 
 ; The timeout for serving a single request after which a PHP backtrace will be
 ; dumped to the 'slowlog' file. A value of '0s' means 'off'.
-request_slowlog_timeout = 20
+request_slowlog_timeout = 10
 
 ; Chdir to this directory at the start.
 chdir = /
