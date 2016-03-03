@@ -11,6 +11,11 @@ location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
     deny all;
 }
 
+# Deny direct access to PHP files in the WordPress root.
+location ~ /(wp-settings|wp-load|wp-mail|wp-config-sample|wp-blog-header).php$ {
+    deny all;
+}
+
 # Requests to WordPress are made in /wordpress/, which is at the same
 # level as /wp-content/. To properly handle these, we provide an alias
 # to move up a directory and find static files.
