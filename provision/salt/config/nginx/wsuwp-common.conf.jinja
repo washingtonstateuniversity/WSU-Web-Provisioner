@@ -48,8 +48,12 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|exe|mp3|mp4|pdf|ai|psd|ep
     log_not_found off;
 }
 
-# this prevents hidden files (beginning with a period) from being served
-location ~ /\. {
+# Prevent hidden files (beginning with a period) from being served.
+#
+# Access to `/.well-known/` is allowed.
+#   - https://www.mnot.net/blog/2010/04/07/well-known
+#   - https://tools.ietf.org/html/rfc5785
+location ~* /\.(?!well-known\/) {
     access_log off;
     log_not_found off;
     deny all;
@@ -59,7 +63,7 @@ location ~ /\. {
 #
 # Prevent a variety of file extensions associated with backups and configs
 # from being served.
-location ~* (?:\.(?:bak|config|sql|fla|ini|log|sh|inc|swp|dist)|~)$ {
+location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|sh|sql|sw[op])|~)$ {
     access_log off;
     log_not_found off;
     deny all;
