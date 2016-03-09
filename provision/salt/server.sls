@@ -67,6 +67,10 @@ centos-plus-repo:
       - pkg: postfix
 
 # Update the server's CA Certificates
+#
+# This is handled separately from other package installations as the
+# CA certificates may affect those installs depending on the repository.
+#
 ca-certificates:
   pkg.latest:
     - name: ca-certificates
@@ -81,51 +85,43 @@ src-build-prereq:
       - zlib-devel
       - make
 
-# Ensure that glibc is at the latest version.
-glibc:
+# Always check for the latest versions of several packages.
+#
+# Of interest:
+#    - munin is a utility used to track server resources
+#    - vnStat is a console based network traffic monitor
+#    - htop is a useful server resource monitoring tool
+#    - iotop is useful for monitoring disk activity
+#    - telnet can be used for testing various connections
+#    - samba-client is used to mount external drives
+#    - cifs-utils works in combination with samba
+#
+core-pkgs-latest:
   pkg.latest:
-    - name: glibc
+    - pkgs:
+      - glibc
+      - bash
+      - wget
+      - curl
+      - yum
+      - openssl
+      - git
+      - munin
+      - vnstat
+      - htop
+      - iotop
+      - telnet
+      - samba-client
+      - cifs-utils
 
-# Ensure that bash is at the latest version.
-bash:
-  pkg.latest:
-    - name: bash
-
-# Ensure that wget is at the latest version.
-wget:
-  pkg.latest:
-    - name: wget
-
-# Ensure that curl is at the latest version.
-curl:
-  pkg.latest:
-    - name: curl
-
-# Ensure that yum is at the latest version.
-yum:
-  pkg.latest:
-    - name: yum
-
-# Ensure the system's openssl package is at the latest version.
-openssl:
-  pkg.latest:
-    - name: openssl
-
-# Ensure that postfix is at the latest revision.
+# Check for the latest version of postfix.
+#
+# This is on its own because it uses another repository. We may
+# be able to consolidate it in the future.
+#
 postfix:
   pkg.latest:
     - name: postfix
-
-# Git is useful to us in a few different places and should be one of the
-# first things installed if it is not yet available.
-git:
-  pkg.latest:
-    - name: git
-
-# munin is a utility used to track server resources.
-munin:
-  pkg.latest:
-    - name: munin
 
 /etc/munin/munin.conf:
   file.managed:
@@ -134,7 +130,7 @@ munin:
     - group: root
     - mode: 644
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugin-conf.d/munin-node:
   file.managed:
@@ -143,19 +139,19 @@ munin:
     - group: root
     - mode: 644
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugins/nginx_status:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_status
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugins/nginx_request:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_request
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /var/www-munin:
   file.directory:
@@ -163,51 +159,26 @@ munin:
     - group: munin
     - mode: 755
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 munin-node:
   service.running:
     - name: munin-node
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
       - file: /etc/munin/munin.conf
     - watch:
       - file: /etc/munin/munin.conf
       - file: /etc/munin/plugin-conf.d/munin-node
-
-# htop is a useful server resource monitoring tool
-htop:
-  pkg.installed:
-    - name: htop
-
-# iotop is useful for monitoring disk activity
-iotop:
-  pkg.installed:
-    - name: iotop
-
-# vnStat is a console-based network traffic monitor
-vnstat:
-  pkg.latest:
-    - name: vnstat
 
 # Ensure the vnstat service is started.
 vnstat-service:
   service.running:
     - name: vnstat
     - require:
-      - pkg: vnstat
+      - pkg: core-pkgs-latest
 
-# The telnet package can be used for various connection testing.
-telnet:
-  pkg.installed:
-    - name: telnet
-
-# The samba-client package helps to connect to shared drives.
-samba-client:
-  pkg.installed:
-    - name: samba-client
-
-# The cifs-utils package works in combination with Samba.
-cifs-utils:
-  pkg.installed:
-    - name: cifs-utils
+# Make sure the ntpd service is running.
+ntpd-service:
+  service.running:
+    - name: ntpd
