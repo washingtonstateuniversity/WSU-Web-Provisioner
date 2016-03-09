@@ -1,6 +1,6 @@
 WSU Web Provisioner
 
-Copyright 2013-2015 by the contributors
+Copyright 2013-2016 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@ permission notices:
 
   bootstrap-salt.sh is (c) 2012-2013 by the SaltStack Team
   bootstrap-salt.sh is released under the Apache 2.0 license
+
+  nginx_error is (c) 2013 by vovansystems@gmail.com
+  nginx_error is released under the GPLv3 license
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
