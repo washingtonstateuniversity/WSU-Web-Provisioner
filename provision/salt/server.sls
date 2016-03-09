@@ -141,17 +141,47 @@ postfix:
     - require:
       - pkg: core-pkgs-latest
 
+# Create a directory for additional munin plugins to be installed.
+/usr/local/share/munin:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - pkg: core-pkgs-latest
+
+# Install the nginx_error plugin for munin.
+/usr/local/share/munin/nginx_error:
+  file.managed:
+    - source: salt://config/munin/nginx_error
+    - user: root
+    - group: root
+    - mode: 766
+    - require:
+      - pkg: core-pkgs-latest
+      - file: /usr/local/share/munin
+
+# Generates a munin graph showing the status of nginx requests
 /etc/munin/plugins/nginx_status:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_status
     - require:
       - pkg: core-pkgs-latest
 
+# Generates a munin graph showing the number of nginx requests
 /etc/munin/plugins/nginx_request:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_request
     - require:
       - pkg: core-pkgs-latest
+
+# Generates a munin graph showing the number of nginx errors
+/etc/munin/plugins/nginx_error:
+  file.symlink:
+    - target: /usr/local/share/munin/nginx_error
+    - require:
+      - pkg: core-pkgs-latest
+      - file: /usr/local/share/munin/nginx_error
 
 # Generates a munin graph showing cache hits, misses, etc...
 /etc/munin/plugins/memcached_rates:
