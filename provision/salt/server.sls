@@ -85,11 +85,19 @@ src-build-prereq:
       - zlib-devel
       - make
 
+# Always install an initial version of several packages.
+
+
 # Always check for the latest versions of several packages.
 #
 # Of interest:
 #    - munin is a utility used to track server resources
 #    - vnStat is a console based network traffic monitor
+#    - htop is a useful server resource monitoring tool
+#    - iotop is useful for monitoring disk activity
+#    - telnet can be used for testing various connections
+#    - samba-client is used to mount external drives
+#    - cifs-utils works in combination with samba
 #
 core-pkgs-latest:
   pkg.latest:
@@ -104,6 +112,11 @@ core-pkgs-latest:
       - git
       - munin
       - vnstat
+      - htop
+      - iotop
+      - telnet
+      - samba-client
+      - cifs-utils
 
 /etc/munin/munin.conf:
   file.managed:
@@ -153,37 +166,12 @@ munin-node:
       - file: /etc/munin/munin.conf
       - file: /etc/munin/plugin-conf.d/munin-node
 
-# htop is a useful server resource monitoring tool
-htop:
-  pkg.installed:
-    - name: htop
-
-# iotop is useful for monitoring disk activity
-iotop:
-  pkg.installed:
-    - name: iotop
-
 # Ensure the vnstat service is started.
 vnstat-service:
   service.running:
     - name: vnstat
     - require:
       - pkg: vnstat
-
-# The telnet package can be used for various connection testing.
-telnet:
-  pkg.installed:
-    - name: telnet
-
-# The samba-client package helps to connect to shared drives.
-samba-client:
-  pkg.installed:
-    - name: samba-client
-
-# The cifs-utils package works in combination with Samba.
-cifs-utils:
-  pkg.installed:
-    - name: cifs-utils
 
 # Make sure the ntpd service is running.
 ntpd-service:
