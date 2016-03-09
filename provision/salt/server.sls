@@ -67,6 +67,10 @@ centos-plus-repo:
       - pkg: postfix
 
 # Update the server's CA Certificates
+#
+# This is handled separately from other package installations as the
+# CA certificates may affect those installs depending on the repository.
+#
 ca-certificates:
   pkg.latest:
     - name: ca-certificates
