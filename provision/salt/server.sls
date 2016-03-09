@@ -81,51 +81,25 @@ src-build-prereq:
       - zlib-devel
       - make
 
-# Ensure that glibc is at the latest version.
-glibc:
+# Always check for the latest versions of several packages.
+#
+# Of interest:
+#    - munin is a utility used to track server resources
+#    - vnStat is a console based network traffic monitor
+#
+core-pkgs-latest:
   pkg.latest:
-    - name: glibc
-
-# Ensure that bash is at the latest version.
-bash:
-  pkg.latest:
-    - name: bash
-
-# Ensure that wget is at the latest version.
-wget:
-  pkg.latest:
-    - name: wget
-
-# Ensure that curl is at the latest version.
-curl:
-  pkg.latest:
-    - name: curl
-
-# Ensure that yum is at the latest version.
-yum:
-  pkg.latest:
-    - name: yum
-
-# Ensure the system's openssl package is at the latest version.
-openssl:
-  pkg.latest:
-    - name: openssl
-
-# Ensure that postfix is at the latest revision.
-postfix:
-  pkg.latest:
-    - name: postfix
-
-# Git is useful to us in a few different places and should be one of the
-# first things installed if it is not yet available.
-git:
-  pkg.latest:
-    - name: git
-
-# munin is a utility used to track server resources.
-munin:
-  pkg.latest:
-    - name: munin
+    - pkgs:
+      - glibc
+      - bash
+      - wget
+      - curl
+      - yum
+      - openssl
+      - postfix
+      - git
+      - munin
+      - vnstat
 
 /etc/munin/munin.conf:
   file.managed:
@@ -184,11 +158,6 @@ htop:
 iotop:
   pkg.installed:
     - name: iotop
-
-# vnStat is a console-based network traffic monitor
-vnstat:
-  pkg.latest:
-    - name: vnstat
 
 # Ensure the vnstat service is started.
 vnstat-service:
