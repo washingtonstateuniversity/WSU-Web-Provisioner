@@ -85,9 +85,6 @@ src-build-prereq:
       - zlib-devel
       - make
 
-# Always install an initial version of several packages.
-
-
 # Always check for the latest versions of several packages.
 #
 # Of interest:
