@@ -211,3 +211,8 @@ samba-client:
 cifs-utils:
   pkg.installed:
     - name: cifs-utils
+
+# Make sure the ntpd service is running.
+ntpd-service:
+  service.running:
+    - name: ntpd
