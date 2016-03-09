@@ -153,6 +153,27 @@ postfix:
     - require:
       - pkg: core-pkgs-latest
 
+# Generates a munin graph showing cache hits, misses, etc...
+/etc/munin/plugins/memcached_rates:
+  file.symlink:
+    - target: /usr/share/munin/plugins/memcached_
+    - require:
+      - pkg: core-pkgs-latest
+
+# Generates a munin graph showing memcached network traffic
+/etc/munin/plugins/memcached_bytes:
+  file.symlink:
+    - target: /usr/share/munin/plugins/memcached_
+    - require:
+      - pkg: core-pkgs-latest
+
+# Generates a munin graph showing total memcached counters
+/etc/munin/plugins/memcached_counters:
+  file.symlink:
+    - target: /usr/share/munin/plugins/memcached_
+    - require:
+      - pkg: core-pkgs-latest
+
 /var/www-munin:
   file.directory:
     - user: munin
