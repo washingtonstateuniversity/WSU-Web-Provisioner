@@ -130,7 +130,7 @@ postfix:
     - group: root
     - mode: 644
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugin-conf.d/munin-node:
   file.managed:
@@ -139,19 +139,19 @@ postfix:
     - group: root
     - mode: 644
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugins/nginx_status:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_status
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /etc/munin/plugins/nginx_request:
   file.symlink:
     - target: /usr/share/munin/plugins/nginx_request
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 /var/www-munin:
   file.directory:
@@ -159,13 +159,13 @@ postfix:
     - group: munin
     - mode: 755
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
 
 munin-node:
   service.running:
     - name: munin-node
     - require:
-      - pkg: munin
+      - pkg: core-pkgs-latest
       - file: /etc/munin/munin.conf
     - watch:
       - file: /etc/munin/munin.conf
@@ -176,7 +176,7 @@ vnstat-service:
   service.running:
     - name: vnstat
     - require:
-      - pkg: vnstat
+      - pkg: core-pkgs-latest
 
 # Make sure the ntpd service is running.
 ntpd-service:
