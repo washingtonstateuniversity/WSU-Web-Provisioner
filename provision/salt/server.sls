@@ -204,7 +204,7 @@ postfix:
     - require:
       - pkg: core-pkgs-latest
 
-/var/www-munin:
+/var/www/html/munin:
   file.directory:
     - user: munin
     - group: munin
