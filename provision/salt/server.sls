@@ -105,7 +105,6 @@ core-pkgs-latest:
       - curl
       - yum
       - openssl
-      - postfix
       - git
       - munin
       - vnstat
@@ -114,6 +113,15 @@ core-pkgs-latest:
       - telnet
       - samba-client
       - cifs-utils
+
+# Check for the latest version of postfix.
+#
+# This is on its own because it uses another repository. We may
+# be able to consolidate it in the future.
+#
+postfix:
+  pkg.latest:
+    - name: postfix
 
 /etc/munin/munin.conf:
   file.managed:
