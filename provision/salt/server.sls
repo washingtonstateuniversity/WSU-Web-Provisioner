@@ -46,7 +46,7 @@ remi-repo:
 remi-php56-repo:
   pkgrepo.managed:
     - humanname: Remi PHP 5.6 Repository
-    - baseurl: http://mirrors.mediatemple.net/remi/enterprise/enterprise/6/php56/x86_64/
+    - baseurl: http://mirrors.mediatemple.net/remi/enterprise/6/php56/x86_64/
     - gpgcheck: 0
 
 # MySQL maintains a repository for MySQL 5.6. The default CentOS and Remi
