@@ -33,24 +33,41 @@ http {
     include      /etc/nginx/mime.types;
     default_type application/octet-stream;
 
+    # DEPRECATED - This will be removed.
     # Define a custom log format for tracking TLS information.
     log_format custom_ssl '$remote_addr [$time_local] '
                           '$scheme $status $ssl_session_reused $ssl_protocol $ssl_cipher $http_host '
                           '"$http_user_agent"';
 
+    # DEPRECATED - This will be removed.
     # Define a custom log format to track the request response times.
     log_format timed_combined '$remote_addr [$time_local] '
                               '$request_time $upstream_response_time $pipe '
                               '$status $body_bytes_sent $scheme $http_host "$request"';
 
-    # Default log file
+    # Define a custom log formatted as a JSON object. This log contains data
+    # not found in the standard access log, including TLS and timing information.
+    log_format wsu_combined_json '{ "@timestamp": "$time_iso8601",'
+                                 '"scheme": "$scheme",'
+                                 '"domain": "$http_host",'
+                                 '"url": "$uri",'
+                                 '"client": "$remote_addr",'
+                                 '"status": "$status",'
+                                 '"size": $body_bytes_sent,'
+                                 '"responsetime": $request_time,'
+                                 '"sslprotocol": "$ssl_protocol",'
+                                 '"cipher": "$ssl_cipher",'
+                                 '"request": "$request",'
+                                 '"method": "$request_method",'
+                                 '"http_referrer": "$http_referer",'
+                                 '"http_user_agent": "$http_user_agent"'
+                                 '}';
+
+    # Standard access log file.
     access_log  /var/log/nginx/access.log;
 
-    # Track TLS information.
-    access_log /var/log/nginx/tls-access.log custom_ssl;
-
-    # Track Timing information.
-    access_log /var/log/nginx/timing-access.log timed_combined;
+    # Combined log file stored in JSON format for external parsing.
+    access_log  /var/log/nginx/wsu-combined-access.json wsu_combined_json;
 
     # Sendfile should be off in a VirtualBox (local) environment because
     # of caching issues with the shared drive. In production, it should
