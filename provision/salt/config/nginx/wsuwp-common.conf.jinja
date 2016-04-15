@@ -14,7 +14,7 @@ location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
 }
 
 # Deny direct access to PHP files in the WordPress root.
-location ~ /(wp-settings|wp-load|wp-mail|wp-config-sample|wp-blog-header).php$ {
+location ~ /(xmlrpc|wp-settings|wp-load|wp-mail|wp-config-sample|wp-blog-header).php$ {
     access_log off;
     log_not_found off;
     deny all;
