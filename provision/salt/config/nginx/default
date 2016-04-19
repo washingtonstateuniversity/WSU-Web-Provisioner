@@ -19,6 +19,6 @@ server {
 
     include /etc/nginx/wsuwp-ssl-common.conf;
 
+    add_header 'Content-Type' 'text/plain charset=UTF-8' always;
     return 404 'Address not available';
-    add_header Content-Type text/plain;
 }
