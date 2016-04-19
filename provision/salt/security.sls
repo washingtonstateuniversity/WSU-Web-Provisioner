@@ -78,6 +78,11 @@ fail2ban-init:
     - require:
       - pkg: fail2ban
 
+# Provide an selinux configuration file to make selinux permissive.
+/etc/selinux/config:
+  file.managed:
+    - source: salt://config/selinux/config
+
 # Provide a notification script to ping Slack with successful SSH authentications.
 /etc/ssh/notify.sh:
   file.managed:
