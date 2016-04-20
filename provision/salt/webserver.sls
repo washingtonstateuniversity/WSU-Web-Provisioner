@@ -81,6 +81,23 @@ nginx-init:
     - require:
       - cmd:    nginx
 
+# Setup a default self-signed certificate for invalid HTTPS requests.
+nginx-self-signed:
+  cmd.run:
+    - name:  openssl req -subj '/CN=default.wp.wsu.edu/O=Washington State University/C=US' -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -keyout default.wp.wsu.edu.key -out default.wp.wsu.edu.cer
+    - cwd: /etc/nginx/ssl/
+    - unless: test -f /etc/nginx/ssl/default.wp.wsu.edu.key
+    - require:
+      - cmd: nginx
+
+# Generate diffe hellman params.
+nginx-dhparam:
+  cmd.run:
+    - name: openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+    - unless: test -f /etc/nginx/ssl/dhparam.pem
+    - require:
+      - cmd: nginx
+
 /etc/nginx/sites-enabled/:
   file.directory:
     - user: root
