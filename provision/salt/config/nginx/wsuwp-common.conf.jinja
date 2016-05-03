@@ -94,6 +94,9 @@ location ~ \.php$ {
             add_header X-XSS-Protection "1; mode=block";
     }
 
+    # Include the common request limiting
+    include /etc/nginx/wsuwp-common-limit.conf;
+
     # Include the fastcgi_params defaults provided by nginx
     include        /etc/nginx/fastcgi_params;
 
