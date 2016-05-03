@@ -92,6 +92,15 @@ php-fpm-init:
     - require:
       - pkg: php-fpm
 
+/etc/logrotate.d/php-fpm:
+  file.managed:
+    - source: salt://config/logrotate/php-fpm
+    - user: root
+    - group: root
+    - mode: 664
+    - require:
+      - pkg: php-fpm
+
 # Start the php-fpm service
 php-fpm-service:
   service.running:

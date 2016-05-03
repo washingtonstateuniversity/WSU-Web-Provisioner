@@ -53,6 +53,15 @@ mysqld-init:
     - require:
       - pkg: mysql
 
+/etc/logrotate.d/mysql:
+  file.managed:
+    - source: salt://config/logrotate/mysql
+    - user: root
+    - group: root
+    - mode: 664
+    - require:
+      - pkg: mysql
+
 mysql-start:
   service.running:
     - name: mysqld

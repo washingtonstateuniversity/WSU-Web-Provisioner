@@ -188,6 +188,15 @@ nginx-dhparam:
     - require:
       - cmd: nginx
 
+/etc/logrotate.d/nginx:
+  file.managed:
+    - source: salt://config/logrotate/nginx
+    - user: root
+    - group: root
+    - mode: 664
+    - require:
+      - cmd: nginx
+
 # Start the nginx service.
 nginx-service:
   service.running:
