@@ -34,6 +34,16 @@ ImageMagick:
     - require:
       - pkg: php-fpm
 
+# Provide a default security policy configuration for ImageMagick.
+/etc/ImageMagick/policy.xml:
+  file.managed:
+    - source: salt://config/imagemagick/policy.xml
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: ImageMagick
+
 # Set php-fpm to run in levels 2345.
 php-fpm-init:
   cmd.run:
