@@ -160,6 +160,15 @@ activate-wsu-spine-theme:
     - require:
       - cmd: nginx
 
+/etc/nginx/sites-enabled/default-wp:
+  file.managed:
+    - source: salt://config/nginx/default-wp
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
   cmd.run:

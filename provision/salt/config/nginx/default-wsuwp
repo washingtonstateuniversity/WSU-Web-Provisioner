@@ -1,0 +1,17 @@
+# Provide a default response for *.wsu.edu domains that are requested
+# over HTTPS but do not have a configured certificate. Browsers should
+# show a certificate error. Bots will ignore the certificate error and
+# receive a 404 response.
+server {
+    server_name *.wsu.edu;
+    include /etc/nginx/wsuwp-common-header.conf;
+
+    # This cert will not be valid for any of the requested sites.
+    ssl_certificate     /etc/nginx/ssl/default.wp.wsu.edu.cer;
+    ssl_certificate_key /etc/nginx/ssl/default.wp.wsu.edu.key;
+
+    include /etc/nginx/wsuwp-ssl-common.conf;
+
+    add_header 'Content-Type' 'text/plain charset=UTF-8' always;
+    return 404 'Address not available';
+}
