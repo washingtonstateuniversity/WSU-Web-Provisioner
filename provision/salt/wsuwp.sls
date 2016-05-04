@@ -160,9 +160,9 @@ activate-wsu-spine-theme:
     - require:
       - cmd: nginx
 
-/etc/nginx/sites-enabled/default-wp:
+/etc/nginx/sites-enabled/default-wsuwp:
   file.managed:
-    - source: salt://config/nginx/default-wp
+    - source: salt://config/nginx/default-wsuwp
     - user: root
     - group: root
     - mode: 644
