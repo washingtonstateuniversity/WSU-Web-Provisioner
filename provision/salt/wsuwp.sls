@@ -34,7 +34,7 @@ wsuwp-db:
       - pkg: mysql
       - sls: dbserver
   mysql_grants.present:
-    - grant: select, insert, update, delete, create, alter
+    - grant: ALL
     - database: {{ pillar['wsuwp-config']['database'] }}.*
     - user: {{ pillar['wsuwp-config']['db_user'] }}
     - host: {{ pillar['wsuwp-config']['db_host'] }}
