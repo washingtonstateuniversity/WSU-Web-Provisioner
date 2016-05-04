@@ -113,7 +113,7 @@ core-pkgs-latest:
       - telnet
       - samba-client
       - cifs-utils
-      - ntpd
+      - ntp
 
 # Check for the latest version of postfix.
 #
