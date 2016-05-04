@@ -113,6 +113,7 @@ core-pkgs-latest:
       - telnet
       - samba-client
       - cifs-utils
+      - ntpd
 
 # Check for the latest version of postfix.
 #
@@ -182,3 +183,5 @@ vnstat-service:
 ntpd-service:
   service.running:
     - name: ntpd
+    - require:
+      - pkg: core-pkgs-latest
