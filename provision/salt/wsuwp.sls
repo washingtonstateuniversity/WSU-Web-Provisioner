@@ -111,6 +111,26 @@ spine:
       - user: www-data
       - group: www-data
 
+{% if 'local' == salt['pillar.get']('network:location', 'local') %}
+# Ensure Spine local development is available
+/root/clone-spine-local.sh:
+  file.managed:
+    - source: salt://config/wordpress/clone-spine-local.sh
+    - user: root
+    - group: root
+    - mode: 755
+
+spine-local-dev:
+  cmd.run:
+    - name: sh clone-spine-local.sh
+    - cwd: /root/
+    - unless: test -d /var/www/wsu-spine
+    - require:
+      - file: /root/clone-spine-local.sh
+      - user: www-data
+      - group: www-data
+{% endif %}
+
 # Copy over the stored wp-config.php to the site's root path. This
 # allows us to avoid some permissions issues in a local environment.
 wsuwp-copy-config:
@@ -176,6 +196,7 @@ wsuwp-nginx-conf:
     - require:
       - cmd: nginx
       - cmd: wsuwp-install-network
+      - cmd: spine-local-dev
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:
