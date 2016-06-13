@@ -167,6 +167,8 @@ activate-wsu-spine-theme:
     - mode: 644
     - require:
       - cmd: nginx
+    - require_in:
+      - service: nginx-service
 
 # Add a common cache configuration for nginx to be used in specific
 # cases. In the future this may be a common configuration for use as
@@ -179,6 +181,8 @@ activate-wsu-spine-theme:
     - mode: 644
     - require:
       - cmd: nginx
+    - require_in:
+      - service: nginx-service
 
 /etc/nginx/sites-enabled/default-wsuwp:
   file.managed:
@@ -188,6 +192,8 @@ activate-wsu-spine-theme:
     - mode: 644
     - require:
       - cmd: nginx
+    - require_in:
+      - service: nginx-service
 
 # Configure Nginx with a jinja template.
 wsuwp-nginx-conf:
@@ -197,6 +203,8 @@ wsuwp-nginx-conf:
       - cmd: nginx
       - cmd: wsuwp-install-network
       - cmd: spine-local-dev
+    - require_in:
+      - service: nginx-service
 
 # Flush the web services to ensure object and opcode cache are clear and that nginx configs are processed.
 wsuwp-indie-flush:

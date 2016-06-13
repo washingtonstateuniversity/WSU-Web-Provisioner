@@ -1,5 +1,10 @@
 # WSU Web Provisioner CHANGELOG
 
+## 1.11.1 (TBD)
+
+* Nginx: Update Nginx 1.11.1
+* Nginx: Create `/etc/nginx/ssl` directory before attempting to add files.
+
 ## 1.11.0 (May 3, 2016)
 
 * Start tracking a CHANGELOG.

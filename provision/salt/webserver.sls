@@ -54,7 +54,7 @@ nginx:
   cmd.run:
     - name: sh nginx-compile.sh
     - cwd: /root/
-    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.9.15" | grep "OpenSSL_1_0_2h"
+    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.11.1" | grep "OpenSSL_1_0_2h"
     - require:
       - pkg: src-build-prereq
       - file: /root/nginx-compile.sh
@@ -80,6 +80,18 @@ nginx-init:
     - mode:     644
     - require:
       - cmd:    nginx
+
+# Create a directory to store SSL certificates.
+/etc/nginx/ssl/:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+    - require_in:
+      - cmd: nginx-self-signed
+      - cmd: nginx-dhparam
 
 # Setup a default self-signed certificate for invalid HTTPS requests.
 nginx-self-signed:
