@@ -129,6 +129,8 @@ spine-local-dev:
       - file: /root/clone-spine-local.sh
       - user: www-data
       - group: www-data
+    - require_in:
+      - cmd: wsuwp-nginx-conf
 {% endif %}
 
 # Copy over the stored wp-config.php to the site's root path. This
@@ -202,7 +204,6 @@ wsuwp-nginx-conf:
     - require:
       - cmd: nginx
       - cmd: wsuwp-install-network
-      - cmd: spine-local-dev
     - require_in:
       - service: nginx-service
 
