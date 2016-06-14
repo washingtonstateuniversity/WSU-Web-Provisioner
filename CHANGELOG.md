@@ -1,9 +1,20 @@
 # WSU Web Provisioner CHANGELOG
 
-## 1.11.1 (TBD)
+## 1.11.1 (June 13, 2016)
 
 * Nginx: Update Nginx 1.11.1
 * Nginx: Create `/etc/nginx/ssl` directory before attempting to add files.
+* ImageMagick: Update security policy.
+* Spine: Provide a local development environment for the WSU Spine.
+
+### Deployments
+
+* uc-proxy1: June 13, 2016
+* wsusearch-prod-01: June 13, 2016
+* wsuwp-indie-prod-01: June 13, 2016
+* wsuwp-prod-01: June 13, 2016
+* wsuwp-prod-02: June 13, 2016
+* wsu-lists: June 13, 2016
 
 ## 1.11.0 (May 3, 2016)
 
