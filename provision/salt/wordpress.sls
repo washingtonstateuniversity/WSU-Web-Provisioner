@@ -208,7 +208,7 @@ wp-cli:
 # Always update to the latest nightly version of WP-CLI
 wp-cli-update:
   cmd.run:
-    - name: wp --allow-root update --nightly
+    - name: wp --allow-root update --nightly --path=/var/www/wordpress
     - cwd: /tmp
     - require:
       - cmd: wp-cli
