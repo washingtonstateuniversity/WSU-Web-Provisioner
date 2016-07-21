@@ -54,7 +54,7 @@ nginx:
   cmd.run:
     - name: sh nginx-compile.sh
     - cwd: /root/
-    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.11.1" | grep "OpenSSL_1_0_2h"
+    - unless: nginx -V &> nginx-version.txt && cat nginx-version.txt | grep -A 42 "nginx/1.11.2" | grep "OpenSSL_1_0_2h"
     - require:
       - pkg: src-build-prereq
       - file: /root/nginx-compile.sh
