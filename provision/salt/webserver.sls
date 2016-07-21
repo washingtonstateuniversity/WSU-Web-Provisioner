@@ -81,6 +81,17 @@ nginx-init:
     - require:
       - cmd:    nginx
 
+/etc/nginx/fastcgi_params:
+  file.managed:
+    - source: salt://config/nginx/fastcgi_params
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - cmd: nginx
+    - require_in:
+      - file: /etc/nginx/wsuwp-common.conf
+
 # Create a directory to store SSL certificates.
 /etc/nginx/ssl/:
   file.directory:
