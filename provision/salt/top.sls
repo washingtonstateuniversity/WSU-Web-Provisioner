@@ -24,6 +24,11 @@ base:
     - cacheserver
     - dbserver
     - wsuwp
+  'uc-proxy*':
+    - application-php
+    - cacheserver
+    - dbserver
+    - wsuwp
   'wsusearch*':
     - search
     - dbserver
