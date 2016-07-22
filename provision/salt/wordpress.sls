@@ -199,11 +199,19 @@ wp-set-permissions-{{ site_args['directory'] }}:
 # Install wp-cli to provide a way to manage WordPress at the command line.
 wp-cli:
   cmd.run:
-    - name: curl -L https://github.com/wp-cli/wp-cli/releases/download/v0.23.0/wp-cli-0.23.0.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
+    - name: curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > wp-cli.phar > wp-cli.phar && mv wp-cli.phar /usr/bin/wp && chmod +x /usr/bin/wp
     - cwd: /tmp
-    - unless: wp --allow-root --version | grep "0.23.0"
+    - unless: wp --allow-root --version | grep "WP-CLI "
     - require:
       - pkg: php-fpm
+
+# Always update to the latest nightly version of WP-CLI
+wp-cli-update:
+  cmd.run:
+    - name: wp --allow-root cli update --nightly --yes
+    - cwd: /tmp
+    - require:
+      - cmd: wp-cli
 
 # npm gives us access to NodeJS and related build tools.
 npm:
