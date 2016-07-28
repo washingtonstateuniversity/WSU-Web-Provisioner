@@ -30,6 +30,7 @@ ImageMagick:
   pkg.latest:
     - pkgs:
       - php-pecl-imagick
+      - lcms2
       - ImageMagick
     - require:
       - pkg: php-fpm
