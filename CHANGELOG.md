@@ -1,5 +1,23 @@
 # WSU Web Provisioner CHANGELOG
 
+## 1.11.2 (TBD)
+
+* Nginx: Update Nginx 1.11.3
+* Nginx: Add mitigation for httpoxy vulnerability.
+* Nginx: Start tracking fastcgi_params.
+* Nginx: Add `REQUEST_SCHEME` to fastcgi_params.
+* WP-CLI: Always update WP-CLI to nightly.
+* Provision: Upgrade uc-proxy1 to a WSUWP dev box.
+
+### Deployments
+
+* uc-proxy1:
+* wsusearch-prod-01:
+* wsuwp-indie-prod-01:
+* wsuwp-prod-01:
+* wsuwp-prod-02:
+* wsu-lists:
+
 ## 1.11.1 (June 13, 2016)
 
 * Nginx: Update Nginx 1.11.1
