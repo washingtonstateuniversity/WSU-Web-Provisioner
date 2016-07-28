@@ -65,10 +65,25 @@ wsuwp-prep-install:
     - require_in:
       - cmd: wsuwp-install-network
 
+# Setup a wp-config.php file for the site and temporarily store it
+# in /tmp/
+/tmp/wsuwp-temp-wp-config.php:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/wordpress/wsuwp-temp-wp-config.php.jinja
+    - user:     www-data
+    - group:    www-data
+    - mode:     644
+    - require:
+      - user: www-data
+      - group: www-data
+    - require_in:
+      - cmd: wsuwp-copy-temp
+
 # Copy over a temporary wp-config.php to use during installation of WordPress.
 wsuwp-copy-temp:
   cmd.run:
-    - name: cp /var/www/temp-config.php /var/www/wp-config.php
+    - name: cp /tmp/wsuwp-temp-wp-config.php /var/www/wp-config.php
     - unless: test -f /var/www/wp-config.php
     - require_in: wsuwp-install-network
 
