@@ -74,6 +74,7 @@ wsuwp-prep-install:
     - user:     www-data
     - group:    www-data
     - mode:     644
+    - unless: test -f /var/www/wp-config.php
     - require:
       - user: www-data
       - group: www-data
