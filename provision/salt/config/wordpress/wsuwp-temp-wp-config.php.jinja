@@ -1,0 +1,77 @@
+<?php
+/**
+ * The generated WordPress configuration for the WSUWP Platform
+ */
+
+// If this is a wp-cli request, manually set the HTTP host
+if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
+	$_SERVER['HTTP_HOST'] = '{{ pillar['wsuwp-config']['primary_host'] }}';
+}
+
+// The database name, username, password, and host for MySQL
+define( 'DB_NAME',     '{{ pillar['wsuwp-config']['database'] }}' );
+define( 'DB_USER',     '{{ pillar['wsuwp-config']['db_user']  }}' );
+define( 'DB_PASSWORD', '{{ pillar['wsuwp-config']['db_pass']  }}' );
+define( 'DB_HOST',     '{{ pillar['wsuwp-config']['db_host']  }}' );
+
+// URLs
+define( 'WP_HOME',        'http://{{ pillar['wsuwp-config']['primary_host'] }}' );
+define( 'WP_SITEURL',     'http://{{ pillar['wsuwp-config']['primary_host'] }}' );
+
+// Load wp-content from parent directory
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
+
+$batcache = false;
+
+/** Database Charset to use in creating database tables. */
+define('DB_CHARSET', 'utf8');
+/** The Database Collate type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+/**#@+
+ * Authentication Unique Keys and Salts.
+ *
+ * Change these to different unique phrases!
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
+ * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY',         'w');
+define('SECURE_AUTH_KEY',  'w');
+define('LOGGED_IN_KEY',    'w');
+define('NONCE_KEY',        'w');
+define('AUTH_SALT',        'w');
+define('SECURE_AUTH_SALT', 'w');
+define('LOGGED_IN_SALT',   'w');
+define('NONCE_SALT',       'w');
+/**#@-*/
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each a unique
+ * prefix. Only numbers, letters, and underscores please!
+ */
+$table_prefix  = 'wp_';
+/**
+ * WordPress Localized Language, defaults to English.
+ *
+ * Change this to localize WordPress. A corresponding MO file for the chosen
+ * language must be installed to wp-content/languages. For example, install
+ * de_DE.mo to wp-content/languages and set WPLANG to 'de_DE' to enable German
+ * language support.
+ */
+define('WPLANG', '');
+/**
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
+ */
+if ( !defined( 'WP_DEBUG' ) )
+	define('WP_DEBUG', false);
+if ( !defined( 'SAVEQUERIES' ) )
+	define('SAVEQUERIES', false);
+/* That's all, stop editing! Happy blogging. */
+/** Sets up WordPress vars and included files. */
+require_once(ABSPATH . 'wp-settings.php');
