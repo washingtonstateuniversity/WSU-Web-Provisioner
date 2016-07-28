@@ -84,7 +84,7 @@ wsuwp-prep-install:
 # Copy over a temporary wp-config.php to use during installation of WordPress.
 wsuwp-copy-temp:
   cmd.run:
-    - name: cp /tmp/wsuwp-temp-wp-config.php /var/www/wp-config.php
+    - name: cp /tmp/wsuwp-temp-wp-config.php /var/www/wp-config.php && rm /tmp/wsuwp-temp-wp-config.php
     - unless: test -f /var/www/wp-config.php
     - require_in: wsuwp-install-network
 
@@ -161,7 +161,7 @@ spine-local-dev:
 # allows us to avoid some permissions issues in a local environment.
 wsuwp-copy-config:
   cmd.run:
-    - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php
+    - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php && rm /tmp/wsuwp-wp-config.php
 
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
