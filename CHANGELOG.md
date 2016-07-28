@@ -12,11 +12,11 @@
 ### Deployments
 
 * uc-proxy1:
-* wsusearch-prod-01:
-* wsuwp-indie-prod-01:
+* wsusearch-prod-01: July 27, 2016
+* wsuwp-indie-prod-01: July 27, 2016
 * wsuwp-prod-01:
-* wsuwp-prod-02:
-* wsu-lists:
+* wsuwp-prod-02: July 27, 2016
+* wsu-lists: July 27, 2016
 
 ## 1.11.1 (June 13, 2016)
 
