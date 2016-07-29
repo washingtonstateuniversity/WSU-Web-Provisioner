@@ -6,8 +6,9 @@
 * Nginx: Add mitigation for httpoxy vulnerability.
 * Nginx: Start tracking fastcgi_params.
 * Nginx: Add `REQUEST_SCHEME` to fastcgi_params.
-* WP-CLI: Always update WP-CLI to nightly.
+* PHP List: Provision config to `config-custom.php` to avoid overwriting.
 * Provision: Upgrade uc-proxy1 to a WSUWP dev box.
+* WP-CLI: Always update WP-CLI to nightly.
 
 ### Deployments
 
@@ -16,7 +17,7 @@
 * wsuwp-indie-prod-01: July 27, 2016
 * wsuwp-prod-01:
 * wsuwp-prod-02: July 27, 2016
-* wsu-lists: July 27, 2016
+* wsu-lists: July 29, 2016
 
 ## 1.11.1 (June 13, 2016)
 
