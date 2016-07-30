@@ -2,6 +2,7 @@
 
 ## 1.11.2 (TBD)
 
+* MySQL: Add `innodb_buffer_pool_instances` to configuration.
 * Nginx: Update Nginx 1.11.3
 * Nginx: Add mitigation for httpoxy vulnerability.
 * Nginx: Start tracking fastcgi_params.
@@ -12,10 +13,10 @@
 
 ### Deployments
 
-* uc-proxy1:
+* uc-proxy1: July 28, 2016
 * wsusearch-prod-01: July 27, 2016
 * wsuwp-indie-prod-01: July 27, 2016
-* wsuwp-prod-01:
+* wsuwp-prod-01: July 30, 2016
 * wsuwp-prod-02: July 27, 2016
 * wsu-lists: July 29, 2016
 
