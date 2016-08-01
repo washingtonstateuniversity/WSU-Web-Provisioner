@@ -1,6 +1,6 @@
 # WSU Web Provisioner CHANGELOG
 
-## 1.11.2 (TBD)
+## 1.11.2 (July 30, 2016)
 
 * MySQL: Add `innodb_buffer_pool_instances` to configuration.
 * Nginx: Update Nginx 1.11.3

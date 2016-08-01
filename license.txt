@@ -1,6 +1,6 @@
 WSU Web Provisioner
 
-Copyright 2013-2015 by the contributors
+Copyright 2013-2016 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 This program incorporates work covered by the following copyright and
 permission notices:
 
-  bootstrap-salt.sh is (c) 2012-2013 by the SaltStack Team
+  bootstrap-salt.sh is (c) 2012-2016 by the SaltStack Team
   bootstrap-salt.sh is released under the Apache 2.0 license
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -369,4 +369,4 @@ WRITTEN OFFER
 The source code for any program binaries or compressed scripts that are
 included with WSU Web Provisioner can be freely obtained at the following URL:
 
-	http://github.com/washingtonstateuniversity/WSU-Web-Provisioner
+	https://github.com/washingtonstateuniversity/WSU-Web-Provisioner
