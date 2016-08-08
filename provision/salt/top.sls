@@ -31,7 +31,6 @@ base:
     - wsuwp
   'wsusearch*':
     - search
-    - dbserver
   'wsu-lists*':
     - application-php
     - dbserver
