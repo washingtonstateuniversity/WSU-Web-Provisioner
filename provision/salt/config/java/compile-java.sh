@@ -1,6 +1,7 @@
 #!/bin/bash
-http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz
-curl -L --cookie "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz -o jdk-8-linux-x64.tar.gz
+#
+# Install Java SDK
+curl -L --cookie "oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz -o jdk-8-linux-x64.tar.gz
 tar -xvf jdk-8-linux-x64.tar.gz
 
 sudo mkdir -p /usr/lib/jvm
