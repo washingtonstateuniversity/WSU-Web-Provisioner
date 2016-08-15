@@ -78,15 +78,14 @@ wsuwp-prep-install:
     - require:
       - user: www-data
       - group: www-data
-    - require_in:
-      - cmd: wsuwp-copy-temp
 
 # Copy over a temporary wp-config.php to use during installation of WordPress.
 wsuwp-copy-temp:
   cmd.run:
     - name: cp /tmp/wsuwp-temp-wp-config.php /var/www/wp-config.php && rm /tmp/wsuwp-temp-wp-config.php
     - unless: test -f /var/www/wp-config.php
-    - require_in: wsuwp-install-network
+    - require:
+      - /tmp/wsuwp-temp-wp-config.php
 
 # Install our primary WordPress network with a default admin and password for the
 # development environment.
@@ -98,6 +97,7 @@ wsuwp-install-network:
       - cmd: wp-cli
       - service: mysqld
       - service: php-fpm
+      - wsuwp-copy-temp
 
 # Setup a wp-config.php file for the site and temporarily store it
 # in /tmp/
@@ -108,12 +108,6 @@ wsuwp-install-network:
     - user:     www-data
     - group:    www-data
     - mode:     644
-    - require:
-      - cmd: wsuwp-install-network
-      - user: www-data
-      - group: www-data
-    - require_in:
-      - cmd: wsuwp-copy-config
 
 # Manage a script to checkout the Spine.
 /root/clone-spine.sh:
@@ -162,6 +156,9 @@ spine-local-dev:
 wsuwp-copy-config:
   cmd.run:
     - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php && rm /tmp/wsuwp-wp-config.php
+    - require:
+      - /tmp/wsuwp-wp-config.php
+      - wsuwp-install-network
 
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
