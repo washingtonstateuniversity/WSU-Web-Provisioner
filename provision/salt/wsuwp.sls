@@ -156,9 +156,9 @@ spine-local-dev:
 wsuwp-copy-config:
   cmd.run:
     - name: cp /tmp/wsuwp-wp-config.php /var/www/wp-config.php && rm /tmp/wsuwp-wp-config.php
-  require:
-    - /tmp/wsuwp-wp-config.php
-    - wsuwp-install-network
+    - require:
+      - /tmp/wsuwp-wp-config.php
+      - wsuwp-install-network
 
 # Enable the parent theme on all network sites.
 enable-wsu-spine-theme:
