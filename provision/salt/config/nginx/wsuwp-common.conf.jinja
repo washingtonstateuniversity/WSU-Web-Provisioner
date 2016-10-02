@@ -6,6 +6,12 @@ location / {
     try_files $uri $uri/ /index.php$is_args$args;
 }
 
+location /favicon.ico {
+    access_log off;
+    log_not_found off;
+    return 404;
+}
+
 # Deny direct access to PHP files in wp-includes and wp-admin/includes.
 location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
     access_log off;
