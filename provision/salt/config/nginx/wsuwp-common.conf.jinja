@@ -6,6 +6,12 @@ location / {
     try_files $uri $uri/ /index.php$is_args$args;
 }
 
+location /favicon.ico {
+    access_log off;
+    log_not_found off;
+    return 404;
+}
+
 # Deny direct access to PHP files in wp-includes and wp-admin/includes.
 location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
     access_log off;
@@ -91,8 +97,8 @@ location ~ \.php$ {
     # Set slightly different headers for oEmbed requests
     if ( $embed_request ) {
             add_header X-Frame-Option ALLOWALL;
-            add_header X-Content-Type-Options nosniff;
-            add_header X-XSS-Protection "1; mode=block";
+            add_header X-Content-Type-Options nosniff always;
+            add_header X-XSS-Protection "1; mode=block" always;
     }
 
     # Include the common request limiting
