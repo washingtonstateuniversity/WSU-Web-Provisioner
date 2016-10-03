@@ -162,15 +162,15 @@ http {
     #
     # Prevents IE and Google Chrome from MIME-sniffing a response away from the declared
     # content-type.
-    add_header X-Content-Type-Options nosniff;
+    add_header X-Content-Type-Options nosniff always;
 
     # Enable the XSS filter built into modern web browsers. This will re-enable
     # the XSS filter if a user has disabled it.
-    add_header X-XSS-Protection "1; mode=block";
+    add_header X-XSS-Protection "1; mode=block" always;
 
     # Ensure that content served from this server is not embedded in other pages
     # unless they are of the same origin.
-    add_header X-Frame-Options SAMEORIGIN;
+    add_header X-Frame-Options SAMEORIGIN always;
 
     map $request_method $test_cache_header {
         POST skip;
