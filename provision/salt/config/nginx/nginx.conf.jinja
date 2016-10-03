@@ -33,18 +33,6 @@ http {
     include      /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    # DEPRECATED - This will be removed.
-    # Define a custom log format for tracking TLS information.
-    log_format custom_ssl '$remote_addr [$time_local] '
-                          '$scheme $status $ssl_session_reused $ssl_protocol $ssl_cipher $http_host '
-                          '"$http_user_agent"';
-
-    # DEPRECATED - This will be removed.
-    # Define a custom log format to track the request response times.
-    log_format timed_combined '$remote_addr [$time_local] '
-                              '$request_time $upstream_response_time $pipe '
-                              '$status $body_bytes_sent $scheme $http_host "$request"';
-
     # Define a custom log formatted as a JSON object. This log contains data
     # not found in the standard access log, including TLS and timing information.
     log_format wsu_combined_json '{ "@timestamp": "$time_iso8601",'
