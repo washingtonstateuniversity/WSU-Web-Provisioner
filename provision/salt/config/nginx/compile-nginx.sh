@@ -47,7 +47,6 @@ cd /tmp/nginx-1.11.5
 --with-http_ssl_module \
 --with-http_stub_status_module \
 --with-http_sub_module \
---with-ipv6 \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-OpenSSL_1_0_2j
