@@ -14,9 +14,9 @@ tar -xzvf openssl-1.0.2j.tar.gz
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.11.4.tar.gz
-tar zxf nginx-1.11.4.tar.gz
-cd /tmp/nginx-1.11.4
+wget http://nginx.org/download/nginx-1.11.5.tar.gz
+tar zxf nginx-1.11.5.tar.gz
+cd /tmp/nginx-1.11.5
 
 ./configure \
 --user=www-data \
@@ -47,11 +47,10 @@ cd /tmp/nginx-1.11.4
 --with-http_ssl_module \
 --with-http_stub_status_module \
 --with-http_sub_module \
---with-ipv6 \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-OpenSSL_1_0_2j
 
-cd /tmp/nginx-1.11.4
+cd /tmp/nginx-1.11.5
 make
 make install
