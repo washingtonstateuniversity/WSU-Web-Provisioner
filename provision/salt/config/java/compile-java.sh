@@ -5,7 +5,9 @@ curl -L --cookie "oraclelicense=accept-securebackup-cookie" http://download.orac
 tar -xvf jdk-8-linux-x64.tar.gz
 
 sudo mkdir -p /usr/lib/jvm
-sudo mv ./jdk1.8.* /usr/lib/jvm/jdk1.8.0
+rm -rf /usr/lib/jvm/jdk1.8.0-old
+mv /usr/lib/jvm/jdk1.8.0 /usr/lib/jvm/jdk1.8.0-old
+sudo mv ./jdk1.8.0_101 /usr/lib/jvm/jdk1.8.0
 
 sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0/bin/java" 1
 sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0/bin/javac" 1
