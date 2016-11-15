@@ -91,7 +91,7 @@ location ~ /embed/ {
 }
 
 location ~ \.php$ {
-    client_max_body_size 150M;
+    client_max_body_size {{ salt['pillar.get']('php-config:post_max_size', '150M') }};
     try_files      $uri =404;
 
     # Set slightly different headers for oEmbed requests
