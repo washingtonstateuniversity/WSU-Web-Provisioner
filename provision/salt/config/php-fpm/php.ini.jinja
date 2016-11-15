@@ -156,7 +156,7 @@ enable_dl = Off
 file_uploads = On
 
 ; Maximum allowed size for uploaded files.
-upload_max_filesize = {{ salt['pillar.get']('php-config:upload_max_filesize', '150M') }}
+upload_max_filesize = {{ salt['pillar.get']('php-config:post_max_size', '150M') }}
 
 ; Maximum number of files that can be uploaded via a single request
 max_file_uploads = 20
