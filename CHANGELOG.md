@@ -1,5 +1,37 @@
 # WSU Web Provisioner CHANGELOG
 
+## 1.11.4 (November 17, 2016)
+
+* Elasticsearch: Update local YUM config for ES 2.x.
+* Java: Update JDK8u101 on WSUSEARCH.
+* Nginx: Update Nginx to 1.11.5.
+* Nginx: Always add certain headers, even when an error response.
+* Nginx: Force a trailing slash on wp-admin URLs
+* Nginx: Avoid logging missing favicon requests
+* Nginx: Adjust rate limit config to match production value
+* Nginx: Allow 200M uploads via main nginx configuration
+* Nginx: Remove deprecated log formats, now unused.
+* Nginx: Avoid unnecessary logs on the default-wsuwp nginx fallback
+* Nginx: Remove unneeded with-ipv6 config for nginx build
+* Nginx: Use the same post_max_size config for php-fpm and nginx
+* OpenSSL: Compile Nginx with 1.0.2j.
+* PHP: Set the default max PHP memory usage to 256M
+* Salt: Update Salt Bootstrap 2016.10.25
+* WSUSEARCH no longer requires MySQL
+
+### Deployments
+
+* uc-proxy1: November 14, 2016 (reboot)
+* wsusearch-prod-01: November 14, 2016 (reboot)
+* wsuwp-indie-prod-01: November 17, 2016 (reboot)
+* wsuwp-prod-01:
+* wsuwp-prod-02: November 14, 2016 (reboot)
+* wsu-lists: November 17, 2016 (reboot)
+
+## 1.11.3 (October 2, 2016)
+
+_Changes through October 2 were deployed to all servers but wsu-lists on this day, but no official release was tagged._
+
 ## 1.11.2 (July 30, 2016)
 
 * MySQL: Add `innodb_buffer_pool_instances` to configuration.
