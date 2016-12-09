@@ -1,6 +1,6 @@
 # WSU Web Provisioner CHANGELOG
 
-## 1.11.4 (TBD)
+## 1.11.4 (November 17, 2016)
 
 * Elasticsearch: Update local YUM config for ES 2.x.
 * Java: Update JDK8u101 on WSUSEARCH.
