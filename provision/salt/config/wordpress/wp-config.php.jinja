@@ -32,11 +32,17 @@ define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 
 {% if pillar['network']['location'] == 'local' %}
 define( 'WP_DEBUG',     true  );
-define( 'SAVEQUERIES',  true  );
 define( 'SCRIPT_DEBUG', true  );
+
+if ( ! defined( 'SAVEQUERIES' ) ) {
+	define( 'SAVEQUERIES',  true  );
+}
 {% else %}
 define( 'WP_DEBUG',    false );
-define( 'SAVEQUERIES', false );
+
+if ( ! defined( 'SAVEQUERIES' ) ) {
+	define( 'SAVEQUERIES',  false );
+}
 {% endif %}
 
 {% if 'cache_key' in site_data %}
