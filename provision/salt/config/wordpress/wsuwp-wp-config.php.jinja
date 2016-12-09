@@ -66,6 +66,16 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 define( 'WP_DEFAULT_THEME', '{{ pillar['wsuwp-config']['default_theme'] }}' );
 {% endif %}
 
+{% if 's3_uploads' in pillar['wsuwp-config'] %}
+define( 'S3_UPLOADS_HTTP_CACHE_CONTROL', 30 * 24 * 60 * 60 );
+define( 'S3_UPLOADS_HTTP_EXPIRES', gmdate( 'D, d M Y H:i:s', time() + (10 * 365 * 24 * 60 * 60) ) .' GMT' );
+define( 'S3_UPLOADS_AUTOENABLE', false );
+define( 'S3_UPLOADS_BUCKET', '{{ pillar['wsuwp-config']['s3_uploads_bucket'] }}' );
+define( 'S3_UPLOADS_KEY', '{{ pillar['wsuwp-config']['s3_uploads_key'] }}' );
+define( 'S3_UPLOADS_SECRET', '{{ pillar['wsuwp-config']['s3_uploads_secret'] }}' );
+define( 'S3_UPLOADS_REGION', '{{ pillar['wsuwp-config']['s3_uploads_region'] }}' );
+{% endif %}
+
 // Multisite / Multinetwork related config
 define( 'MULTISITE',         true );
 define( 'SUNRISE',           'on' );
