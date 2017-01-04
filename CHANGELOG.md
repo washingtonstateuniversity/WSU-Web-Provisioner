@@ -1,5 +1,19 @@
 # WSU Web Provisioner CHANGELOG
 
+## 1.11.5 (TBD)
+
+* Nginx: Update Nginx to 1.11.8.
+* WordPress: Allow WP-CLI to predefine SAVEQUERIES.
+* WordPress: Add JINJA template for S3 Uploads configuration.
+
+### Deployments
+
+* wsusearch-prod-01:
+* wsuwp-indie-prod-01:
+* wsuwp-prod-01:
+* wsuwp-prod-02:
+* wsu-lists:
+
 ## 1.11.4 (November 17, 2016)
 
 * Elasticsearch: Update local YUM config for ES 2.x.
