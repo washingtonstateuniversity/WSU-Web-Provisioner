@@ -8,7 +8,7 @@
 
 ### Deployments
 
-* wsusearch-prod-01:
+* wsusearch-prod-01: January 3, 2017
 * wsuwp-indie-prod-01:
 * wsuwp-prod-01:
 * wsuwp-prod-02:
