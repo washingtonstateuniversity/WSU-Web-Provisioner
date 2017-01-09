@@ -28,7 +28,7 @@
     - contents_pillar: network:nameservers
     - require_in:
       - pkgrepo: remi-repo
-      - pkgrepo: remi-php56-repo
+      - pkgrepo: remi-php70-repo
       - pkgrepo: centos-plus-repo
 
 # Use packages from the Remi Repository rather than some of the older
@@ -39,14 +39,18 @@ remi-repo:
     - baseurl: http://rpms.famillecollet.com/enterprise/6/remi/x86_64/
     - gpgcheck: 0
     - require_in:
-      - pkgrepo: remi-php56-repo
+      - pkgrepo: remi-php70-repo
 
-# Remi has a repository specifically setup for PHP 5.6. This continues
-# to reply on the standard Remi repository for some packages.
+# Remove the repository used to install PHP 5.6 packages.
 remi-php56-repo:
+  pkgrepo.absent:
+    - name: remi-php56-repo
+
+# Add the repository used to install PHP 7.0 packages.
+remi-php70-repo:
   pkgrepo.managed:
-    - humanname: Remi PHP 5.6 Repository
-    - baseurl: http://rpms.famillecollet.com/enterprise/6/php56/x86_64/
+    - humanname: Remi PHP 7.0 Repository
+    - baseurl: http://rpms.famillecollet.com/enterprise/6/php70/x86_64/
     - gpgcheck: 0
 
 # MySQL maintains a repository for MySQL 5.6. The default CentOS and Remi
