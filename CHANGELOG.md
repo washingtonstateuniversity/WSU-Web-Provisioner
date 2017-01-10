@@ -12,10 +12,10 @@
 ### Deployments
 
 * wsusearch-prod-01: January 9, 2017 (reboot)
-* wsuwp-indie-prod-01:
-* wsuwp-prod-01:
+* wsuwp-indie-prod-01: January 9, 2017 (reboot)
+* wsuwp-prod-01: January 9, 2017 (reboot)
 * wsuwp-prod-02: January 9, 2017 (reboot)
-* wsu-lists:
+* wsu-lists: January 9, 2017 (reboot)
 
 ## 1.11.4 (November 17, 2016)
 
@@ -41,7 +41,7 @@
 * uc-proxy1: November 14, 2016 (reboot)
 * wsusearch-prod-01: November 14, 2016 (reboot)
 * wsuwp-indie-prod-01: November 17, 2016 (reboot)
-* wsuwp-prod-01:
+* wsuwp-prod-01: N/A
 * wsuwp-prod-02: November 14, 2016 (reboot)
 * wsu-lists: November 17, 2016 (reboot)
 
