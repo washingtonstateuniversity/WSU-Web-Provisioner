@@ -194,17 +194,6 @@ nginx-dhparam:
     - require:
       - cmd:    nginx
 
-# Add a common configuration for location level request limiting
-# using the zone defined in wsu-nginx-limit-req.conf.
-/etc/nginx/wsuwp-common-limit.conf:
-  file.managed:
-    - source:   salt://config/nginx/wsuwp-common-limit.conf
-    - user:     root
-    - group:    root
-    - mode:     644
-    - require:
-      - cmd:    nginx
-
 /etc/nginx/mime.types:
   file.managed:
     - source: salt://config/nginx/mime.types
