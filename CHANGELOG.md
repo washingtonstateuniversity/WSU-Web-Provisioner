@@ -1,17 +1,20 @@
 # WSU Web Provisioner CHANGELOG
 
-## 1.11.5 (TBD)
+## 1.11.5 (January 9, 2017)
 
 * Nginx: Update Nginx to 1.11.8.
+* Nginx: Improve default unknown hosts configuration.
+* Nginx: Reorganize common location block for PHP requests.
+* PHP: Upgrade to PHP 7.0.
 * WordPress: Allow WP-CLI to predefine SAVEQUERIES.
 * WordPress: Add JINJA template for S3 Uploads configuration.
 
 ### Deployments
 
-* wsusearch-prod-01: January 3, 2017
+* wsusearch-prod-01: January 9, 2017 (reboot)
 * wsuwp-indie-prod-01:
 * wsuwp-prod-01:
-* wsuwp-prod-02:
+* wsuwp-prod-02: January 9, 2017 (reboot)
 * wsu-lists:
 
 ## 1.11.4 (November 17, 2016)
