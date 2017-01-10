@@ -172,6 +172,17 @@ nginx-dhparam:
     - require:
       - cmd:    nginx
 
+# Add a common location block for handling PHP requests.
+/etc/nginx/wsuwp-common-location-php.conf:
+  file.managed:
+    - template: jinja
+    - source:   salt://config/nginx/wsuwp-common-location-php.conf.jinja
+    - user:     root
+    - group:    root
+    - mode:     644
+    - require:
+      - cmd:    nginx
+
 # Add a single file to manage request limiting configuration for
 # the nginx http block.
 /etc/nginx/wsu-nginx-limit-req.conf:
