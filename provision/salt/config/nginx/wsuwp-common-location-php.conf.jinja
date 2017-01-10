@@ -2,13 +2,13 @@
 
 location ~ \.php$ {
     client_max_body_size {{ salt['pillar.get']('php-config:post_max_size', '150M') }};
-    try_files      $uri =404;
+    try_files $uri =404;
 
     # Set slightly different headers for oEmbed requests
     if ( $embed_request ) {
-            add_header X-Frame-Option ALLOWALL;
-            add_header X-Content-Type-Options nosniff always;
-            add_header X-XSS-Protection "1; mode=block" always;
+		add_header X-Frame-Option ALLOWALL;
+		add_header X-Content-Type-Options nosniff always;
+		add_header X-XSS-Protection "1; mode=block" always;
     }
 
 	# Return a 429 "Too Many Requests" error when an IP is rate limited.
@@ -19,7 +19,7 @@ location ~ \.php$ {
 	limit_req_status     429;
 
     # Include the fastcgi_params defaults provided by nginx
-    include        /etc/nginx/fastcgi_params;
+    include /etc/nginx/fastcgi_params;
 
     {% if 'remote' == salt['pillar.get']('network:location', 'local') %}
     fastcgi_read_timeout 60s;
@@ -33,8 +33,8 @@ location ~ \.php$ {
     fastcgi_param   SCRIPT_FILENAME         $document_root$fastcgi_script_name;
 
     # Use the upstream for php5-fpm that we defined in nginx.conf
-    fastcgi_pass   php;
+    fastcgi_pass php;
 
     # And get to serving the file!
-    fastcgi_index  index.php;
+    fastcgi_index index.php;
 }
