@@ -18,3 +18,28 @@ server {
     add_header 'Content-Type' 'text/plain charset=UTF-8' always;
     return 404 'Address not available';
 }
+
+# Drop requests for unknown hosts over HTTPS
+#
+# If no default server is defined, nginx will use the first found server.
+# To prevent host header attacks, or other potential problems when an unknown
+# servername is used in a request, it's recommended to drop the request
+# returning 444 "no response".
+#
+# This is defined in default-wsuwp because we can not guarantee that the cert is
+# available on other servers.
+#
+# Via https://github.com/h5bp/server-configs-nginx/blob/master/sites-available/no-default
+server {
+	listen [::]:443 ssl default_server;
+	listen 443 ssl default_server;
+	server_name _;
+
+	# This cert will not be valid for any of the requested sites.
+	ssl_certificate     /etc/nginx/ssl/default.wp.wsu.edu.cer;
+	ssl_certificate_key /etc/nginx/ssl/default.wp.wsu.edu.key;
+
+	include /etc/nginx/wsuwp-ssl-common.conf;
+
+	return 444;
+}
