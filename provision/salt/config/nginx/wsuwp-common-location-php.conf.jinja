@@ -11,8 +11,12 @@ location ~ \.php$ {
             add_header X-XSS-Protection "1; mode=block" always;
     }
 
-    # Include the common request limiting
-    include /etc/nginx/wsuwp-common-limit.conf;
+	# Return a 429 "Too Many Requests" error when an IP is rate limited.
+	#
+	# Additional rate limiting configuration is in nginx.conf.
+	limit_req            zone=flood burst=3 nodelay;
+	limit_req_log_level  warn;
+	limit_req_status     429;
 
     # Include the fastcgi_params defaults provided by nginx
     include        /etc/nginx/fastcgi_params;
