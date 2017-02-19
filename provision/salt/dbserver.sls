@@ -62,12 +62,19 @@ mysqld-init:
     - require:
       - pkg: mysql
 
+# Start MySQL manually rather than with Salt's service-running config.
+#
+# In a previous iteration, using the built in service-running config caused
+# an issue where provisioning would hang indefinitely because Salt does not
+# receive any kind of callback telling it to move on.
+#
+# See https://github.com/saltstack/salt/issues/33442
 mysql-start:
-  service.running:
-    - name: mysqld
-    - watch:
-      - file: /etc/my.cnf
+  cmd.run:
+    - name: service mysqld start | cat
+    - cwd: /
     - require:
+      - pkg: mysql
       - file: /etc/my.cnf
 
 set_localhost_root_password:
