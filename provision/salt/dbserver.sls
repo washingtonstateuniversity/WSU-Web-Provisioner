@@ -71,7 +71,7 @@ mysqld-init:
 # See https://github.com/saltstack/salt/issues/33442
 mysql-start:
   cmd.run:
-    - name: service mysqld start | cat
+    - name: service mysqld start 2>1 >(cat)
     - cwd: /
     - require:
       - pkg: mysql
