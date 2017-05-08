@@ -1,5 +1,22 @@
 # WSU Web Provisioner CHANGELOG
 
+## 1.11.6 (TBD)
+
+* Nginx: Update Nginx to 1.13.0.
+* OpenSSL: Update OpenSSL to 1.0.2k.
+* Salt: Update bootstrap script to 2017.01.10.
+
+### Deployments
+
+* wsusearch-prod-01:
+* wsuwp-indie-prod-01:
+* wsuwp-prod-01:
+* wsuwp-prod-02:
+* wsu-lists:
+* pressbooks-ec2-web:
+* wsm-ec2-web:
+* puyallup-ec2-web:
+
 ## 1.11.5 (January 9, 2017)
 
 * Nginx: Update Nginx to 1.11.8.
