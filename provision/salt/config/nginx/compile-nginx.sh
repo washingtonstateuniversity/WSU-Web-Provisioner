@@ -6,8 +6,8 @@ rm -fr /tmp/openssl*
 
 # Compile against OpenSSL to enable NPN.
 cd /tmp/
-wget https://github.com/openssl/openssl/archive/OpenSSL_1_0_2j.tar.gz -O openssl-1.0.2j.tar.gz
-tar -xzvf openssl-1.0.2j.tar.gz
+wget https://github.com/openssl/openssl/archive/OpenSSL_1_0_2k.tar.gz -O openssl-1.0.2k.tar.gz
+tar -xzvf openssl-1.0.2k.tar.gz
 
 # Get the Nginx source.
 #
@@ -49,7 +49,7 @@ cd /tmp/nginx-1.13.0
 --with-http_sub_module \
 --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
---with-openssl=/tmp/openssl-OpenSSL_1_0_2j
+--with-openssl=/tmp/openssl-OpenSSL_1_0_2k
 
 cd /tmp/nginx-1.13.0
 make
