@@ -194,6 +194,17 @@ nginx-dhparam:
     - require:
       - cmd:    nginx
 
+# Add a single file that uses the pre-defined limit zones and is
+# included in the PHP location block.
+/etc/nginx/wsuwp-common-limit.conf:
+  file.managed:
+    - source:   salt://config/nginx/wsuwp-common-limit.conf
+    - user:     root
+    - group:    root
+    - mode:     644
+    - require:
+      - cmd:    nginx
+
 /etc/nginx/mime.types:
   file.managed:
     - source: salt://config/nginx/mime.types
