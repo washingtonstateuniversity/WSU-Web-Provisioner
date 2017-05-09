@@ -4,9 +4,22 @@ location ~ \.php$ {
 	client_max_body_size {{ salt['pillar.get']('php-config:post_max_size', '150M') }};
 	try_files $uri =404;
 
+	# Per https://www.owasp.org/index.php/List_of_useful_HTTP_headers
+	#
+	# Prevents IE and Google Chrome from MIME-sniffing a response away from the declared
+	# content-type.
+	add_header X-Content-Type-Options nosniff always;
+
+	# Enable the XSS filter built into modern web browsers. This will re-enable
+	# the XSS filter if a user has disabled it.
+	add_header X-XSS-Protection "1; mode=block" always;
+
+	# Prevent this page from being loaded in an iframe.
+	add_header X-Frame-Options DENY;
+
 	# Set slightly different headers for oEmbed requests
 	if ( $embed_request ) {
-		add_header X-Frame-Option ALLOWALL;
+		add_header X-Frame-Options ALLOWALL;
 		add_header X-Content-Type-Options nosniff always;
 		add_header X-XSS-Protection "1; mode=block" always;
 	}
