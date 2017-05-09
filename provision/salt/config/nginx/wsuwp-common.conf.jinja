@@ -2,8 +2,8 @@
 # on the WSUWP Platform after the SSL common has been included.
 
 location / {
-    index index.php;
-    try_files $uri $uri/ /index.php$is_args$args;
+	index index.php;
+	try_files $uri $uri/ /index.php$is_args$args;
 }
 
 location = /favicon.ico {
@@ -13,9 +13,9 @@ location = /favicon.ico {
 }
 
 location ~ ^/apple-touch-icon(.*)\.png$ {
-        access_log off;
-        log_not_found off;
-        return 404;
+	access_log off;
+	log_not_found off;
+	return 404;
 }
 
 # Deny direct access to PHP files in wp-includes and wp-admin/includes.
@@ -27,37 +27,37 @@ location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
 
 # Deny direct access to PHP files in the WordPress root.
 location ~ /(xmlrpc|wp-settings|wp-load|wp-mail|wp-config-sample|wp-blog-header).php$ {
-    access_log off;
-    log_not_found off;
-    deny all;
+	access_log off;
+	log_not_found off;
+	deny all;
 }
 
 # Requests to WordPress are made in /wordpress/, which is at the same
 # level as /wp-content/. To properly handle these, we provide an alias
 # to move up a directory and find static files.
 location ~ ^/wp-content/(.*)$ {
-    expires 7d;
-    alias /var/www/wp-content/$1;
+	expires 7d;
+	alias /var/www/wp-content/$1;
 }
 
 # Match any requests created by the WP Document Revisions plugin, which
 # masks a full download URL with a URL processed by WordPress behind
 # existing authentication.
 location ~ ^/([_0-9a-zA-Z-]+/)?documents/(.*)$ {
-    index index.php;
-    try_files $uri /index.php$is_args$args;
+	index index.php;
+	try_files $uri /index.php$is_args$args;
 }
 
 # Handle all static assets by serving the file directly. Add directives
 # to send expires headers and turn off 404 error logging.
 location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|exe|mp3|mp4|pdf|ai|psd|eps|ppt|dmg|csv|key|numbers|pages)$ {
-    {% if 'remote' == salt['pillar.get']('network:location', 'local') %}
-    expires 7d;
-    {% else %}
-    expires off;
-    {% endif %}
+	{% if 'remote' == salt['pillar.get']('network:location', 'local') %}
+	expires 7d;
+	{% else %}
+	expires off;
+	{% endif %}
 
-    log_not_found off;
+	log_not_found off;
 }
 
 # Prevent hidden files (beginning with a period) from being served.
@@ -66,9 +66,9 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|xls|doc|zip|exe|mp3|mp4|pdf|ai|psd|ep
 #   - https://www.mnot.net/blog/2010/04/07/well-known
 #   - https://tools.ietf.org/html/rfc5785
 location ~* /\.(?!well-known\/) {
-    access_log off;
-    log_not_found off;
-    deny all;
+	access_log off;
+	log_not_found off;
+	deny all;
 }
 
 # Via https://github.com/h5bp/server-configs-nginx/
@@ -76,24 +76,24 @@ location ~* /\.(?!well-known\/) {
 # Prevent a variety of file extensions associated with backups and configs
 # from being served.
 location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|sh|sql|sw[op])|~)$ {
-    access_log off;
-    log_not_found off;
-    deny all;
+	access_log off;
+	log_not_found off;
+	deny all;
 }
 
 # Rewrite multisite in a subdirectory '.../wp-.*' and '.../*.php'.
 if (!-e $request_filename) {
-    rewrite /wp-admin$ $scheme://$host$uri/ permanent;
-    rewrite ^/[_0-9a-zA-Z-]+(/wp-.*) $1 last;
-    rewrite ^/[_0-9a-zA-Z-]+.*(/wp-admin/.*\.php)$ $1 last;
-    rewrite ^/[_0-9a-zA-Z-]+(/.*\.php)$ $1 last;
+	rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+	rewrite ^/[_0-9a-zA-Z-]+(/wp-.*) $1 last;
+	rewrite ^/[_0-9a-zA-Z-]+.*(/wp-admin/.*\.php)$ $1 last;
+	rewrite ^/[_0-9a-zA-Z-]+(/.*\.php)$ $1 last;
 }
 
 # We'll want to set a different X-Frame-Option header on posts which
 # are embedded in other sites.
 location ~ /embed/ {
-    set $embed_request 1;
-    try_files $uri $uri/ /index.php$is_args$args;
+	set $embed_request 1;
+	try_files $uri $uri/ /index.php$is_args$args;
 }
 
 # Include the common `location ~ \.php` block.
