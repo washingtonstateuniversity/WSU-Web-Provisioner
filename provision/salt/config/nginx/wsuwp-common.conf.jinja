@@ -18,19 +18,6 @@ location ~ ^/apple-touch-icon(.*)\.png$ {
 	return 404;
 }
 
-# Log traffic from the F5 in a different location.
-location /lb {
-	error_log off;
-	access_log /var/log/nginx/lb-access.log;
-	return 404;
-}
-
-location /lbt {
-	error_log off;
-	access_log /var/log/nginx/lb-access.log;
-	return 404;
-}
-
 # Deny direct access to PHP files in wp-includes and wp-admin/includes.
 location ~ /(wp-includes|wp-admin\/includes)/(.+)\.php$ {
 	access_log off;

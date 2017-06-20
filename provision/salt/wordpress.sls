@@ -205,10 +205,10 @@ wp-cli:
     - require:
       - pkg: php-fpm
 
-# Always update to the latest nightly version of WP-CLI
+# Always update to the latest version of WP-CLI
 wp-cli-update:
   cmd.run:
-    - name: wp --allow-root cli update --nightly --yes
+    - name: wp --allow-root cli update --yes
     - cwd: /tmp
     - require:
       - cmd: wp-cli
