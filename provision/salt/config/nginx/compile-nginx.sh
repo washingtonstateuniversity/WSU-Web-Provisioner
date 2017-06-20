@@ -14,9 +14,9 @@ tar -xzvf openssl-1.0.2k.tar.gz
 # Best to get the latest mainline release. Of course, your mileage may
 # vary depending on future changes
 cd /tmp/
-wget http://nginx.org/download/nginx-1.13.0.tar.gz
-tar zxf nginx-1.13.0.tar.gz
-cd /tmp/nginx-1.13.0
+wget http://nginx.org/download/nginx-1.13.1.tar.gz
+tar zxf nginx-1.13.1.tar.gz
+cd /tmp/nginx-1.13.1
 
 ./configure \
 --user=www-data \
@@ -51,6 +51,6 @@ cd /tmp/nginx-1.13.0
 --with-ld-opt='-Wl,-z,relro -Wl,--as-needed' \
 --with-openssl=/tmp/openssl-OpenSSL_1_0_2k
 
-cd /tmp/nginx-1.13.0
+cd /tmp/nginx-1.13.1
 make
 make install
