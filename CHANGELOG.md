@@ -2,9 +2,10 @@
 
 ## 1.11.6 (TBD)
 
-* Nginx: Update Nginx to 1.13.0.
-* OpenSSL: Update OpenSSL to 1.0.2k.
-* Salt: Update bootstrap script to 2017.01.10.
+* Nginx: Update Nginx to 1.13.3.
+* OpenSSL: Update OpenSSL to 1.0.2l.
+* Salt: Update bootstrap script to 2017.05.24.
+* WP-CLI: Switch to stable updates.
 
 ### Deployments
 
