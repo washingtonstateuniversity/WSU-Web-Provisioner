@@ -2,7 +2,9 @@
 
 ## 1.11.6 (TBD)
 
+* Elasticsearch: Install 5.x packages.
 * Nginx: Update Nginx to 1.13.3.
+* Nginx: Clean up rate limiting configuration.
 * OpenSSL: Update OpenSSL to 1.0.2l.
 * Salt: Update bootstrap script to 2017.05.24.
 * WP-CLI: Switch to stable updates.
