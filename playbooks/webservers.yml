@@ -1,0 +1,91 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Add REMI repository for PHP packages
+      yum_repository:
+        name: remi-php70-repo
+        description: Remi PHP7.0 Yum repository
+        baseurl: http://rpms.famillecollet.com/enterprise/6/php70/x86_64/
+        gpgcheck: yes
+        gpgkey: http://rpms.remirepo.net/RPM-GPG-KEY-remi
+
+    - name: ensure php packages are at the latest version
+      yum: state=latest name={{ item }}
+      with_items:
+        - php-fpm
+        - php-cli
+        - php-common
+        - php-pear
+        - php-pdo
+        - php-mcrypt
+        - php-mysqlnd
+        - php-imap
+        - php-pecl-memcached
+        - php-opcache
+        - php-ldap
+        - php-mbstring
+        - php-soap
+
+    - name: ensure ImageMagick packages are at the latest version
+      yum: state=latest name={{ item }}
+      with_items:
+        - php-pecl-imagick
+        - lcms2
+        - ImageMagick
+
+    - name: write the php-fpm config file
+      template:
+        src: templates/php-fpm/php-fpm.conf.j2
+        dest: /etc/php-fpm.conf
+        mode: 0644
+        owner: root
+        group: root
+      notify:
+        - restart php-fpm
+
+    - name: write the php-fpm opcache config file
+      template:
+        src: templates/php-fpm/opcache.ini
+        dest: /etc/php.d/opcache.ini
+        mode: 0644
+        owner: root
+        group: root
+      notify:
+        - restart php-fpm
+
+    - name: write the www.conf config file
+      template:
+        src: templates/php-fpm/www.conf.j2
+        dest: /etc/php-fpm.d/www.conf
+        mode: 0644
+        owner: root
+        group: root
+      notify:
+        - restart php-fpm
+
+    - name: write the php.ini config file
+      template:
+        src: templates/php-fpm/php.ini.j2
+        dest: /etc/php.ini
+        mode: 0644
+        owner: root
+        group: root
+      notify:
+        - restart php-fpm
+
+    - name: write the ImageMagick config file
+      template:
+        src: templates/imagemagick/policy.xml
+        dest: /etc/ImageMagick/policy.xml
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: ensure php-fpm is running and enabled at boot
+      service: name=php-fpm state=started enabled=yes
+
+  handlers:
+    - name: restart php-fpm
+      service: name=php-fpm state=restarted
