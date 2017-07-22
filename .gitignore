@@ -6,3 +6,6 @@
 
 # Ignore PHPStorm project files.
 /.idea
+
+# Ignore Ansible retry files
+*.retry
