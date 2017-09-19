@@ -561,7 +561,7 @@ fi
 echoinfo "Running version: ${__ScriptVersion}"
 echoinfo "Executed by: ${CALLER}"
 echoinfo "Command line: '${__ScriptFullName} ${__ScriptArgs}'"
-#echowarn "Running the unstable version of ${__ScriptName}"
+echowarn "Running the unstable version of ${__ScriptName}"
 
 # Define installation type
 if [ "$#" -gt 0 ];then
@@ -710,10 +710,24 @@ else
     SETUP_PY_INSTALL_ARGS=""
 fi
 
+# Handle the insecure flags
+if [ "$_INSECURE_DL" -eq $BS_TRUE ]; then
+    _CURL_ARGS="${_CURL_ARGS} --insecure"
+    _FETCH_ARGS="${_FETCH_ARGS} --no-verify-peer"
+    _GPG_ARGS="${_GPG_ARGS} --keyserver-options no-check-cert"
+    _WGET_ARGS="${_WGET_ARGS} --no-check-certificate"
+else
+    _GPG_ARGS="${_GPG_ARGS} --keyserver-options ca-cert-file=/etc/ssl/certs/ca-certificates.crt"
+fi
+
 # Export the http_proxy configuration to our current environment
 if [ "${_HTTP_PROXY}" != "" ]; then
-    export http_proxy="$_HTTP_PROXY"
-    export https_proxy="$_HTTP_PROXY"
+    export http_proxy="${_HTTP_PROXY}"
+    export https_proxy="${_HTTP_PROXY}"
+    # Using "deprecated" option here, but that appears the only way to make it work.
+    # See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=818802
+    # and https://bugs.launchpad.net/ubuntu/+source/gnupg2/+bug/1625848
+    _GPG_ARGS="${_GPG_ARGS},http-proxy=${_HTTP_PROXY}"
 fi
 
 # Work around for 'Docker + salt-bootstrap failure' https://github.com/saltstack/salt-bootstrap/issues/394
@@ -737,15 +751,6 @@ if [ -d "${_VIRTUALENV_DIR}" ]; then
     exit 1
 fi
 
-# Handle the insecure flags
-if [ "$_INSECURE_DL" -eq $BS_TRUE ]; then
-    _CURL_ARGS="${_CURL_ARGS} --insecure"
-    _FETCH_ARGS="${_FETCH_ARGS} --no-verify-peer"
-    _GPG_ARGS="${_GPG_ARGS} --keyserver-options no-check-cert"
-    _WGET_ARGS="${_WGET_ARGS} --no-check-certificate"
-else
-    _GPG_ARGS="${_GPG_ARGS} --keyserver-options ca-cert-file=/etc/ssl/certs/ca-certificates.crt"
-fi
 
 #---  FUNCTION  -------------------------------------------------------------------------------------------------------
 #         NAME:  __fetch_url
@@ -1001,7 +1006,6 @@ __gather_linux_system_info() {
             echo redhat-release lsb-release
             )"); do
 
-        [ -L "/etc/${rsource}" ] && continue        # Don't follow symlinks
         [ ! -f "/etc/${rsource}" ] && continue      # Does not exist
 
         n=$(echo "${rsource}" | sed -e 's/[_-]release$//' -e 's/[_-]version$//')
@@ -1404,6 +1408,7 @@ __debian_derivatives_translation() {
     kali_1_debian_base="7.0"
     linuxmint_1_debian_base="8.0"
     raspbian_8_debian_base="8.0"
+    raspbian_9_debian_base="9.0"
 
     # Translate Debian derivatives to their base Debian version
     match=$(echo "$DISTRO_NAME_L" | egrep ${DEBIAN_DERIVATIVES})
@@ -1428,7 +1433,7 @@ __debian_derivatives_translation() {
                 ;;
         esac
 
-        _debian_version=$(eval echo "\$${_debian_derivative}_${_major}_debian_base")
+        _debian_version=$(eval echo "\$${_debian_derivative}_${_major}_debian_base" 2>/dev/null)
 
         if [ "$_debian_version" != "" ]; then
             echodebug "Detected Debian $_debian_version derivative"
@@ -1489,8 +1494,8 @@ __check_end_of_life_versions() {
             #  = 14.10
             #  = 15.04, 15.10
             if [ "$DISTRO_MAJOR_VERSION" -lt 14 ] || \
-               [ "$DISTRO_MAJOR_VERSION" -eq 15 ] || \
-               ([ "$DISTRO_MAJOR_VERSION" -lt 16 ] && [ "$DISTRO_MINOR_VERSION" -eq 10 ]); then
+                [ "$DISTRO_MAJOR_VERSION" -eq 15 ] || \
+                ([ "$DISTRO_MAJOR_VERSION" -lt 16 ] && [ "$DISTRO_MINOR_VERSION" -eq 10 ]); then
                 echoerror "End of life distributions are not supported."
                 echoerror "Please consider upgrading to the next stable. See:"
                 echoerror "    https://wiki.ubuntu.com/Releases"
@@ -1501,8 +1506,10 @@ __check_end_of_life_versions() {
         opensuse)
             # openSUSE versions not supported
             #
-            #  <= 12.1
-            if ([ "$DISTRO_MAJOR_VERSION" -eq 12 ] && [ "$DISTRO_MINOR_VERSION" -eq 1 ]) || [ "$DISTRO_MAJOR_VERSION" -lt 12 ]; then
+            #  <= 13.X
+            #  <= 42.1
+            if [ "$DISTRO_MAJOR_VERSION" -le 13 ] || \
+                ([ "$DISTRO_MAJOR_VERSION" -eq 42 ] && [ "$DISTRO_MINOR_VERSION" -le 1 ]); then
                 echoerror "End of life distributions are not supported."
                 echoerror "Please consider upgrading to the next stable. See:"
                 echoerror "    http://en.opensuse.org/Lifetime"
@@ -1526,8 +1533,8 @@ __check_end_of_life_versions() {
             ;;
 
         fedora)
-            # Fedora lower than 24 are no longer supported
-            if [ "$DISTRO_MAJOR_VERSION" -lt 24 ]; then
+            # Fedora lower than 25 are no longer supported
+            if [ "$DISTRO_MAJOR_VERSION" -lt 25 ]; then
                 echoerror "End of life distributions are not supported."
                 echoerror "Please consider upgrading to the next stable. See:"
                 echoerror "    https://fedoraproject.org/wiki/Releases"
@@ -1729,18 +1736,6 @@ if ([ "${DISTRO_NAME_L}" != "ubuntu" ] && [ $_PIP_ALL -eq $BS_TRUE ]); then
     exit 1
 fi
 
-# Starting from Debian 9 and Ubuntu 16.10, gnupg-curl has been renamed to gnupg1-curl.
-GNUPG_CURL="gnupg-curl"
-if [ "$DISTRO_NAME_L" = "debian" ]; then
-    if [ "$DISTRO_MAJOR_VERSION" -gt 8 ]; then
-        GNUPG_CURL="gnupg1-curl"
-    fi
-elif [ "$DISTRO_NAME_L" = "ubuntu" ]; then
-    if [ "${DISTRO_VERSION}" = "16.10" ] || [ "$DISTRO_MAJOR_VERSION" -gt 16 ]; then
-        GNUPG_CURL="gnupg1-curl"
-    fi
-fi
-
 
 #---  FUNCTION  -------------------------------------------------------------------------------------------------------
 #          NAME:  __function_defined
@@ -1785,8 +1780,6 @@ __apt_get_upgrade_noinput() {
 #----------------------------------------------------------------------------------------------------------------------
 __apt_key_fetch() {
     url=$1
-
-    __apt_get_install_noinput ${GNUPG_CURL} || return 1
 
     # shellcheck disable=SC2086
     apt-key adv ${_GPG_ARGS} --fetch-keys "$url"; return $?
@@ -2539,7 +2532,6 @@ __enable_universe_repository() {
 }
 
 __install_saltstack_ubuntu_repository() {
-
     # Workaround for latest non-LTS ubuntu
     if [ "$DISTRO_VERSION" = "16.10" ] || [ "$DISTRO_MAJOR_VERSION" -gt 16 ]; then
         echowarn "Non-LTS Ubuntu detected, but stable packages requested. Trying packages from latest LTS release. You may experience problems."
@@ -2550,14 +2542,26 @@ __install_saltstack_ubuntu_repository() {
         UBUNTU_CODENAME=$DISTRO_CODENAME
     fi
 
-    # SaltStack's stable Ubuntu repository:
-    SALTSTACK_UBUNTU_URL="${HTTP_VAL}://${_REPO_URL}/apt/ubuntu/${UBUNTU_VERSION}/${__REPO_ARCH}/${STABLE_REV}"
-    echo "deb $SALTSTACK_UBUNTU_URL $UBUNTU_CODENAME main" > /etc/apt/sources.list.d/saltstack.list
+    __PACKAGES=''
+
+    # Install downloader backend for GPG keys fetching
+    if [ "$DISTRO_VERSION" = "16.10" ] || [ "$DISTRO_MAJOR_VERSION" -gt 16 ]; then
+        __PACKAGES="${__PACKAGES} gnupg2 dirmngr"
+    else
+        __PACKAGES="${__PACKAGES} gnupg-curl"
+    fi
 
     # Make sure https transport is available
     if [ "$HTTP_VAL" = "https" ] ; then
-        __apt_get_install_noinput apt-transport-https ca-certificates || return 1
+        __PACKAGES="${__PACKAGES} apt-transport-https ca-certificates"
     fi
+
+    # shellcheck disable=SC2086,SC2090
+    __apt_get_install_noinput ${__PACKAGES} || return 1
+
+    # SaltStack's stable Ubuntu repository:
+    SALTSTACK_UBUNTU_URL="${HTTP_VAL}://${_REPO_URL}/apt/ubuntu/${UBUNTU_VERSION}/${__REPO_ARCH}/${STABLE_REV}"
+    echo "deb $SALTSTACK_UBUNTU_URL $UBUNTU_CODENAME main" > /etc/apt/sources.list.d/saltstack.list
 
     __apt_key_fetch "$SALTSTACK_UBUNTU_URL/SALTSTACK-GPG-KEY.pub" || return 1
 
@@ -2640,9 +2644,8 @@ install_ubuntu_stable_deps() {
         __apt_get_upgrade_noinput || return 1
     fi
 
-    __check_dpkg_architecture || return 1
-
     if [ "$_DISABLE_REPOS" -eq "$BS_FALSE" ] || [ "$_CUSTOM_REPO_URL" != "null" ]; then
+        __check_dpkg_architecture || return 1
         __install_saltstack_ubuntu_repository || return 1
     fi
 
@@ -2936,18 +2939,30 @@ __install_saltstack_debian_repository() {
         DEBIAN_CODENAME="$DISTRO_CODENAME"
     fi
 
+    __PACKAGES=''
+
+    # Install downloader backend for GPG keys fetching
+    if [ "$DISTRO_MAJOR_VERSION" -ge 9 ]; then
+        __PACKAGES="${__PACKAGES} gnupg2 dirmngr"
+    else
+        __PACKAGES="${__PACKAGES} gnupg-curl"
+    fi
+
+    # Make sure https transport is available
+    if [ "$HTTP_VAL" = "https" ] ; then
+        __PACKAGES="${__PACKAGES} apt-transport-https ca-certificates"
+    fi
+
+    # shellcheck disable=SC2086,SC2090
+    __apt_get_install_noinput ${__PACKAGES} || return 1
+
     # amd64 is just a part of repository URI, 32-bit pkgs are hosted under the same location
     SALTSTACK_DEBIAN_URL="${HTTP_VAL}://${_REPO_URL}/apt/debian/${DEBIAN_RELEASE}/${__REPO_ARCH}/${STABLE_REV}"
     echo "deb $SALTSTACK_DEBIAN_URL $DEBIAN_CODENAME main" > "/etc/apt/sources.list.d/saltstack.list"
 
-    if [ "$HTTP_VAL" = "https" ] ; then
-        __apt_get_install_noinput apt-transport-https ca-certificates || return 1
-    fi
-
     __apt_key_fetch "$SALTSTACK_DEBIAN_URL/SALTSTACK-GPG-KEY.pub" || return 1
 
     apt-get update
-
 }
 
 install_debian_deps() {
@@ -2970,23 +2985,17 @@ install_debian_deps() {
         __apt_get_upgrade_noinput || return 1
     fi
 
-    __check_dpkg_architecture || return 1
-
     # Additionally install procps and pciutils which allows for Docker bootstraps. See 366#issuecomment-39666813
     __PACKAGES='procps pciutils'
 
     # YAML module is used for generating custom master/minion configs
     __PACKAGES="${__PACKAGES} python-yaml"
 
-    # Debian 9 needs the dirmgr package in order to import the GPG key later
-    if [ "$DISTRO_MAJOR_VERSION" -ge 9 ]; then
-        __PACKAGES="${__PACKAGES} dirmngr"
-    fi
-
     # shellcheck disable=SC2086
     __apt_get_install_noinput ${__PACKAGES} || return 1
 
     if [ "$_DISABLE_REPOS" -eq "$BS_FALSE" ] || [ "$_CUSTOM_REPO_URL" != "null" ]; then
+        __check_dpkg_architecture || return 1
         __install_saltstack_debian_repository || return 1
     fi
 
@@ -3318,7 +3327,13 @@ install_fedora_deps() {
         __install_saltstack_copr_salt_repository || return 1
     fi
 
-    __PACKAGES="yum-utils PyYAML libyaml python-crypto python-jinja2 python-zmq python2-msgpack python2-requests"
+    __PACKAGES="PyYAML libyaml python-crypto python-jinja2 python-zmq python2-msgpack python2-requests"
+
+    if [ "$DISTRO_MAJOR_VERSION" -lt 26 ]; then
+        __PACKAGES="${__PACKAGES} yum-utils"
+    else
+        __PACKAGES="${__PACKAGES} dnf-utils"
+    fi
 
     # shellcheck disable=SC2086
     dnf install -y ${__PACKAGES} || return 1
